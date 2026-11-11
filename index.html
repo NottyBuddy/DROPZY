@@ -179,7 +179,7 @@ document.querySelectorAll('.artist-chip').forEach(btn=>btn.addEventListener('cli
 document.getElementById('spotify-load').addEventListener('click',()=>{
  const raw=document.getElementById('spotify-link').value.trim();
  const box=document.getElementById('spotify-embed');
- const match=raw.match(/open\\.spotify\\.com\\/(track|album|playlist|artist)\\/([A-Za-z0-9]+)/);
+ const match=raw.match(/open\.spotify\.com\/(track|album|playlist|artist)\/([A-Za-z0-9]+)/);
  if(!match){box.innerHTML='<div class="empty">Paste a valid Spotify track, album, playlist or artist URL.</div>';return}
  const kind=match[1],id=match[2];
  box.innerHTML='<iframe title="Spotify music player" src="https://open.spotify.com/embed/'+kind+'/'+id+'?utm_source=generator&theme=0" width="100%" height="'+(kind==='track'?'152':'352')+'" frameborder="0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy" style="border-radius:12px"></iframe>';
