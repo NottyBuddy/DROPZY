@@ -21,3 +21,10 @@ This repository currently contains a front-end concept/demo. The player controls
 
 ## Deploy with GitHub Pages
 In the repository, open **Settings → Pages**, choose **Deploy from a branch**, select **main** and **/(root)**, then Save.
+
+
+## Live music catalog
+
+DROPZY now includes live track discovery and playback using the Audius public read API. The app can search the Audius catalog, load weekly trending tracks, stream available tracks through the official stream endpoint, and show creator attribution. Audius is an open creator catalog; it is not a guaranteed source for mainstream label releases such as every Bollywood or Punjabi hit.
+
+The current live integration is single-track playback. Crossfading, beat-matched mashup rendering, stems, and commercial-catalog playback are not enabled by this integration. Those features require track-level remix permissions and/or direct licensing and a suitable audio source. See the [Audius API docs](https://docs.audius.co/api/) and [Audius developer guide](https://docs.audius.co/).
