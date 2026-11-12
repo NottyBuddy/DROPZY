@@ -1,25 +1,7 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600" role="img" aria-labelledby="title desc">
-<title id="title">DROPZY DZ Headphones Logo</title>
-<desc id="desc">Black emblem with white headphones and microphone, red audio pulse and play symbol, and only the letters DZ.</desc>
-<defs>
- <linearGradient id="red" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#f04452"/><stop offset="1" stop-color="#b30d28"/></linearGradient>
- <filter id="soft" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="5" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
-</defs>
-<rect width="600" height="600" rx="48" fill="#050405"/>
-<!-- headphones -->
-<path d="M112 290V247a188 188 0 0 1 376 0v43" fill="none" stroke="#f7f0eb" stroke-width="29" stroke-linecap="round"/>
-<rect x="94" y="270" width="77" height="177" rx="37" fill="#f7f0eb"/>
-<rect x="429" y="270" width="77" height="177" rx="37" fill="#f7f0eb"/>
-<!-- mic arm and capsule -->
-<path d="M466 430c-8 84-67 119-160 124" fill="none" stroke="#f7f0eb" stroke-width="11" stroke-linecap="round"/>
-<rect x="247" y="534" width="103" height="43" rx="21" fill="#f7f0eb"/>
-<path d="M247 555a21 21 0 0 1 21-21h61a21 21 0 0 1 21 21" fill="none" stroke="url(#red)" stroke-width="13"/>
-<!-- waveform -->
-<path d="M38 230h38l12-62 20 107 19-78 18 33h36 M420 230h31l13-62 20 107 19-78 18 33h41" fill="none" stroke="#f7f0eb" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
-<!-- play circle -->
-<circle cx="300" cy="207" r="67" fill="none" stroke="url(#red)" stroke-width="17" filter="url(#soft)"/>
-<path d="M287 172c-11-7-25 1-25 14v42c0 13 14 21 25 14l37-21c11-7 11-21 0-28z" fill="url(#red)"/>
-<!-- only DZ lettering -->
-<text x="300" y="391" text-anchor="middle" dominant-baseline="middle" font-family="Arial,Helvetica,sans-serif" font-size="158" font-weight="900" letter-spacing="-13" fill="#f7f0eb" stroke="#090708" stroke-width="5" paint-order="stroke">DZ</text>
-<path d="M215 414h170" stroke="url(#red)" stroke-width="9" stroke-linecap="round"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000" role="img" aria-labelledby="t d">
+<title id="t">DROPZY DZ monogram</title><desc id="d">The exact brand mark concept: a bold geometric white D joined with an angular Z on a black field.</desc>
+<rect width="1000" height="1000" fill="#050505"/>
+<path fill="#f7f0eb" fill-rule="evenodd" d="M220 245H455C592 245 625 335 625 465V635C625 760 568 775 455 775H220C204 775 195 765 195 748V272C195 255 204 245 220 245ZM335 365V655H450C490 655 505 630 505 590V430C505 389 488 365 450 365Z"/>
+<path fill="#f7f0eb" d="M665 335H855C872 335 880 345 880 362V440L690 650H880V745C880 762 870 772 853 772H625C608 772 598 762 598 745V662L785 455H665Z"/>
+<path fill="#c1122f" d="M635 325L770 210L724 340H665Z"/>
 </svg>
