@@ -1,4 +1,4 @@
--- DROPZY artist submissions and approved catalogue
+-- DROPZY instant artist publishing and public catalogue
 -- Run this in the SQL editor of your DROPZY Supabase project.
 -- Never expose a service-role key in client-side code.
 
@@ -17,7 +17,7 @@ create table if not exists public.song_submissions (
   original_filename text not null,
   rights_note text not null,
   rights_confirmed boolean not null default false,
-  status text not null default 'pending' check (status in ('pending','approved','rejected','taken_down')),
+  status text not null default 'approved' check (status in ('pending','approved','rejected','taken_down')),
   reviewer_note text,
   created_at timestamptz not null default now(),
   reviewed_at timestamptz
@@ -31,7 +31,7 @@ alter table public.song_submissions enable row level security;
 drop policy if exists "artists submit own songs" on public.song_submissions;
 create policy "artists submit own songs"
 on public.song_submissions for insert to authenticated
-with check (auth.uid() = user_id and rights_confirmed = true and status = 'pending');
+with check (auth.uid() = user_id and rights_confirmed = true and status = 'approved');
 
 drop policy if exists "artists view own submissions" on public.song_submissions;
 create policy "artists view own submissions"
@@ -39,10 +39,6 @@ on public.song_submissions for select to authenticated
 using (auth.uid() = user_id);
 
 drop policy if exists "DROPZY admins review submissions" on public.song_submissions;
-create policy "DROPZY admins review submissions"
-on public.song_submissions for all to authenticated
-using ((auth.jwt() -> 'app_metadata' ->> 'role') = 'admin')
-with check ((auth.jwt() -> 'app_metadata' ->> 'role') = 'admin');
 
 -- All audio and proof documents remain in this private bucket.
 insert into storage.buckets (id, name, public, file_size_limit, allowed_mime_types)
@@ -76,9 +72,4 @@ using (
   and (storage.foldername(name))[1] = auth.uid()::text
 );
 
--- Admins are assigned by the project owner in Supabase Auth user app_metadata:
--- { "role": "admin" }. Never let users edit their own app_metadata.
--- Admin approval is performed through the protected Edge Function in
--- supabase/functions/dropzy-catalog/index.ts.
--- Review master + composition rights, samples, contributors, territories,
--- term, attribution and derivative/remix rights separately before approval.
+-- New rights-confirmed artist uploads are published immediately. Keep the private storage bucket and signed streaming URLs. The project owner may change a disputed track status to taken_down after investigating a valid rights complaint.
