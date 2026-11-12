@@ -80,10 +80,10 @@ body:before{content:"";position:fixed;inset:-25%;z-index:-2;pointer-events:none;
  </div>
 </section>
 <section class="section" id="live-library">
- <div class="sectiontop"><div><h2>DROPZY LIVE <span style="color:#ff6caf">●</span></h2><div class="sub">Real creator-uploaded tracks • powered by Audius</div></div><a class="see" href="https://audius.co" target="_blank" rel="noopener">OPEN AUDIUS ↗</a></div>
+ <div class="sectiontop"><div><h2>DROPZY LIVE <span style="color:#ff6caf">●</span></h2><div class="sub">Hindi • Punjabi • Marathi • English • Haryanvi • creator-uploaded songs</div></div><a class="see" href="https://audius.co" target="_blank" rel="noopener">OPEN AUDIUS ↗</a></div>
  <div class="mixbox" style="grid-template-columns:1fr;gap:14px">
-  <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap"><div><div class="eyebrow">REAL MUSIC SEARCH</div><h3 style="margin:7px 0 0">Find your next sound.</h3></div><span id="live-status" class="sub" aria-live="polite">Loading live tracks…</span></div>
-  <div class="mixcontrols" aria-label="Browse free music genres"><button class="chip active" type="button" data-audius-query="">TRENDING</button><button class="chip" type="button" data-audius-query="Punjabi">PUNJABI</button><button class="chip" type="button" data-audius-query="Hindi">HINDI</button><button class="chip" type="button" data-audius-query="Hip Hop">HIP-HOP</button><button class="chip" type="button" data-audius-query="Electronic">ELECTRONIC</button><button class="chip" type="button" data-audius-query="Chill">CHILL</button><button class="chip" type="button" data-audius-query="Remix">REMIX</button></div><div class="tracklist" id="live-tracks"><div class="empty">Connecting to the open music catalog…</div></div>
+  <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap"><div><div class="eyebrow">LANGUAGE-FIRST SONG SEARCH</div><h3 style="margin:7px 0 0">Find actual songs, not just beats.</h3></div><span id="live-status" class="sub" aria-live="polite">Loading live tracks…</span></div>
+  <div class="mixcontrols" aria-label="Browse songs by language"><button class="chip active" type="button" data-audius-query="">TRENDING</button><button class="chip" type="button" data-audius-query="Hindi">HINDI SONGS</button><button class="chip" type="button" data-audius-query="Punjabi">PUNJABI SONGS</button><button class="chip" type="button" data-audius-query="Marathi">MARATHI SONGS</button><button class="chip" type="button" data-audius-query="Bollywood">BOLLYWOOD</button><button class="chip" type="button" data-audius-query="English">ENGLISH SONGS</button><button class="chip" type="button" data-audius-query="Haryanvi">HARYANVI</button></div><div class="tracklist" id="live-tracks"><div class="empty">Connecting to the open music catalog…</div></div>
   <div class="sub">Tracks stream from Audius and link back to their creators. Availability and reuse/remix permissions vary by track; DROPZY does not re-host the audio. Mainstream label releases may not be available in this catalog.</div>
  </div>
 </section>
@@ -183,24 +183,59 @@ function renderLiveTracks(tracks) {
     liveList.append(row);
   });
 }
+const LANGUAGE_SEARCH_TERMS = {
+  Hindi: ['Hindi song vocals', 'Bollywood song', 'Hindi love song'],
+  Punjabi: ['Punjabi song vocals', 'Punjabi music', 'Punjabi love song'],
+  Marathi: ['Marathi song vocals', 'Marathi music', 'Marathi love song'],
+  Bollywood: ['Bollywood song', 'Hindi film song', 'Bollywood vocals'],
+  English: ['English song vocals', 'English pop song', 'English love song'],
+  Haryanvi: ['Haryanvi song vocals', 'Haryanvi music', 'Haryanvi song']
+};
+function looksLikeBeatOnly(track) {
+  const title = String(track.title || '').toLowerCase();
+  const tags = String(track.tags || '').toLowerCase();
+  const text = title + ' ' + tags;
+  return /\b(type beat|instrumental only|instrumental beat|beat tape|free beat|prod\. by|loop pack|karaoke|background score)\b/.test(text) &&
+    !/\b(song|vocal|lyrics|singer|feat\.|ft\.|official audio)\b/.test(title);
+}
+async function searchAudius(term, limit = 18) {
+  const url = AUDIUS_API + '/tracks/search?query=' + encodeURIComponent(term) +
+    '&limit=' + limit + '&app_name=' + encodeURIComponent(AUDIUS_APP);
+  const response = await fetch(url, { headers: { Accept: 'application/json' } });
+  if (!response.ok) throw new Error('Audius returned ' + response.status);
+  const payload = await response.json();
+  return (payload.data || []).filter(track => track && track.id && track.title && track.is_streamable !== false);
+}
 async function loadLiveTracks(query = '') {
-  liveStatus.textContent = query ? 'Searching the free creator catalog…' : 'Loading trending tracks…';
-  liveList.innerHTML = '<div class="empty">Finding music…</div>';
+  liveStatus.textContent = query ? 'Searching ' + query + ' songs…' : 'Loading trending tracks…';
+  liveList.innerHTML = '<div class="empty">Finding songs…</div>';
   try {
-    const route = query
-      ? '/tracks/search?query=' + encodeURIComponent(query) + '&limit=24'
-      : '/tracks/trending?time=week&limit=18';
-    const response = await fetch(AUDIUS_API + route + '&app_name=' + encodeURIComponent(AUDIUS_APP), {
-      headers: { Accept: 'application/json' }
-    });
-    if (!response.ok) throw new Error('Audius returned ' + response.status);
-    const payload = await response.json();
-    const tracks = (payload.data || []).filter(track =>
-      track && track.id && track.title && track.is_streamable !== false
-    );
-    renderLiveTracks(tracks);
-    liveStatus.textContent = tracks.length + ' playable creator track(s) · ' +
-      (query ? 'search results' : 'trending this week');
+    let tracks = [];
+    if (query && LANGUAGE_SEARCH_TERMS[query]) {
+      const batches = await Promise.all(LANGUAGE_SEARCH_TERMS[query].map(term => searchAudius(term, 14)));
+      const seen = new Set();
+      tracks = batches.flat().filter(track => {
+        if (seen.has(track.id)) return false;
+        seen.add(track.id);
+        return true;
+      });
+    } else if (query) {
+      tracks = await searchAudius(query, 30);
+    } else {
+      const response = await fetch(AUDIUS_API + '/tracks/trending?time=week&limit=30&app_name=' + encodeURIComponent(AUDIUS_APP), {
+        headers: { Accept: 'application/json' }
+      });
+      if (!response.ok) throw new Error('Audius returned ' + response.status);
+      const payload = await response.json();
+      tracks = (payload.data || []).filter(track => track && track.id && track.title && track.is_streamable !== false);
+    }
+    const songResults = tracks.filter(track => !looksLikeBeatOnly(track));
+    renderLiveTracks(songResults.length ? songResults : tracks);
+    liveStatus.textContent = songResults.length
+      ? songResults.length + ' song-focused results · creator uploads'
+      : tracks.length
+        ? 'No clear vocal-song matches; showing unfiltered matches instead'
+        : 'No matching tracks found in the free catalog';
   } catch (error) {
     liveStatus.textContent = 'Catalog temporarily unavailable';
     liveList.innerHTML = '<div class="empty">Could not connect to Audius. Check your internet and try again.</div>';
