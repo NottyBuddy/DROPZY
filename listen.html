@@ -725,7 +725,10 @@ async function searchDropzyYouTube(query){
  if(!q){ytStatus.textContent='Enter a song or singer name.';return;}
  ytStatus.textContent='Searching '+dropzyYouTubeLanguage+' songs…';
  ytResults.replaceChildren();
- const params=new URLSearchParams({part:'snippet',type:'video',videoCategoryId:'10',maxResults:'12',q:q+' '+dropzyYouTubeLanguage+' song',regionCode:'IN',relevanceLanguage:'hi',safeSearch:'moderate',key:DROPZY_YOUTUBE_KEY});
+  const languageCode=({'Hindi':'hi','Punjabi':'pa','Marathi':'mr','Haryanvi':'hi','Bhojpuri':'hi','Telugu':'te','Rajasthani':'hi','Coke Studio India':'hi','Coke Studio Pakistan':'ur'})[dropzyYouTubeLanguage]||'hi';
+  const regionCode=dropzyYouTubeLanguage==='Coke Studio Pakistan'?'PK':'IN';
+  const searchPhrase=dropzyYouTubeLanguage.startsWith('Coke Studio')?q+' '+dropzyYouTubeLanguage:q+' '+dropzyYouTubeLanguage+' song';
+  const params=new URLSearchParams({part:'snippet',type:'video',videoCategoryId:'10',maxResults:'12',q:searchPhrase,regionCode,relevanceLanguage:languageCode,safeSearch:'moderate',key:DROPZY_YOUTUBE_KEY});
  try{
   const response=await fetch('https://www.googleapis.com/youtube/v3/search?'+params.toString());
   const data=await response.json();
