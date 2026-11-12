@@ -71,10 +71,10 @@ body:before{content:"";position:fixed;inset:-25%;z-index:-2;pointer-events:none;
  </div>
 </section>
 <section class="section" id="live-library">
- <div class="sectiontop"><div><h2>DROPZY LIVE <span style="color:#ff6caf">●</span></h2><div class="sub">Hindi • Punjabi • Marathi • English • Haryanvi • creator-uploaded songs</div></div><span class="eyebrow">DROPZY PLAYER</span></div>
+ <div class="sectiontop"><div><h2>DROPZY LIVE <span style="color:#ff6caf">●</span></h2><div class="sub">Hindi • Punjabi • Marathi • Bhojpuri • Bengali • Tamil • Telugu • Malayalam • Kannada • Gujarati • Assamese • Odia • Haryanvi • English</div></div><span class="eyebrow">DROPZY PLAYER</span></div>
  <div class="mixbox" style="grid-template-columns:1fr;gap:14px">
   <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap"><div><div class="eyebrow">LANGUAGE-FIRST SONG SEARCH</div><h3 style="margin:7px 0 0">Find actual songs, not just beats.</h3></div><span id="live-status" class="sub" aria-live="polite">Loading live tracks…</span></div>
-  <div class="mixcontrols" aria-label="Browse songs by language"><button class="chip active" type="button" data-audius-query="">TRENDING</button><button class="chip" type="button" data-audius-query="Hindi">HINDI SONGS</button><button class="chip" type="button" data-audius-query="Punjabi">PUNJABI SONGS</button><button class="chip" type="button" data-audius-query="Marathi">MARATHI SONGS</button><button class="chip" type="button" data-audius-query="Bollywood">BOLLYWOOD</button><button class="chip" type="button" data-audius-query="English">ENGLISH SONGS</button><button class="chip" type="button" data-audius-query="Haryanvi">HARYANVI</button></div><div class="tracklist" id="live-tracks"><div class="empty">Loading DROPZY music…</div></div>
+  <div class="mixcontrols" aria-label="Browse songs by language"><button class="chip active" type="button" data-audius-query="">TRENDING</button><button class="chip" type="button" data-audius-query="Hindi">HINDI</button><button class="chip" type="button" data-audius-query="Punjabi">PUNJABI</button><button class="chip" type="button" data-audius-query="Marathi">MARATHI</button><button class="chip" type="button" data-audius-query="Bhojpuri">BHOJPURI</button><button class="chip" type="button" data-audius-query="Bengali">BENGALI</button><button class="chip" type="button" data-audius-query="Tamil">TAMIL</button><button class="chip" type="button" data-audius-query="Telugu">TELUGU</button><button class="chip" type="button" data-audius-query="Malayalam">MALAYALAM</button><button class="chip" type="button" data-audius-query="Kannada">KANNADA</button><button class="chip" type="button" data-audius-query="Gujarati">GUJARATI</button><button class="chip" type="button" data-audius-query="Assamese">ASSAMESE</button><button class="chip" type="button" data-audius-query="Odia">ODIA</button><button class="chip" type="button" data-audius-query="Haryanvi">HARYANVI</button><button class="chip" type="button" data-audius-query="Bollywood">BOLLYWOOD</button><button class="chip" type="button" data-audius-query="English">ENGLISH</button></div><div class="tracklist" id="live-tracks"><div class="empty">Loading DROPZY music…</div></div>
   <div class="sub">Tracks play in the DROPZY player. Only recordings cleared for streaming can be added to the full DROPZY catalogue.</div>
  </div>
 </section>
@@ -169,12 +169,21 @@ function renderLiveTracks(tracks) {
   });
 }
 const LANGUAGE_SEARCH_TERMS = {
-  Hindi: ['Hindi song vocals', 'Bollywood song', 'Hindi love song'],
-  Punjabi: ['Punjabi song vocals', 'Punjabi music', 'Punjabi love song'],
-  Marathi: ['Marathi song vocals', 'Marathi music', 'Marathi love song'],
-  Bollywood: ['Bollywood song', 'Hindi film song', 'Bollywood vocals'],
-  English: ['English song vocals', 'English pop song', 'English love song'],
-  Haryanvi: ['Haryanvi song vocals', 'Haryanvi music', 'Haryanvi song']
+  Hindi: ['Hindi vocal song', 'Hindi pop song vocals', 'Bollywood song vocals', 'Hindi love song'],
+  Punjabi: ['Punjabi vocal song', 'Punjabi pop song vocals', 'Punjabi folk song', 'Punjabi love song'],
+  Marathi: ['Marathi vocal song', 'Marathi pop song', 'Marathi folk song'],
+  Bhojpuri: ['Bhojpuri vocal song', 'Bhojpuri lok geet', 'Bhojpuri music'],
+  Bengali: ['Bengali vocal song', 'Bangla song', 'Bengali folk song'],
+  Tamil: ['Tamil vocal song', 'Tamil film song', 'Tamil pop song'],
+  Telugu: ['Telugu vocal song', 'Telugu film song', 'Telugu pop song'],
+  Malayalam: ['Malayalam vocal song', 'Malayalam film song', 'Malayalam music'],
+  Kannada: ['Kannada vocal song', 'Kannada film song', 'Kannada music'],
+  Gujarati: ['Gujarati vocal song', 'Gujarati garba song', 'Gujarati folk song'],
+  Assamese: ['Assamese vocal song', 'Assamese music', 'Bihu song'],
+  Odia: ['Odia vocal song', 'Odia film song', 'Odia music'],
+  Haryanvi: ['Haryanvi vocal song', 'Haryanvi ragni', 'Haryanvi music'],
+  Bollywood: ['Bollywood vocal song', 'Hindi film song', 'Indian film song vocals'],
+  English: ['English vocal song', 'English pop song vocals', 'English indie song']
 };
 function looksLikeBeatOnly(track) {
   const title = String(track.title || '').toLowerCase();
@@ -215,12 +224,10 @@ async function loadLiveTracks(query = '') {
       tracks = (payload.data || []).filter(track => track && track.id && track.title && track.is_streamable !== false);
     }
     const songResults = tracks.filter(track => !looksLikeBeatOnly(track));
-    renderLiveTracks(songResults.length ? songResults : tracks);
+    renderLiveTracks(songResults);
     liveStatus.textContent = songResults.length
-      ? songResults.length + ' song-focused results · creator uploads'
-      : tracks.length
-        ? 'No clear vocal-song matches; showing unfiltered matches instead'
-        : 'No matching tracks found in the free catalog';
+      ? songResults.length + ' vocal/song-focused results · free creator catalogue'
+      : 'No clear song matches in this search. Try another spelling or language.';
   } catch (error) {
     liveStatus.textContent = 'Catalog temporarily unavailable';
     liveList.innerHTML = '<div class="empty">Could not load tracks. Check your internet and try again.</div>';
