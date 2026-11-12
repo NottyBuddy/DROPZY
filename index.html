@@ -135,7 +135,7 @@ nav{gap:22px}nav a{font-size:12px;color:#9ba9b5}nav a:hover{color:var(--pink)}
 }
 @media(prefers-reduced-motion:reduce){.tile,.track,.btn,.chip{transition:none}}
 
-</style></head><body><div class="ambient"></div><header><div class="brand"><span class="brand-mark">D</span>DROPZY</div><nav><a href="#discover">Discover</a><a href="#scenes">Scenes</a><a href="#mainstream">Mainstream</a><a href="#mixlab">Mix Lab</a><a href="artist-upload.html">Artist Upload</a></nav><div class="headright"><input id="search" class="search" placeholder="⌕  Search sounds..." aria-label="Search sounds"><div class="avatar">D</div></div></header><aside class="sidebar" aria-label="Main navigation">
+</style></head><body><div class="ambient"></div><header><div class="brand"><span class="brand-mark">D</span>DROPZY</div><nav><a href="#discover">Discover</a><a href="#scenes">Scenes</a><a href="#mainstream">Mainstream</a><a href="#mixlab">Mix Lab</a></nav><div class="headright"><input id="search" class="search" placeholder="⌕  Search sounds..." aria-label="Search sounds"><div class="avatar">D</div></div></header><aside class="sidebar" aria-label="Main navigation">
  <div class="sidebrand"><span class="brand-mark">D</span> DROPZY</div>
  <div><div class="side-label">Discover</div><nav class="side-links">
  <a class="active" href="#discover"><span>⌂</span>Listen Now</a>
@@ -145,7 +145,6 @@ nav{gap:22px}nav a{font-size:12px;color:#9ba9b5}nav a:hover{color:var(--pink)}
  <div><div class="side-label">Your Music</div><nav class="side-links">
  <a href="#your-library"><span>▤</span>Library</a>
  <a href="#live-library"><span>⌕</span>Search Music</a>
- <a href="artist-upload.html"><span>＋</span>Artist Upload</a>
  </nav></div>
  <div class="side-note">Your sound. Your space.<br>Discover independent music from around the world.</div>
 </aside>
@@ -159,7 +158,7 @@ nav{gap:22px}nav a{font-size:12px;color:#9ba9b5}nav a:hover{color:var(--pink)}
    <input id="mainstream-search" class="search" style="width:min(100%,420px)" placeholder="Search any song or singer…" aria-label="Search songs and singers">
    <button class="btn primary" id="mainstream-go">SEARCH DROPZY</button>
   </div>
-  <div class="sub">Choose a singer or search a track. Available creator-uploaded and rights-cleared audio plays in the DROPZY player.</div>
+  <div class="sub">Choose a singer or search a track. Available music plays inside the DROPZY player.</div>
   <div class="mixcontrols" id="artist-chips">
    <button class="chip artist-chip" type="button">Yo Yo Honey Singh</button><button class="chip artist-chip" type="button">Badshah</button><button class="chip artist-chip" type="button">AP Dhillon</button><button class="chip artist-chip" type="button">Diljit Dosanjh</button><button class="chip artist-chip" type="button">Karan Aujla</button><button class="chip artist-chip" type="button">Shubh</button><button class="chip artist-chip" type="button">Sidhu Moose Wala</button><button class="chip artist-chip" type="button">Guru Randhawa</button><button class="chip artist-chip" type="button">Gippy Grewal</button><button class="chip artist-chip" type="button">Ammy Virk</button><button class="chip artist-chip" type="button">Jass Manak</button><button class="chip artist-chip" type="button">AP Dhillon</button>
    <button class="chip artist-chip" type="button">Arijit Singh</button><button class="chip artist-chip" type="button">Shreya Ghoshal</button><button class="chip artist-chip" type="button">Atif Aslam</button><button class="chip artist-chip" type="button">Jubin Nautiyal</button><button class="chip artist-chip" type="button">Pritam</button><button class="chip artist-chip" type="button">A.R. Rahman</button><button class="chip artist-chip" type="button">Vishal-Shekhar</button><button class="chip artist-chip" type="button">Neha Kakkar</button><button class="chip artist-chip" type="button">King</button><button class="chip artist-chip" type="button">DIVINE</button><button class="chip artist-chip" type="button">Raftaar</button><button class="chip artist-chip" type="button">Ikka</button><button class="chip artist-chip" type="button">Talwiinder</button><button class="chip artist-chip" type="button">B Praak</button><button class="chip artist-chip" type="button">Darshan Raval</button><button class="chip artist-chip" type="button">Anuv Jain</button><button class="chip artist-chip" type="button">Ritviz</button><button class="chip artist-chip" type="button">Sachet Tandon</button><button class="chip artist-chip" type="button">Mithoon</button><button class="chip artist-chip" type="button">Sonu Nigam</button><button class="chip artist-chip" type="button">Sunidhi Chauhan</button><button class="chip artist-chip" type="button">Lata Mangeshkar</button><button class="chip artist-chip" type="button">Kishore Kumar</button><button class="chip artist-chip" type="button">Udit Narayan</button><button class="chip artist-chip" type="button">KK</button><button class="chip artist-chip" type="button">Vishal Mishra</button><button class="chip artist-chip" type="button">Mohit Chauhan</button>
@@ -187,18 +186,11 @@ nav{gap:22px}nav a{font-size:12px;color:#9ba9b5}nav a:hover{color:var(--pink)}
    <button class="chip" type="button" data-song-version="remix">REMIX</button>
    <button class="chip" type="button" data-song-version="acoustic">ACOUSTIC</button>
   </div>
-  <div class="sub">Version filters search creator-uploaded tracks by their titles and tags; availability depends on the artists' uploads and streaming permissions.</div>
+  <div class="sub">Version filters search tracks by their titles and tags.</div>
   <div class="sub">Tracks play in the DROPZY player. Only recordings cleared for streaming can be added to the full DROPZY catalogue.</div>
  </div>
 </section>
-<section class="section" id="verified-catalogue">
- <div class="sectiontop"><div><h2>DROPZY VERIFIED CATALOGUE <span style="color:#ff6caf">✦</span></h2><div class="sub">Artist-published tracks with rights confirmation</div></div><span class="eyebrow">RIGHTS-CHECKED</span></div>
- <div class="mixbox" style="grid-template-columns:1fr;gap:12px">
-  <div class="sub" id="verified-status" aria-live="polite">Approved catalogue setup is required before verified tracks can appear.</div>
-  <div class="tracklist" id="verified-tracks"><div class="empty">No verified catalogue is connected yet.</div></div>
-  <div class="sub">Artists can submit music through <a href="artist-upload.html" style="color:#ff80bd">Artist Upload</a>. Artist submissions are published after rights confirmation and stream inside DROPZY using short-lived private URLs.</div>
- </div>
-</section>
+
 <section class="section" id="your-library">
  <div class="sectiontop"><div><h2>Your Library</h2><div class="sub">Your saved songs stay on this device</div></div><span class="eyebrow">MY MUSIC</span></div>
  <div class="mixbox" style="grid-template-columns:1fr;gap:14px">
@@ -242,7 +234,7 @@ const verifiedStatus = document.getElementById('verified-status');
 const verifiedList = document.getElementById('verified-tracks');
 async function loadApprovedCatalogue() {
   if (!DROPZY_CATALOG_FUNCTION.startsWith('https://') || DROPZY_CATALOG_FUNCTION.includes('YOUR_')) {
-    verifiedStatus.textContent = 'Rights-cleared catalogue backend is not configured yet. Artist uploads remain disabled until Supabase setup is completed.';
+    verifiedStatus.textContent = 'DROPZY catalogue is not connected yet.';
     return;
   }
   verifiedStatus.textContent = 'Loading approved tracks…';
