@@ -113,93 +113,242 @@ document.querySelectorAll('.btn,.chip,.playdot').forEach(el=>el.addEventListener
 const rippleStyle=document.createElement('style');rippleStyle.textContent='@keyframes rippleOut{to{opacity:0;transform:scale(1.3)}}.track.is-active{border-color:#ff5eaa88;background:#ff3d9a12}';document.head.append(rippleStyle);
 
 
-/* Real track discovery and playback via Audius public read API */
-const AUDIUS='https://api.audius.co/v1', APP_NAME='DROPZY';
-const liveAudio=new Audio(); liveAudio.preload='none';
-let liveResults=[],liveQueue=[],liveIndex=-1,searchTimer=null;
-const liveStatus=document.getElementById('live-status'),liveList=document.getElementById('live-tracks');
-function audiusArt(t){const a=t.artwork||{};return a['480x480']||a['150x150']||a['1000x1000']||'https://images.unsplash.com/photo-1470225620780-dba8ba36b745?auto=format&fit=crop&w=120&q=80'}
-function safeText(v){return String(v||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
-function trackDuration(s){if(!s)return'—';const m=Math.floor(s/60),sec=Math.floor(s%60);return m+':'+String(sec).padStart(2,'0')}
-function trackStream(t){return AUDIUS+'/tracks/'+encodeURIComponent(t.id)+'/stream?app_name='+encodeURIComponent(APP_NAME)}
-function renderLiveTracks(items){
- liveResults=items||[];liveList.innerHTML='';
- if(!liveResults.length){liveList.innerHTML='<div class="empty">No playable tracks found. Try another search.</div>';return}
- liveResults.forEach((t,i)=>{
-  const row=document.createElement('div');row.className='track';
-  const img=document.createElement('img');img.className='cover';img.src=audiusArt(t);img.alt='';img.loading='lazy';
-  const info=document.createElement('div');info.className='trackinfo';
-  const title=document.createElement('b');title.textContent=t.title||'Untitled track';
-  const sub=document.createElement('small');sub.textContent=(t.user?.name||t.artist||'Audius creator')+' · '+trackDuration(t.duration);
-  const source=document.createElement('span');source.className='source';source.textContent='AUDIUS CREATOR TRACK';
-  info.append(title,sub,source);
-  const play=document.createElement('button');play.textContent='▶';play.setAttribute('aria-label','Play '+(t.title||'track'));play.addEventListener('click',()=>playLiveTrack(i));
-  const queue=document.createElement('button');queue.className='queue-btn';queue.textContent='+ Queue';queue.addEventListener('click',()=>{liveQueue.push(t);liveStatus.textContent='Added to queue · '+liveQueue.length+' track(s)'});
-  row.append(img,info,play,queue);row.addEventListener('dblclick',()=>playLiveTrack(i));liveList.append(row);
- });
-}
-async function loadLiveTracks(query=''){
- liveStatus.textContent=query?'Searching Audius…':'Loading trending tracks…';
- liveList.innerHTML='<div class="empty">Finding real tracks…</div>';
- try{
-  const path=query?'/tracks/search?query='+encodeURIComponent(query)+'&limit=18':'/tracks/trending?time=week&limit=12';
-  const res=await fetch(AUDIUS+path+'&app_name='+encodeURIComponent(APP_NAME),{headers:{Accept:'application/json'}});
-  if(!res.ok)throw new Error('Catalog response '+res.status);
-  const json=await res.json();const items=(json.data||[]).filter(t=>t&&t.id&&t.title);
-  renderLiveTracks(items);liveStatus.textContent=items.length+' real track(s) · '+(query?'search results':'trending now');
- }catch(err){
-  liveStatus.textContent='Music catalog unavailable right now';
-  liveList.innerHTML='<div class="empty">Could not reach Audius. Check your connection and try searching again.</div>';
- }
-}
-function playLiveTrack(index){
- const t=liveResults[index];if(!t)return;
- liveIndex=index;liveAudio.pause();liveAudio.src=trackStream(t);liveAudio.load();
- document.getElementById('nowplaying').textContent=t.title||'Now playing';
- document.querySelector('.playerart').src=audiusArt(t);
- document.querySelector('.playing small').textContent=(t.user?.name||'Audius creator')+' · LIVE TRACK';
- document.querySelector('.player').classList.add('is-playing');
- liveAudio.play().then(()=>{playing=true;document.getElementById('playbtn').textContent='Ⅱ'}).catch(()=>{playing=false;document.getElementById('playbtn').textContent='▶';liveStatus.textContent='Tap play in the player to start this track'});
-}
-function togglePlay(){
- if(!liveAudio.src){if(liveResults.length)playLiveTrack(0);else 
-loadLiveTracks();
+/* DROPZY live catalog: Audius public API, creator attribution, and official-platform discovery */
+const AUDIUS_API = 'https://api.audius.co/v1';
+const AUDIUS_APP = 'DROPZY';
+const liveAudio = new Audio();
+liveAudio.preload = 'none';
+let liveResults = [];
+let liveQueue = [];
+let liveIndex = -1;
+let liveSearchTimer = null;
 
-/* Mainstream discovery: link to official platform search, never scrape or re-host label audio. */
-const mainstreamInput=document.getElementById('mainstream-search');
-function updateMainstreamLinks(query){
- const q=encodeURIComponent((query||'').trim());
- document.getElementById('yt-search').href=q?'https://music.youtube.com/search?q='+q:'https://music.youtube.com/';
- document.getElementById('sp-search').href=q?'https://open.spotify.com/search/'+q:'https://open.spotify.com/';
- document.getElementById('yt-video-search').href=q?'https://www.youtube.com/results?search_query='+q:'https://www.youtube.com/';
+const liveStatus = document.getElementById('live-status');
+const liveList = document.getElementById('live-tracks');
+const liveSearch = document.getElementById('search');
+const playerBar = document.querySelector('.player');
+
+function textSafe(value) {
+  return String(value || '').replace(/[&<>"']/g, ch => ({
+    '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
+  }[ch]));
 }
-document.getElementById('mainstream-go').addEventListener('click',()=>{updateMainstreamLinks(mainstreamInput.value);document.getElementById('yt-search').click()});
-mainstreamInput.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();updateMainstreamLinks(mainstreamInput.value);document.getElementById('yt-search').click()}});
-document.querySelectorAll('.artist-chip').forEach(btn=>btn.addEventListener('click',()=>{mainstreamInput.value=btn.textContent;updateMainstreamLinks(btn.textContent);document.getElementById('yt-search').click()}));
-document.getElementById('spotify-load').addEventListener('click',()=>{
- const raw=document.getElementById('spotify-link').value.trim();
- const box=document.getElementById('spotify-embed');
- const match=raw.match(/open\.spotify\.com\/(track|album|playlist|artist)\/([A-Za-z0-9]+)/);
- if(!match){box.innerHTML='<div class="empty">Paste a valid Spotify track, album, playlist or artist URL.</div>';return}
- const kind=match[1],id=match[2];
- box.innerHTML='<iframe title="Spotify music player" src="https://open.spotify.com/embed/'+kind+'/'+id+'?utm_source=generator&theme=0" width="100%" height="'+(kind==='track'?'152':'352')+'" frameborder="0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy" style="border-radius:12px"></iframe>';
+function audioArt(track) {
+  const art = track.artwork || {};
+  return art['480x480'] || art['150x150'] || art['1000x1000'] ||
+    'https://images.unsplash.com/photo-1470225620780-dba8ba36b745?auto=format&fit=crop&w=120&q=80';
+}
+function audioTime(seconds) {
+  if (!Number.isFinite(seconds)) return '0:00';
+  return Math.floor(seconds / 60) + ':' + String(Math.floor(seconds % 60)).padStart(2,'0');
+}
+function streamUrl(track) {
+  return AUDIUS_API + '/tracks/' + encodeURIComponent(track.id) +
+    '/stream?app_name=' + encodeURIComponent(AUDIUS_APP);
+}
+function creatorUrl(track) {
+  return track.permalink ? 'https://audius.co' + track.permalink : 'https://audius.co';
+}
+function renderLiveTracks(tracks) {
+  liveResults = tracks;
+  liveList.replaceChildren();
+  if (!tracks.length) {
+    liveList.innerHTML = '<div class="empty">No playable tracks found. Try another genre or search.</div>';
+    return;
+  }
+  tracks.forEach((track, index) => {
+    const row = document.createElement('div');
+    row.className = 'track';
+    const art = document.createElement('img');
+    art.className = 'cover'; art.src = audioArt(track); art.alt = ''; art.loading = 'lazy';
+    const info = document.createElement('div'); info.className = 'trackinfo';
+    const title = document.createElement('b'); title.textContent = track.title || 'Untitled track';
+    const creator = document.createElement('small');
+    creator.textContent = (track.user && track.user.name) || 'Audius creator';
+    const source = document.createElement('a');
+    source.className = 'source'; source.href = creatorUrl(track);
+    source.target = '_blank'; source.rel = 'noopener noreferrer';
+    source.textContent = 'Audius · Open creator track ↗';
+    info.append(title, creator, source);
+    const play = document.createElement('button'); play.textContent = '▶';
+    play.setAttribute('aria-label','Play ' + (track.title || 'track'));
+    play.addEventListener('click', () => playLiveTrack(index));
+    const queue = document.createElement('button'); queue.className = 'queue-btn';
+    queue.textContent = '+ Queue';
+    queue.addEventListener('click', () => {
+      liveQueue.push(track);
+      liveStatus.textContent = 'Queued · ' + liveQueue.length + ' track(s)';
+    });
+    row.append(art, info, play, queue);
+    row.addEventListener('dblclick', () => playLiveTrack(index));
+    liveList.append(row);
+  });
+}
+async function loadLiveTracks(query = '') {
+  liveStatus.textContent = query ? 'Searching the free creator catalog…' : 'Loading trending tracks…';
+  liveList.innerHTML = '<div class="empty">Finding music…</div>';
+  try {
+    const route = query
+      ? '/tracks/search?query=' + encodeURIComponent(query) + '&limit=24'
+      : '/tracks/trending?time=week&limit=18';
+    const response = await fetch(AUDIUS_API + route + '&app_name=' + encodeURIComponent(AUDIUS_APP), {
+      headers: { Accept: 'application/json' }
+    });
+    if (!response.ok) throw new Error('Audius returned ' + response.status);
+    const payload = await response.json();
+    const tracks = (payload.data || []).filter(track =>
+      track && track.id && track.title && track.is_streamable !== false
+    );
+    renderLiveTracks(tracks);
+    liveStatus.textContent = tracks.length + ' playable creator track(s) · ' +
+      (query ? 'search results' : 'trending this week');
+  } catch (error) {
+    liveStatus.textContent = 'Catalog temporarily unavailable';
+    liveList.innerHTML = '<div class="empty">Could not connect to Audius. Check your internet and try again.</div>';
+  }
+}
+function setNowPlaying(track) {
+  document.getElementById('nowplaying').textContent = track.title || 'Now playing';
+  document.querySelector('.playerart').src = audioArt(track);
+  document.querySelector('.playing small').textContent =
+    ((track.user && track.user.name) || 'Audius creator') + ' · LIVE TRACK';
+  playerBar.classList.add('is-playing');
+}
+function playLiveTrack(index) {
+  const track = liveResults[index];
+  if (!track) return;
+  liveIndex = index;
+  liveAudio.pause();
+  liveAudio.src = streamUrl(track);
+  liveAudio.load();
+  setNowPlaying(track);
+  liveAudio.play().then(() => {
+    playing = true;
+    document.getElementById('playbtn').textContent = 'Ⅱ';
+  }).catch(() => {
+    playing = false;
+    document.getElementById('playbtn').textContent = '▶';
+    liveStatus.textContent = 'Tap play again to start this track, or choose another one.';
+  });
+  document.querySelectorAll('#live-tracks .track').forEach((row, i) =>
+    row.classList.toggle('is-active', i === index)
+  );
+}
+function togglePlay() {
+  if (!liveAudio.src) {
+    if (liveResults.length) playLiveTrack(0);
+    else loadLiveTracks();
+    return;
+  }
+  if (liveAudio.paused) {
+    liveAudio.play().then(() => {
+      playing = true;
+      document.getElementById('playbtn').textContent = 'Ⅱ';
+      playerBar.classList.add('is-playing');
+    }).catch(() => {});
+  } else {
+    liveAudio.pause();
+    playing = false;
+    document.getElementById('playbtn').textContent = '▶';
+    playerBar.classList.remove('is-playing');
+  }
+}
+function skip(direction) {
+  if (liveQueue.length && direction > 0) {
+    const nextTrack = liveQueue.shift();
+    liveResults = [nextTrack, ...liveResults.filter(track => track.id !== nextTrack.id)];
+    renderLiveTracks(liveResults);
+    playLiveTrack(0);
+    return;
+  }
+  if (!liveResults.length) return;
+  const nextIndex = (liveIndex + direction + liveResults.length) % liveResults.length;
+  playLiveTrack(nextIndex);
+}
+liveAudio.addEventListener('timeupdate', () => {
+  const percent = liveAudio.duration ? liveAudio.currentTime / liveAudio.duration * 100 : 0;
+  document.getElementById('progress').style.width = percent + '%';
+  const labels = document.querySelectorAll('.progress span');
+  if (labels.length) {
+    labels[0].textContent = audioTime(liveAudio.currentTime);
+    labels[1].textContent = audioTime(liveAudio.duration);
+  }
 });
-return}
- if(liveAudio.paused){liveAudio.play().then(()=>{playing=true;document.getElementById('playbtn').textContent='Ⅱ'}).catch(()=>{});}
- else{liveAudio.pause();playing=false;document.getElementById('playbtn').textContent='▶'}
-}
-function skipLive(direction){
- if(liveQueue.length){const t=direction>0?liveQueue.shift():liveQueue.pop();if(t){liveResults=[t,...liveResults.filter(x=>x.id!==t.id)];playLiveTrack(0);return}}
- if(liveResults.length){const next=(liveIndex+direction+liveResults.length)%liveResults.length;playLiveTrack(next)}
-}
-liveAudio.addEventListener('timeupdate',()=>{const p=liveAudio.duration?liveAudio.currentTime/liveAudio.duration*100:0;document.getElementById('progress').style.width=p+'%';const times=document.querySelectorAll('.progress span');if(times.length){times[0].textContent=trackDuration(liveAudio.currentTime);times[1].textContent=trackDuration(liveAudio.duration)}});
-liveAudio.addEventListener('ended',()=>skipLive(1));
-liveAudio.addEventListener('error',()=>{liveStatus.textContent='This track could not be streamed. Try another track.'});
-document.querySelector('.progress .bar').addEventListener('click',e=>{if(!liveAudio.duration)return;const r=e.currentTarget.getBoundingClientRect();liveAudio.currentTime=((e.clientX-r.left)/r.width)*liveAudio.duration});
-document.querySelector('.controls button:first-child').onclick=()=>skipLive(-1);
-document.querySelector('.controls button:last-child').onclick=()=>skipLive(1);
-document.getElementById('search').addEventListener('input',e=>{clearTimeout(searchTimer);const q=e.target.value.trim();searchTimer=setTimeout(()=>loadLiveTracks(q),450)});
-document.getElementById('search').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();loadLiveTracks(e.target.value.trim());document.getElementById('live-library').scrollIntoView({behavior:'smooth'})}});
-loadLiveTracks();
+liveAudio.addEventListener('ended', () => skip(1));
+liveAudio.addEventListener('error', () => {
+  liveStatus.textContent = 'This track is unavailable. Please try another track.';
+  playerBar.classList.remove('is-playing');
+});
+document.querySelector('.progress .bar').addEventListener('click', event => {
+  if (!liveAudio.duration) return;
+  const bounds = event.currentTarget.getBoundingClientRect();
+  liveAudio.currentTime = Math.max(0, Math.min(1, (event.clientX - bounds.left) / bounds.width)) * liveAudio.duration;
+});
+liveSearch.addEventListener('input', event => {
+  clearTimeout(liveSearchTimer);
+  const query = event.target.value.trim();
+  liveSearchTimer = setTimeout(() => loadLiveTracks(query), 500);
+});
+liveSearch.addEventListener('keydown', event => {
+  if (event.key === 'Enter') {
+    event.preventDefault();
+    loadLiveTracks(event.target.value.trim());
+    document.getElementById('live-library').scrollIntoView({ behavior:'smooth' });
+  }
+});
+document.querySelectorAll('[data-audius-query]').forEach(button => {
+  button.addEventListener('click', () => {
+    document.querySelectorAll('[data-audius-query]').forEach(item => item.classList.remove('active'));
+    button.classList.add('active');
+    loadLiveTracks(button.dataset.audiusQuery);
+  });
+});
 
+/* Official mainstream discovery links; no third-party audio extraction. */
+const mainstreamInput = document.getElementById('mainstream-search');
+function updateMainstreamLinks(query) {
+  const encoded = encodeURIComponent((query || '').trim());
+  document.getElementById('yt-search').href = encoded
+    ? 'https://music.youtube.com/search?q=' + encoded : 'https://music.youtube.com/';
+  document.getElementById('sp-search').href = encoded
+    ? 'https://open.spotify.com/search/' + encoded : 'https://open.spotify.com/';
+  document.getElementById('yt-video-search').href = encoded
+    ? 'https://www.youtube.com/results?search_query=' + encoded : 'https://www.youtube.com/';
+}
+document.getElementById('mainstream-go').addEventListener('click', () => {
+  updateMainstreamLinks(mainstreamInput.value);
+  window.open(document.getElementById('yt-search').href, '_blank', 'noopener');
+});
+mainstreamInput.addEventListener('keydown', event => {
+  if (event.key === 'Enter') {
+    event.preventDefault();
+    updateMainstreamLinks(mainstreamInput.value);
+    window.open(document.getElementById('yt-search').href, '_blank', 'noopener');
+  }
+});
+document.querySelectorAll('.artist-chip').forEach(button => {
+  button.addEventListener('click', () => {
+    mainstreamInput.value = button.textContent.trim();
+    updateMainstreamLinks(mainstreamInput.value);
+    window.open(document.getElementById('yt-search').href, '_blank', 'noopener');
+  });
+});
+document.getElementById('spotify-load').addEventListener('click', () => {
+  const raw = document.getElementById('spotify-link').value.trim();
+  const embed = document.getElementById('spotify-embed');
+  const match = raw.match(/^https?:\/\/open\.spotify\.com\/(track|album|playlist|artist)\/([A-Za-z0-9]+)(?:[/?#].*)?$/i);
+  if (!match) {
+    embed.innerHTML = '<div class="empty">Paste a valid Spotify track, album, playlist or artist link.</div>';
+    return;
+  }
+  const type = match[1], id = match[2];
+  const frame = document.createElement('iframe');
+  frame.title = 'Official Spotify player';
+  frame.src = 'https://open.spotify.com/embed/' + type + '/' + id + '?utm_source=generator&theme=0';
+  frame.width = '100%'; frame.height = type === 'track' ? '152' : '352';
+  frame.allow = 'autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture';
+  frame.loading = 'lazy'; frame.style.border = '0'; frame.style.borderRadius = '12px';
+  embed.replaceChildren(frame);
+});
+loadLiveTracks();
 </script></body></html>
