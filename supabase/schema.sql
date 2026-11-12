@@ -1,6 +1,6 @@
--- DROPZY artist upload foundation
--- Run this in the SQL editor of your own Supabase project.
--- Keep the project service-role key secret; never place it in website code.
+-- DROPZY artist submissions and approved catalogue
+-- Run this in the SQL editor of your DROPZY Supabase project.
+-- Never expose a service-role key in client-side code.
 
 create extension if not exists pgcrypto;
 
@@ -11,7 +11,9 @@ create table if not exists public.song_submissions (
   artist text not null check (char_length(artist) between 1 and 120),
   language text not null,
   genre text,
+  version_label text not null default 'original',
   storage_path text not null unique,
+  rights_proof_path text,
   original_filename text not null,
   rights_note text not null,
   rights_confirmed boolean not null default false,
@@ -21,24 +23,32 @@ create table if not exists public.song_submissions (
   reviewed_at timestamptz
 );
 
+alter table public.song_submissions add column if not exists version_label text not null default 'original';
+alter table public.song_submissions add column if not exists rights_proof_path text;
+
 alter table public.song_submissions enable row level security;
 
--- Artists can submit only for their own authenticated account.
 drop policy if exists "artists submit own songs" on public.song_submissions;
 create policy "artists submit own songs"
 on public.song_submissions for insert to authenticated
 with check (auth.uid() = user_id and rights_confirmed = true and status = 'pending');
 
--- Artists can view only their own submission status.
 drop policy if exists "artists view own submissions" on public.song_submissions;
 create policy "artists view own submissions"
 on public.song_submissions for select to authenticated
 using (auth.uid() = user_id);
 
--- Private audio bucket: uploads are never publicly readable.
+drop policy if exists "DROPZY admins review submissions" on public.song_submissions;
+create policy "DROPZY admins review submissions"
+on public.song_submissions for all to authenticated
+using ((auth.jwt() -> 'app_metadata' ->> 'role') = 'admin')
+with check ((auth.jwt() -> 'app_metadata' ->> 'role') = 'admin');
+
+-- All audio and proof documents remain in this private bucket.
 insert into storage.buckets (id, name, public, file_size_limit, allowed_mime_types)
 values ('artist-submissions','artist-submissions',false,104857600,
-  array['audio/mpeg','audio/wav','audio/x-wav','audio/mp4','audio/flac','application/octet-stream'])
+  array['audio/mpeg','audio/wav','audio/x-wav','audio/mp4','audio/flac','application/octet-stream',
+        'application/pdf','image/png','image/jpeg','text/plain'])
 on conflict (id) do update set public=false, file_size_limit=104857600,
   allowed_mime_types=excluded.allowed_mime_types;
 
@@ -66,8 +76,9 @@ using (
   and (storage.foldername(name))[1] = auth.uid()::text
 );
 
--- Admin review: use the Supabase dashboard with an administrator account.
--- Approve only after checking master recording, composition, contributor permissions,
--- territories, term, attribution, and any remix/derivative rights separately.
--- Never make the bucket public just to enable playback. Approved playback needs
--- a server-side signed-URL/API layer that uses a secret stored server-side.
+-- Admins are assigned by the project owner in Supabase Auth user app_metadata:
+-- { "role": "admin" }. Never let users edit their own app_metadata.
+-- Admin approval is performed through the protected Edge Function in
+-- supabase/functions/dropzy-catalog/index.ts.
+-- Review master + composition rights, samples, contributors, territories,
+-- term, attribution and derivative/remix rights separately before approval.
