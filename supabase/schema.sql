@@ -25,6 +25,7 @@ create table if not exists public.song_submissions (
 
 alter table public.song_submissions add column if not exists version_label text not null default 'original';
 alter table public.song_submissions add column if not exists rights_proof_path text;
+alter table public.song_submissions alter column status set default 'approved';
 
 alter table public.song_submissions enable row level security;
 
