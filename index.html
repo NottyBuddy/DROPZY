@@ -328,6 +328,7 @@ function setNowPlaying(track) {
   playerBar.classList.add('is-playing');
 }
 function playLiveTrack(index) {
+  approvedTrackPlaying = false;
   const track = liveResults[index];
   if (!track) return;
   liveIndex = index;
