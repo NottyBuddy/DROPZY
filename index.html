@@ -74,7 +74,21 @@ body:before{content:"";position:fixed;inset:-25%;z-index:-2;pointer-events:none;
  <div class="sectiontop"><div><h2>DROPZY LIVE <span style="color:#ff6caf">●</span></h2><div class="sub">Hindi • Punjabi • Marathi • Bhojpuri • Bengali • Tamil • Telugu • Malayalam • Kannada • Gujarati • Assamese • Odia • Haryanvi • English</div></div><span class="eyebrow">DROPZY PLAYER</span></div>
  <div class="mixbox" style="grid-template-columns:1fr;gap:14px">
   <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap"><div><div class="eyebrow">LANGUAGE-FIRST SONG SEARCH</div><h3 style="margin:7px 0 0">Find actual songs, not just beats.</h3></div><span id="live-status" class="sub" aria-live="polite">Loading live tracks…</span></div>
-  <div class="mixcontrols" aria-label="Browse songs by language"><button class="chip active" type="button" data-audius-query="">TRENDING</button><button class="chip" type="button" data-audius-query="Hindi">HINDI</button><button class="chip" type="button" data-audius-query="Punjabi">PUNJABI</button><button class="chip" type="button" data-audius-query="Marathi">MARATHI</button><button class="chip" type="button" data-audius-query="Bhojpuri">BHOJPURI</button><button class="chip" type="button" data-audius-query="Bengali">BENGALI</button><button class="chip" type="button" data-audius-query="Tamil">TAMIL</button><button class="chip" type="button" data-audius-query="Telugu">TELUGU</button><button class="chip" type="button" data-audius-query="Malayalam">MALAYALAM</button><button class="chip" type="button" data-audius-query="Kannada">KANNADA</button><button class="chip" type="button" data-audius-query="Gujarati">GUJARATI</button><button class="chip" type="button" data-audius-query="Assamese">ASSAMESE</button><button class="chip" type="button" data-audius-query="Odia">ODIA</button><button class="chip" type="button" data-audius-query="Haryanvi">HARYANVI</button><button class="chip" type="button" data-audius-query="Bollywood">BOLLYWOOD</button><button class="chip" type="button" data-audius-query="English">ENGLISH</button></div><div class="tracklist" id="live-tracks"><div class="empty">Loading DROPZY music…</div></div>
+  <div class="mixcontrols" aria-label="Browse songs by language"><button class="chip active" type="button" data-audius-query="">TRENDING</button><button class="chip" type="button" data-audius-query="Hindi">HINDI</button><button class="chip" type="button" data-audius-query="Punjabi">PUNJABI</button><button class="chip" type="button" data-audius-query="Marathi">MARATHI</button><button class="chip" type="button" data-audius-query="Bhojpuri">BHOJPURI</button><button class="chip" type="button" data-audius-query="Bengali">BENGALI</button><button class="chip" type="button" data-audius-query="Tamil">TAMIL</button><button class="chip" type="button" data-audius-query="Telugu">TELUGU</button><button class="chip" type="button" data-audius-query="Malayalam">MALAYALAM</button><button class="chip" type="button" data-audius-query="Kannada">KANNADA</button><button class="chip" type="button" data-audius-query="Gujarati">GUJARATI</button><button class="chip" type="button" data-audius-query="Assamese">ASSAMESE</button><button class="chip" type="button" data-audius-query="Odia">ODIA</button><button class="chip" type="button" data-audius-query="Haryanvi">HARYANVI</button><button class="chip" type="button" data-audius-query="Magahi">MAGAHI</button><button class="chip" type="button" data-audius-query="Maithili">MAITHILI</button><button class="chip" type="button" data-audius-query="Adivasi Madhya Pradesh">MP ADIVASI</button><button class="chip" type="button" data-audius-query="Bollywood">BOLLYWOOD</button><button class="chip" type="button" data-audius-query="English">ENGLISH</button></div><div class="tracklist" id="live-tracks"><div class="empty">Loading DROPZY music…</div></div>
+  <div class="eyebrow">SONG VERSIONS</div>
+  <div class="mixcontrols" id="version-filters" aria-label="Filter song versions">
+   <button class="chip active" type="button" data-song-version="">ALL VERSIONS</button>
+   <button class="chip" type="button" data-song-version="lofi">LO-FI</button>
+   <button class="chip" type="button" data-song-version="slowed reverb">SLOWED + REVERB</button>
+   <button class="chip" type="button" data-song-version="reverb">REVERB</button>
+   <button class="chip" type="button" data-song-version="male version">MALE VERSION</button>
+   <button class="chip" type="button" data-song-version="female version">FEMALE VERSION</button>
+   <button class="chip" type="button" data-song-version="reply version">REPLY VERSION</button>
+   <button class="chip" type="button" data-song-version="cover version">COVER VERSION</button>
+   <button class="chip" type="button" data-song-version="remix">REMIX</button>
+   <button class="chip" type="button" data-song-version="acoustic">ACOUSTIC</button>
+  </div>
+  <div class="sub">Version filters search creator-uploaded tracks by their titles and tags; availability depends on the artists' uploads and streaming permissions.</div>
   <div class="sub">Tracks play in the DROPZY player. Only recordings cleared for streaming can be added to the full DROPZY catalogue.</div>
  </div>
 </section>
@@ -113,6 +127,7 @@ let liveResults = [];
 let liveQueue = [];
 let liveIndex = -1;
 let liveSearchTimer = null;
+let selectedSongVersion = '';
 
 const liveStatus = document.getElementById('live-status');
 const liveList = document.getElementById('live-tracks');
@@ -170,6 +185,9 @@ function renderLiveTracks(tracks) {
 }
 const LANGUAGE_SEARCH_TERMS = {
   Hindi: ['Hindi vocal song', 'Hindi pop song vocals', 'Bollywood song vocals', 'Hindi love song'],
+  Magahi: ['Magahi vocal song', 'Magahi lok geet', 'Magahi folk song'],
+  Maithili: ['Maithili vocal song', 'Maithili lok geet', 'Maithili folk song'],
+  'Adivasi Madhya Pradesh': ['Madhya Pradesh Adivasi folk song', 'Gond tribal folk song Madhya Pradesh', 'Bhil tribal song Madhya Pradesh', 'Baiga folk song Madhya Pradesh'],
   Punjabi: ['Punjabi vocal song', 'Punjabi pop song vocals', 'Punjabi folk song', 'Punjabi love song'],
   Marathi: ['Marathi vocal song', 'Marathi pop song', 'Marathi folk song'],
   Bhojpuri: ['Bhojpuri vocal song', 'Bhojpuri lok geet', 'Bhojpuri music'],
@@ -206,7 +224,7 @@ async function loadLiveTracks(query = '') {
   try {
     let tracks = [];
     if (query && LANGUAGE_SEARCH_TERMS[query]) {
-      const batches = await Promise.all(LANGUAGE_SEARCH_TERMS[query].map(term => searchAudius(term, 14)));
+      const batches = await Promise.all(LANGUAGE_SEARCH_TERMS[query].map(term => searchAudius(term + (selectedSongVersion ? ' ' + selectedSongVersion : ''), 14)));
       const seen = new Set();
       tracks = batches.flat().filter(track => {
         if (seen.has(track.id)) return false;
@@ -214,7 +232,9 @@ async function loadLiveTracks(query = '') {
         return true;
       });
     } else if (query) {
-      tracks = await searchAudius(query, 30);
+      tracks = await searchAudius(query + (selectedSongVersion ? ' ' + selectedSongVersion : ''), 30);
+    } else if (selectedSongVersion) {
+      tracks = await searchAudius(selectedSongVersion + ' vocal song', 30);
     } else {
       const response = await fetch(AUDIUS_API + '/tracks/trending?time=week&limit=30&app_name=' + encodeURIComponent(AUDIUS_APP), {
         headers: { Accept: 'application/json' }
@@ -321,6 +341,14 @@ liveSearch.addEventListener('keydown', event => {
     loadLiveTracks(event.target.value.trim());
     document.getElementById('live-library').scrollIntoView({ behavior:'smooth' });
   }
+});
+document.querySelectorAll('[data-song-version]').forEach(button => {
+  button.addEventListener('click', () => {
+    selectedSongVersion = button.dataset.songVersion || '';
+    document.querySelectorAll('[data-song-version]').forEach(item => item.classList.toggle('active', item === button));
+    const activeLanguage = document.querySelector('[data-audius-query].active');
+    loadLiveTracks(activeLanguage ? activeLanguage.dataset.audiusQuery : '');
+  });
 });
 document.querySelectorAll('[data-audius-query]').forEach(button => {
   button.addEventListener('click', () => {
