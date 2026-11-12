@@ -1,28 +1,25 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600" role="img" aria-labelledby="t d">
-<title id="t">DROPZY DZ Headphone Logo</title><desc id="d">White headphones and headset microphone surrounding DZ letters, with red play symbol and audio waveform on black.</desc>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600" role="img" aria-labelledby="title desc">
+<title id="title">DROPZY DZ Headphones Logo</title>
+<desc id="desc">Black emblem with white headphones and microphone, red audio pulse and play symbol, and only the letters DZ.</desc>
 <defs>
- <filter id="glow" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="7" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
- <linearGradient id="red" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#ff4052"/><stop offset="1" stop-color="#b50925"/></linearGradient>
+ <linearGradient id="red" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#f04452"/><stop offset="1" stop-color="#b30d28"/></linearGradient>
+ <filter id="soft" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="5" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
 </defs>
-<g fill="none" stroke="#f7f0eb" stroke-linecap="round" stroke-linejoin="round">
- <path d="M105 286V246a195 195 0 0 1 390 0v40" stroke-width="29"/>
- <path d="M110 292v118c0 24 18 42 42 42h0c24 0 42-18 42-42V302c0-24-18-42-42-42h0c-24 0-42 14-42 32z" fill="#f7f0eb" stroke="none"/>
- <path d="M406 302v108c0 24 18 42 42 42h0c24 0 42-18 42-42V302c0-24-18-42-42-42h0c-24 0-42 14-42 42z" fill="#f7f0eb" stroke="none"/>
- <path d="M448 440c-5 65-62 102-148 105" stroke-width="10"/>
- <path d="M299 545h-58c-15 0-25-10-25-23v-8c0-13 10-23 25-23h60c15 0 25 10 25 23v8c0 13-12 23-27 23z" fill="#f7f0eb" stroke="none"/>
-</g>
-<g fill="none" stroke="#f7f0eb" stroke-width="7" stroke-linecap="round" stroke-linejoin="round">
- <path d="M78 230h31l12-55 18 94 19-68 16 29h28"/>
- <path d="M398 230h28l14-55 17 94 18-68 15 29h28"/>
-</g>
-<g filter="url(#glow)">
- <path d="M300 126a67 67 0 1 0 67 67" fill="none" stroke="url(#red)" stroke-width="17" stroke-linecap="round"/>
- <path d="M286 158c-9-6-21 1-21 12v49c0 11 12 18 21 12l39-25c9-6 9-18 0-24z" fill="url(#red)"/>
-</g>
-<path d="M196 290c-22 0-35 14-35 35v64c0 21 13 35 35 35h34v-35h-30v-18h25v-31h-25v-15h30v-35z" fill="#ed1b2f"/>
-<path d="M235 290h37c34 0 55 23 55 67s-21 67-55 67h-37V290zm36 34v66c13 0 20-10 20-33s-7-33-20-33z" fill="#f7f0eb"/>
-<path d="M344 290h71v31l-37 68h37v35h-78v-31l38-68h-31z" fill="#ed1b2f"/>
-<path d="M349 297h60l-48 85h46" fill="none" stroke="#f7f0eb" stroke-width="8" stroke-linejoin="round"/>
-<path d="M190 290c-10 0-18 8-18 18v92c0 10 8 18 18 18" fill="none" stroke="#f7f0eb" stroke-width="9"/>
-<path d="M410 290c10 0 18 8 18 18v92c0 10-8 18-18 18" fill="none" stroke="#f7f0eb" stroke-width="9"/>
+<rect width="600" height="600" rx="48" fill="#050405"/>
+<!-- headphones -->
+<path d="M112 290V247a188 188 0 0 1 376 0v43" fill="none" stroke="#f7f0eb" stroke-width="29" stroke-linecap="round"/>
+<rect x="94" y="270" width="77" height="177" rx="37" fill="#f7f0eb"/>
+<rect x="429" y="270" width="77" height="177" rx="37" fill="#f7f0eb"/>
+<!-- mic arm and capsule -->
+<path d="M466 430c-8 84-67 119-160 124" fill="none" stroke="#f7f0eb" stroke-width="11" stroke-linecap="round"/>
+<rect x="247" y="534" width="103" height="43" rx="21" fill="#f7f0eb"/>
+<path d="M247 555a21 21 0 0 1 21-21h61a21 21 0 0 1 21 21" fill="none" stroke="url(#red)" stroke-width="13"/>
+<!-- waveform -->
+<path d="M38 230h38l12-62 20 107 19-78 18 33h36 M420 230h31l13-62 20 107 19-78 18 33h41" fill="none" stroke="#f7f0eb" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+<!-- play circle -->
+<circle cx="300" cy="207" r="67" fill="none" stroke="url(#red)" stroke-width="17" filter="url(#soft)"/>
+<path d="M287 172c-11-7-25 1-25 14v42c0 13 14 21 25 14l37-21c11-7 11-21 0-28z" fill="url(#red)"/>
+<!-- only DZ lettering -->
+<text x="300" y="391" text-anchor="middle" dominant-baseline="middle" font-family="Arial,Helvetica,sans-serif" font-size="158" font-weight="900" letter-spacing="-13" fill="#f7f0eb" stroke="#090708" stroke-width="5" paint-order="stroke">DZ</text>
+<path d="M215 414h170" stroke="url(#red)" stroke-width="9" stroke-linecap="round"/>
 </svg>
