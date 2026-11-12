@@ -364,33 +364,48 @@ mainstreamInput.addEventListener('keydown', event => {
     window.open(document.getElementById('yt-search').href, '_blank', 'noopener');
   }
 });
+const spotifyArtistIds = {
+  'Yo Yo Honey Singh':'7uIbLdzzSEqnX0Pkrb56cR',
+  'AP Dhillon':'6LEG9Ld1aLImEFEVHdWNSB',
+  'Karan Aujla':'6DARBhWbfcS9E4yJzcliqQ'
+};
+function showSpotifyEmbed(type, id) {
+  const embed = document.getElementById('spotify-embed');
+  const frame = document.createElement('iframe');
+  frame.title = 'Official Spotify ' + type + ' player';
+  frame.src = 'https://open.spotify.com/embed/' + type + '/' + id + '?utm_source=generator&theme=0';
+  frame.width = '100%'; frame.height = type === 'track' ? '152' : '352';
+  frame.allow = 'autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture';
+  frame.loading = 'lazy'; frame.style.border = '0'; frame.style.borderRadius = '12px';
+  embed.replaceChildren(frame);
+}
 document.querySelectorAll('.artist-chip').forEach(button => {
   button.addEventListener('click', () => {
     const artist = button.textContent.trim();
     mainstreamInput.value = artist;
     updateMainstreamLinks(artist);
     document.querySelectorAll('.artist-chip').forEach(item => item.classList.toggle('active', item === button));
-    loadLiveTracks(artist + ' songs');
+    const spotifyId = spotifyArtistIds[artist];
+    if (spotifyId) {
+      showSpotifyEmbed('artist', spotifyId);
+      document.getElementById('spotify-embed').scrollIntoView({ behavior:'smooth', block:'center' });
+    } else {
+      document.getElementById('spotify-embed').innerHTML = '<div class="empty">Open Spotify search below to choose an official artist release, then paste its Spotify link above to play it here.</div>';
+      window.open('https://open.spotify.com/search/' + encodeURIComponent(artist), '_blank', 'noopener');
+    }
     document.getElementById('live-library').scrollIntoView({ behavior:'smooth' });
-    liveStatus.textContent = 'Searching available tracks by ' + artist + '…';
+    liveStatus.textContent = 'Searching creator uploads by ' + artist + '…';
+    loadLiveTracks(artist + ' songs');
   });
 });
 document.getElementById('spotify-load').addEventListener('click', () => {
   const raw = document.getElementById('spotify-link').value.trim();
-  const embed = document.getElementById('spotify-embed');
   const match = raw.match(/^https?:\/\/open\.spotify\.com\/(track|album|playlist|artist)\/([A-Za-z0-9]+)(?:[/?#].*)?$/i);
   if (!match) {
-    embed.innerHTML = '<div class="empty">Paste a valid Spotify track, album, playlist or artist link.</div>';
+    document.getElementById('spotify-embed').innerHTML = '<div class="empty">Paste a valid Spotify track, album, playlist or artist link.</div>';
     return;
   }
-  const type = match[1], id = match[2];
-  const frame = document.createElement('iframe');
-  frame.title = 'Official Spotify player';
-  frame.src = 'https://open.spotify.com/embed/' + type + '/' + id + '?utm_source=generator&theme=0';
-  frame.width = '100%'; frame.height = type === 'track' ? '152' : '352';
-  frame.allow = 'autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture';
-  frame.loading = 'lazy'; frame.style.border = '0'; frame.style.borderRadius = '12px';
-  embed.replaceChildren(frame);
+  showSpotifyEmbed(match[1], match[2]);
 });
 loadLiveTracks();
 </script></body></html>
