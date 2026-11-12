@@ -1,0 +1,689 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#090708"><meta name="description" content="DROPZY — discover the next sound. DJ edits, mashups and late-night energy."><title>DROPZY — Listen</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Berkshire+Swash&family=DM+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet"><style>
+:root{--bg:#090708;--panel:#171113;--muted:#b9aaa8;--white:#f7f0eb;--pink:#c1122f;--violet:#7b1024;--line:#39252a}*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--white);font-family:'DM Sans',sans-serif;overflow-x:hidden}button,input{font:inherit}button{cursor:pointer}.ambient{position:fixed;inset:0;pointer-events:none;z-index:-1;background:radial-gradient(ellipse at 80% 4%,#542b7a40,transparent 35%),radial-gradient(ellipse at 5% 35%,#c1122f13,transparent 32%)}header{height:76px;display:flex;align-items:center;justify-content:space-between;padding:0 5.5%;border-bottom:1px solid #ffffff0d;position:sticky;top:0;background:#090708e8;backdrop-filter:blur(18px);z-index:10}.brand{font:400 32px 'Berkshire Swash',cursive;letter-spacing:-1.8px}.brand span{color:var(--pink)}nav{display:flex;gap:28px}nav a{color:#aaa9b7;text-decoration:none;font-size:13px;font-weight:700}nav a:hover{color:white}.headright{display:flex;align-items:center;gap:12px}.search{background:#171720;border:1px solid #30303d;border-radius:30px;padding:10px 15px;color:white;width:190px;outline:none}.avatar{width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,var(--pink),var(--violet));display:grid;place-items:center;font-weight:800}.wrap{max-width:1440px;margin:auto;padding:0 5.5%}.hero{min-height:510px;display:flex;align-items:center;position:relative;overflow:hidden;padding:55px 0 45px}.hero:after{content:"";position:absolute;right:0;top:8%;width:58%;height:88%;background:linear-gradient(90deg,var(--bg),transparent 30%),linear-gradient(0deg,var(--bg),transparent 40%),url('https://images.unsplash.com/photo-1571266028243-d220c9c3b9f9?auto=format&fit=crop&w=1400&q=85') center/cover;border-radius:20px;opacity:.72;z-index:-1;mask-image:linear-gradient(90deg,transparent,#000 25%)}.eyebrow{color:#ff70b5;text-transform:uppercase;letter-spacing:3px;font-size:11px;font-weight:800}.hero h1{font:700 clamp(48px,7vw,88px)/.98 'Space Grotesk';letter-spacing:-5px;max-width:650px;margin:20px 0}.hero h1 em{font-style:normal;background:linear-gradient(90deg,#ff4caa,#9b7aff);background-clip:text;color:transparent}.hero p{color:#b4b2c0;max-width:440px;line-height:1.7;font-size:15px}.actions{display:flex;gap:12px;margin-top:27px}.btn{border:0;border-radius:30px;padding:13px 22px;font-weight:800;font-size:13px}.primary{background:linear-gradient(100deg,var(--pink),#9b5cff);color:white;box-shadow:0 8px 30px #d9368c30}.ghost{background:#ffffff12;color:white;border:1px solid #ffffff25}.section{padding:24px 0 30px}.sectiontop{display:flex;align-items:end;justify-content:space-between;margin-bottom:18px}.section h2{font:700 23px 'Space Grotesk';margin:0;letter-spacing:-.7px}.sub{color:var(--muted);font-size:12px;margin-top:5px}.see{color:#ff75b9;text-decoration:none;font-size:12px;font-weight:800}.rail{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:15px}.tile{position:relative;border-radius:14px;overflow:hidden;min-height:185px;background:#191923;isolation:isolate;transition:.25s;cursor:pointer}.tile:hover{transform:translateY(-5px);box-shadow:0 12px 35px #0008}.tile img{position:absolute;width:100%;height:100%;object-fit:cover;inset:0;z-index:-2;filter:brightness(.7);transition:.3s}.tile:hover img{transform:scale(1.06);filter:brightness(.85)}.tile:after{content:"";position:absolute;inset:25% 0 0;background:linear-gradient(transparent,#09090ff2);z-index:-1}.tiletext{position:absolute;bottom:15px;left:15px;right:10px}.tiletext b{font:700 17px 'Space Grotesk';display:block}.tiletext small{color:#c6c3d0;font-size:10px}.playdot{position:absolute;right:13px;top:13px;width:35px;height:35px;border-radius:50%;background:#ffffffdb;color:#17121d;display:grid;place-items:center;font-size:13px}.wide{grid-column:span 2}.mixbox{border:1px solid #30233d;border-radius:20px;background:linear-gradient(115deg,#21152c,#11111a 60%);padding:27px;display:grid;grid-template-columns:1.1fr .9fr;gap:25px;overflow:hidden}.mixbox h3{font:700 28px 'Space Grotesk';margin:8px 0}.mixbox p{color:#aaa6b8;line-height:1.6;font-size:13px;max-width:420px}.mixcontrols{display:flex;gap:9px;flex-wrap:wrap;margin-top:18px}.chip{border:1px solid #4b3b5d;background:#ffffff09;color:#eee;border-radius:20px;padding:9px 13px;font-size:11px}.chip.active{background:#c1122f24;border-color:var(--pink);color:#ff8cc4}.deck{display:flex;align-items:center;justify-content:center;gap:12px;min-height:150px}.disc{width:128px;height:128px;border-radius:50%;background:repeating-radial-gradient(circle,#15151b 0 3px,#292934 4px 5px);display:grid;place-items:center;box-shadow:0 0 40px #a04dff35;animation:spin 12s linear infinite}.disc:before{content:"DROPZY";font:800 13px 'Space Grotesk';background:linear-gradient(135deg,var(--pink),var(--violet));width:48px;height:48px;border-radius:50%;display:grid;place-items:center}@keyframes spin{to{transform:rotate(360deg)}}.wave{height:44px;display:flex;align-items:center;gap:3px}.wave i{width:3px;border-radius:4px;background:linear-gradient(var(--pink),var(--violet));height:var(--h);opacity:.8}.tracklist{display:grid;gap:8px}.track{display:flex;align-items:center;gap:12px;padding:10px;border-radius:12px;background:#ffffff08;border:1px solid #ffffff09}.cover{width:43px;height:43px;border-radius:9px;object-fit:cover}.trackinfo{flex:1;min-width:0}.trackinfo b{display:block;font-size:12px}.trackinfo small{color:var(--muted);font-size:10px}.track button{border:0;background:transparent;color:#ddd;font-size:17px}.player{position:fixed;bottom:0;left:0;right:0;background:#171113f2;border-top:1px solid #34303d;backdrop-filter:blur(20px);padding:12px 5.5%;display:flex;align-items:center;gap:18px;z-index:20}.playerart{width:43px;height:43px;border-radius:8px;object-fit:cover}.playing{min-width:150px}.playing b{font-size:12px;display:block}.playing small{color:var(--muted);font-size:10px}.controls{display:flex;align-items:center;gap:15px;margin:auto}.controls button{border:0;background:none;color:white;font-size:18px}.controls .big{background:white;color:#111;border-radius:50%;width:38px;height:38px}.progress{display:flex;align-items:center;gap:9px;width:28%;color:#999;font-size:10px}.bar{height:4px;border-radius:4px;background:#393943;flex:1;overflow:hidden}.bar i{display:block;width:22%;height:100%;background:linear-gradient(90deg,var(--pink),var(--violet))}.notice{font-size:10px;color:#777;text-align:center;padding:22px 0 110px}.empty{color:#999;font-size:12px;padding:20px}.hidden{display:none!important}@media(max-width:850px){nav{display:none}.rail{grid-template-columns:repeat(3,minmax(0,1fr))}.hero{min-height:460px}.hero:after{width:80%;opacity:.45}.mixbox{grid-template-columns:1fr}.deck{min-height:110px}.progress{display:none}}@media(max-width:560px){header{padding:0 4%;height:65px}.search{width:125px;padding:9px 12px}.wrap{padding:0 4%}.hero{min-height:430px}.hero h1{letter-spacing:-3px}.hero:after{width:100%;opacity:.3}.rail{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.tile{min-height:155px}.wide{grid-column:span 2}.section h2{font-size:20px}.mixbox{padding:20px}.player{padding:10px 4%;gap:10px}.playing{min-width:0;flex:1}.playing b{max-width:115px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.controls{gap:9px;margin:0}.controls button{font-size:16px}.playerart{width:38px;height:38px}}
+
+/* DROPZY motion pass */
+:root{--mx:50%;--my:30%}
+body:before{content:"";position:fixed;inset:-25%;z-index:-2;pointer-events:none;background:radial-gradient(600px circle at var(--mx) var(--my),#a34cff20,transparent 55%),radial-gradient(ellipse at 20% 80%,#c1122f12,transparent 40%);animation:aurora 16s ease-in-out infinite alternate}
+@keyframes aurora{0%{transform:translate3d(-2%,0,0) rotate(0deg);filter:hue-rotate(0)}100%{transform:translate3d(2%,-2%,0) rotate(8deg);filter:hue-rotate(35deg)}}
+.ambient:before,.ambient:after{content:"";position:absolute;border-radius:50%;filter:blur(75px);opacity:.2;animation:floatGlow 12s ease-in-out infinite alternate}
+.ambient:before{width:38vw;height:38vw;background:#a34cff;top:12%;right:-10%}
+.ambient:after{width:30vw;height:30vw;background:#c1122f;bottom:5%;left:-10%;animation-delay:-5s}
+@keyframes floatGlow{to{transform:translate(8vw,-5vh) scale(1.2)}}
+.tile{transform-style:preserve-3d;will-change:transform;transition:transform .28s cubic-bezier(.2,.8,.2,1),box-shadow .28s,border-color .28s}
+.tile:hover{border:1px solid #ff68b477;box-shadow:0 18px 45px #0009,0 0 28px #a64cff22}
+.tile .playdot{transition:transform .25s,background .25s,box-shadow .25s}
+.tile:hover .playdot{transform:scale(1.12);background:linear-gradient(135deg,var(--pink),var(--violet));color:white;box-shadow:0 0 22px #c1122f88}
+.btn,.chip,.track button,.controls button{transition:transform .2s ease,filter .2s ease,box-shadow .2s ease}
+.btn:hover,.chip:hover{transform:translateY(-2px);filter:brightness(1.15);box-shadow:0 8px 24px #a34cff30}
+.btn:active,.chip:active,.controls button:active{transform:scale(.96)}
+.hero h1{animation:heroIn .9s cubic-bezier(.2,.8,.2,1) both}
+.hero p,.hero .actions{animation:heroIn 1s .12s both}
+@keyframes heroIn{from{opacity:0;transform:translateY(22px);filter:blur(5px)}to{opacity:1;transform:none;filter:blur(0)}}
+.section{animation:sectionIn .7s both}
+@keyframes sectionIn{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+.track{transition:transform .22s,border-color .22s,background .22s}
+.track:hover{transform:translateX(5px);border-color:#ff5eaa66;background:#ffffff10}
+.track button:hover{color:#ff79b9;transform:scale(1.2)}
+.player{box-shadow:0 -12px 40px #0008}
+.playerart{transition:transform .35s,filter .35s}
+.player.is-changing .playerart{transform:scale(.75) rotate(-12deg);filter:blur(4px);opacity:.5}
+.player.is-playing .playerart{animation:artPulse 2.4s ease-in-out infinite}
+@keyframes artPulse{50%{box-shadow:0 0 0 5px #c1122f22,0 0 25px #9b5cff55}}
+.bar i{transition:width .5s ease}
+.wave i{animation:waveDance .75s ease-in-out infinite alternate;transform-origin:center}
+.wave i:nth-child(3n){animation-delay:-.3s}.wave i:nth-child(4n){animation-delay:-.55s}.wave i:nth-child(5n){animation-delay:-.15s}
+@keyframes waveDance{to{transform:scaleY(.35);opacity:.5}}
+.disc{animation-duration:8s}
+.mixbox{position:relative;isolation:isolate}
+.mixbox:before{content:"";position:absolute;inset:-1px;z-index:-1;border-radius:inherit;background:linear-gradient(120deg,#c1122f55,transparent 35%,#7b102455);opacity:.5;filter:blur(18px);animation:mixGlow 5s ease-in-out infinite alternate}
+@keyframes mixGlow{to{opacity:.95;filter:blur(26px)}}
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .7s,transform .7s}
+.reveal.visible{opacity:1;transform:none}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition-duration:.01ms!important}}
+
+
+#live-library .mixbox{background:linear-gradient(115deg,#171426,#11111a 62%);border-color:#44304e}
+#live-tracks .track{cursor:pointer}
+#live-tracks .track .trackinfo b{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#live-tracks .track .trackinfo{max-width:calc(100% - 105px)}
+#live-tracks .track .source{font-size:9px;color:#ff8ac2;display:block;margin-top:3px}
+#live-tracks .track .queue-btn{font-size:11px;border:1px solid #ffffff20;border-radius:20px;padding:7px 10px}
+#live-tracks .track .queue-btn:hover{background:#c1122f20}
+
+/* DROPZY signature redesign — independent identity */
+:root{--bg:#090d12;--panel:#111922;--muted:#8d9aa7;--white:#f3f7fa;--pink:#c1122f;--violet:#718cff;--line:#25313b;--mx:50%;--my:30%}
+body{background:var(--bg);color:var(--white);font-family:'DM Sans',sans-serif}
+body:before{background:radial-gradient(560px circle at var(--mx) var(--my),#c1122f12,transparent 58%),radial-gradient(ellipse at 85% 0%,#718cff16,transparent 38%)}
+.ambient{background:radial-gradient(ellipse at 85% 3%,#718cff16,transparent 35%),radial-gradient(ellipse at 8% 65%,#c1122f0b,transparent 32%)}
+header{height:72px;margin-left:238px;padding:0 34px;background:#090d12eF;border-color:#ffffff0b}
+.brand{display:flex;align-items:center;gap:10px;font-size:22px;letter-spacing:-1.2px;color:#f5f8fb}
+.brand span:not(.brand-mark){color:inherit}
+.brand-mark{width:34px;height:34px;border-radius:11px;display:grid;place-items:center;background:linear-gradient(145deg,#f7f0eb,#76d94c);color:#0b140a!important;font:900 21px 'Space Grotesk';letter-spacing:-2px;box-shadow:0 5px 22px #c1122f25}
+nav{gap:22px}nav a{font-size:12px;color:#9ba9b5}nav a:hover{color:var(--pink)}
+.search{background:#151e27;border:1px solid #2a3945;border-radius:12px;color:#f4f7fa}
+.avatar{background:linear-gradient(135deg,#f7f0eb,#718cff);color:#101a12}
+.wrap{max-width:none;margin-left:238px;padding:0 34px 0 34px}
+.hero{min-height:390px;padding:48px 0 30px}
+.hero:after{border-radius:24px;opacity:.5}
+.eyebrow{color:var(--pink);letter-spacing:2.3px}
+.hero h1{font-size:clamp(44px,5.5vw,76px);letter-spacing:-4px}
+.hero h1 em{background:linear-gradient(90deg,#f7f0eb,#718cff);background-clip:text}
+.hero p{color:#a6b2bd}
+.btn{border-radius:12px}.primary{background:linear-gradient(110deg,#f7f0eb,#8ee65c);color:#10180e;box-shadow:0 8px 26px #c1122f20}.ghost{background:#17212b;color:#eaf0f5;border-color:#2b3b48}
+.section{padding:22px 0 26px;scroll-margin-top:92px}
+.section h2{font-size:22px;letter-spacing:-.6px}
+.sub{color:#8d9aa7}
+.see{color:var(--pink)}
+.rail{gap:14px}
+.tile{border-radius:17px;background:#141e27;min-height:178px}
+.tile:after{background:linear-gradient(transparent,#070d13f5)}
+.tiletext b{font-size:15px}
+.playdot{background:#f7f0eb;color:#0b140a}
+.mixbox{border:1px solid #293945;border-radius:20px;background:linear-gradient(120deg,#17232a,#111922 62%);padding:24px}
+.mixbox:before{background:linear-gradient(120deg,#c1122f33,transparent 38%,#718cff30)}
+.chip{border:1px solid #344450;background:#ffffff08;color:#dce5eb;border-radius:10px}
+.chip.active{background:#c1122f19;border-color:#c1122f;color:#f7f0eb}
+.track{background:#ffffff06;border-color:#ffffff0c;border-radius:13px}
+.track:hover{border-color:#c1122f55;background:#ffffff0b}
+.track button:hover{color:#f7f0eb}
+#live-library .mixbox{background:linear-gradient(120deg,#17232a,#111922 62%);border-color:#2c3d49}
+#live-tracks .track .source{color:#f7f0eb}
+#live-tracks .track .queue-btn{border-color:#3b4c57}
+#live-tracks .track .queue-btn:hover{background:#c1122f15}
+.track.is-active{border-color:#c1122f88;background:#c1122f0c}
+.player{left:238px;padding:11px 28px;background:#111922f5;border-color:#293945;box-shadow:0 -12px 40px #0008;gap:15px}
+.playerart{border-radius:10px}
+.controls button{color:#dce5eb}
+.controls .big{background:#f7f0eb;color:#10180e}
+.bar{background:#35434d}.bar i{background:linear-gradient(90deg,#f7f0eb,#718cff)}
+.notice{color:#72808c}
+.sidebar{position:fixed;z-index:30;left:0;top:0;bottom:0;width:238px;padding:25px 17px 118px;background:#0e151c;border-right:1px solid #ffffff0c;display:flex;flex-direction:column;gap:28px}
+.sidebrand{display:flex;align-items:center;gap:10px;padding:0 10px;font:800 21px 'Space Grotesk';letter-spacing:-1px}
+.sidebrand .brand-mark{width:35px;height:35px}
+.side-label{padding:0 12px;color:#657581;font-size:10px;font-weight:800;letter-spacing:1.7px;text-transform:uppercase;margin-bottom:8px}
+.side-links{display:grid;gap:5px}
+.side-links a{display:flex;align-items:center;gap:13px;padding:11px 12px;border-radius:11px;color:#9ba9b5;text-decoration:none;font-size:13px;font-weight:650;transition:.2s}
+.side-links a span{width:18px;text-align:center;font-size:16px}
+.side-links a:hover,.side-links a.active{background:#c1122f13;color:#f7f0eb}
+.side-note{margin-top:auto;padding:14px 12px;border:1px solid #273640;border-radius:13px;color:#8796a1;font-size:11px;line-height:1.6}
+#your-library .library-tools{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+#favorite-tracks .empty{padding:24px;background:#ffffff05;border-radius:12px}
+.fav-btn{font-size:17px!important;color:#9aa8b2!important}
+.fav-btn.saved{color:#f7f0eb!important}
+.player-extra{display:flex;gap:8px;align-items:center}
+.player-extra button{border:0;background:transparent;color:#9ba9b5;padding:6px;font-size:14px}
+.player-extra button.active{color:#f7f0eb}
+.volume{width:74px;accent-color:#c1122f}
+.mobile-dock{display:none}
+@media(max-width:900px){
+ header{margin-left:0;padding:0 20px}.wrap{margin-left:0;padding:0 22px 0}
+ .sidebar{display:none}.player{left:0}
+}
+@media(max-width:600px){
+ header{height:62px;padding:0 14px}.brand{font-size:20px}.headright{gap:7px}.search{width:135px;padding:9px 10px}
+ .wrap{padding:0 15px 0}.hero{min-height:370px;padding:38px 0 25px}.hero h1{font-size:46px;letter-spacing:-3px}
+ .rail{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.tile{min-height:145px}
+ .section{padding:18px 0 22px}.mixbox{padding:17px}
+ .player{bottom:0;padding:9px 12px 12px;gap:8px;min-height:66px}
+ .playing{flex:1}.controls{gap:7px}.controls button{font-size:15px}.playerart{width:36px;height:36px}
+ .player-extra,.progress{display:none}
+ .mobile-dock{position:fixed;z-index:19;bottom:66px;left:0;right:0;display:flex;justify-content:space-around;gap:3px;padding:8px 5px;background:#0e151cf5;border-top:1px solid #263640}
+ .mobile-dock a{color:#84939f;text-decoration:none;font-size:10px;display:grid;justify-items:center;gap:3px;min-width:48px}
+ .mobile-dock a span{font-size:17px}.mobile-dock a.active{color:#f7f0eb}
+ .notice{padding-bottom:145px}
+}
+@media(prefers-reduced-motion:reduce){.tile,.track,.btn,.chip{transition:none}}
+
+
+/* DROPZY page-wise navigation */
+.sidebar{display:none!important}
+header{margin-left:0!important}
+.wrap{margin-left:0!important;max-width:1440px!important;padding-left:5.5%!important;padding-right:5.5%!important;padding-bottom:160px!important}
+.mobile-dock{display:flex!important;position:fixed;z-index:25;left:50%;transform:translateX(-50%);bottom:76px;width:min(680px,calc(100% - 28px));justify-content:space-around;gap:5px;padding:9px 10px;background:#111b24f5;border:1px solid #2b3b48;border-radius:18px;box-shadow:0 12px 38px #0009;backdrop-filter:blur(20px)}
+.mobile-dock a{flex:1;color:#8796a1;text-decoration:none;font-size:11px;font-weight:700;display:grid;justify-items:center;gap:4px;padding:4px 2px;border-radius:10px}
+.mobile-dock a span{font-size:18px;line-height:1}
+.mobile-dock a.active{color:#f7f0eb;background:#c1122f12}
+.player{left:0!important}
+body[data-page="listen"] #scenes,body[data-page="listen"] #mainstream,body[data-page="listen"] #mixlab,body[data-page="listen"] #live-library,body[data-page="listen"] #your-library{display:none!important}
+body[data-page="browse"] .hero,body[data-page="browse"] #discover,body[data-page="browse"] #mixlab,body[data-page="browse"] #live-library,body[data-page="browse"] #your-library{display:none!important}
+body[data-page="radio"] .hero,body[data-page="radio"] #discover,body[data-page="radio"] #scenes,body[data-page="radio"] #mainstream,body[data-page="radio"] #live-library,body[data-page="radio"] #your-library{display:none!important}
+body[data-page="search"] .hero,body[data-page="search"] #discover,body[data-page="search"] #scenes,body[data-page="search"] #mainstream,body[data-page="search"] #mixlab,body[data-page="search"] #your-library{display:none!important}
+body[data-page="library"] .hero,body[data-page="library"] #discover,body[data-page="library"] #scenes,body[data-page="library"] #mainstream,body[data-page="library"] #mixlab,body[data-page="library"] #live-library{display:none!important}
+@media(max-width:600px){
+ .wrap{padding:0 15px 170px!important}
+ .mobile-dock{bottom:76px;width:calc(100% - 20px);padding:7px 5px}
+ .mobile-dock a{font-size:10px}
+ .player{bottom:0!important}
+}
+@media(min-width:601px){.mobile-dock{bottom:78px}}
+
+
+/* DROPZY vivid gradient identity refresh */
+:root{--pink:#ff4fb8;--violet:#8b5cf6;--line:#293044}
+body{background:radial-gradient(ellipse at 10% 0%,#7c3aed28,transparent 38%),radial-gradient(ellipse at 90% 12%,#ec489928,transparent 34%),linear-gradient(145deg,#080b18 0%,#111027 52%,#081827 100%)}
+.ambient{background:radial-gradient(ellipse at 15% 10%,#8b5cf633,transparent 34%),radial-gradient(ellipse at 88% 5%,#ec489933,transparent 32%),radial-gradient(ellipse at 55% 100%,#06b6d420,transparent 38%)}
+.brand-mark{position:relative;overflow:hidden;width:40px;height:40px;border-radius:14px;background:linear-gradient(135deg,#fb4db8 0%,#8b5cf6 52%,#22d3ee 100%);color:#fff!important;box-shadow:0 7px 28px #a855f755, inset 0 1px 0 #ffffff80}
+.logo-glyph{font:900 25px 'Space Grotesk';letter-spacing:-3px;transform:translateX(-1px);text-shadow:0 2px 9px #27104480}
+.brand-mark i{position:absolute;right:5px;bottom:7px;width:8px;height:17px;border-radius:5px;background:#fff;opacity:.9;transform:rotate(22deg);box-shadow:-5px 3px 0 -1px #fff}
+.hero:after{background:linear-gradient(115deg,#7c3aed30,#ec48992b 48%,#06b6d425);border:1px solid #ffffff12}
+.hero h1 em{background:linear-gradient(90deg,#ff72c6,#a78bfa 52%,#67e8f9);background-clip:text;-webkit-background-clip:text;color:transparent}
+.primary{background:linear-gradient(110deg,#fb4db8,#8b5cf6 58%,#22d3ee);color:#fff;box-shadow:0 9px 30px #8b5cf644}
+.mobile-dock{background:linear-gradient(115deg,#17152df5,#21132cf5 55%,#102535f5)!important;border-color:#ffffff24!important}
+.mobile-dock a.active{color:#ff9bd7!important;background:linear-gradient(120deg,#ec489927,#8b5cf627)!important}
+.chip.active{background:linear-gradient(110deg,#ec489927,#8b5cf627);border-color:#c084fc;color:#f0abfc}
+.mixbox{background:linear-gradient(125deg,#211633,#17172e 55%,#102b39)!important;border-color:#ffffff1c!important}
+
+/* DROPZY crimson / ink / warm-ivory identity */
+:root{--bg:#090909;--panel:#151313;--muted:#aaa19e;--white:#f5f0e8;--pink:#c1122f;--violet:#8f1028;--line:#342326;--crimson:#c1122f;--ivory:#f5f0e8}
+body{background:var(--bg);color:var(--ivory)}
+.ambient{background:radial-gradient(ellipse at 78% 8%,#c1122f25,transparent 38%),radial-gradient(ellipse at 8% 65%,#7f10201c,transparent 36%),linear-gradient(180deg,#0a0909,#090909)}
+header{background:#090909eF;border-bottom:1px solid #f5f0e81a}
+.brand{color:var(--ivory)}.brand-mark,.logo-glyph{background:linear-gradient(145deg,#f5f0e8,#c1122f 78%)!important;color:#18090b!important;box-shadow:0 0 24px #c1122f45,inset 0 1px 0 #fff9}
+.brand-mark i{background:#fff4e8;box-shadow:-5px 3px 0 -1px #c1122f}
+.search{background:#171313;border-color:#4a292e;color:var(--ivory)}
+.avatar{background:linear-gradient(135deg,#c1122f,#5b0b1b);color:#fff}
+nav a{color:#b8aaa7}nav a:hover,.see:hover{color:#fff}
+.hero{min-height:560px;padding:65px 0 54px}
+.hero:after{width:62%;height:92%;top:4%;right:-1%;opacity:.9;border:1px solid #c1122f42;border-radius:28px;background:radial-gradient(ellipse at 70% 38%,#c1122f55,transparent 34%),radial-gradient(ellipse at 72% 60%,#f5f0e81a,transparent 44%),linear-gradient(135deg,#1c1012,#100b0c 55%,#260b12);mask-image:linear-gradient(90deg,transparent,#000 16%)}
+.hero:before{content:"";position:absolute;right:9%;top:17%;width:38%;height:62%;border:1px solid #f5f0e82b;border-radius:50%;transform:rotate(-18deg);box-shadow:0 0 70px #c1122f30,inset 0 0 50px #c1122f16;animation:dropzy-orbit 13s linear infinite;pointer-events:none}
+.hero h1 em{background:linear-gradient(100deg,#f5f0e8 0%,#e7b9b8 34%,#c1122f 78%);background-clip:text;-webkit-background-clip:text;color:transparent}
+.eyebrow{color:#e6a5a9}
+.primary{background:linear-gradient(110deg,#c1122f,#7c0d22);color:#fff;box-shadow:0 10px 32px #c1122f45}
+.ghost{background:#f5f0e80a;border:1px solid #f5f0e83d;color:var(--ivory)}
+.section h2{color:var(--ivory)}.chip.active,.mobile-dock a.active{background:#c1122f20!important;border-color:#c1122f!important;color:#f5f0e8!important}
+.tile,.mixbox,.card,.track,.song-card{border-color:#3a272a}
+.mixbox{background:linear-gradient(125deg,#251014,#151010 60%,#211316)!important;border-color:#5a2a32!important}
+.mobile-dock{background:#0d0a0beF;border-top:1px solid #c1122f40}
+@keyframes dropzy-orbit{to{transform:rotate(342deg)}}
+@media(max-width:700px){.hero{min-height:490px;padding:48px 0 38px}.hero:after{width:100%;height:54%;top:42%;opacity:.65}.hero:before{width:62%;height:35%;right:8%;top:49%}.hero h1{font-size:clamp(46px,13vw,70px);letter-spacing:-3px}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;scroll-behavior:auto!important;transition:none!important}}
+
+
+.hero{display:grid;grid-template-columns:1fr .9fr;gap:30px;align-items:center}
+.hero-copy{position:relative;z-index:2}.hero-note{margin-top:27px;color:#a99b99;font-size:10px;letter-spacing:2.4px;font-weight:800;display:flex;align-items:center;gap:10px}.hero-note span{width:7px;height:7px;border-radius:50%;background:#c1122f;box-shadow:0 0 13px #c1122f;animation:dropzy-pulse 1.8s ease-in-out infinite}
+.hero-art{height:410px;position:relative;display:flex;align-items:center;justify-content:center;isolation:isolate}
+.hero-disc{width:min(310px,65vw);aspect-ratio:1;border-radius:50%;display:grid;place-items:center;background:repeating-radial-gradient(circle,#241316 0 2px,#100b0c 3px 7px);border:1px solid #e8c9c54d;box-shadow:0 0 0 14px #c1122f0b,0 0 0 30px #c1122f08,0 25px 90px #c1122f30;animation:dropzy-float 6s ease-in-out infinite}
+.disc-core{width:42%;height:42%;border-radius:50%;display:grid;place-items:center;background:linear-gradient(145deg,#f5f0e8,#c1122f 80%);color:#21090e;font:900 92px 'Space Grotesk';box-shadow:0 0 60px #c1122f55;position:relative}.disc-core span{position:absolute;font-size:23px;left:53%;top:49%;color:#fff4e8}
+.sound-bars{position:absolute;display:flex;align-items:center;gap:7px;height:130px;bottom:43px;left:4%;right:4%;justify-content:center;z-index:-1}
+.sound-bars i{width:5px;border-radius:8px;background:linear-gradient(180deg,#f5f0e8,#c1122f);height:var(--h,40%);opacity:.85;animation:dropzy-wave 1.15s ease-in-out infinite alternate}
+.sound-bars i:nth-child(3n){--h:88%;animation-delay:-.7s}.sound-bars i:nth-child(3n+1){--h:52%;animation-delay:-.3s}.sound-bars i:nth-child(3n+2){--h:70%;animation-delay:-.9s}
+.hero-art-word{position:absolute;bottom:4px;font:800 clamp(22px,3vw,36px) 'Space Grotesk';letter-spacing:9px;color:#f5f0e8;text-shadow:0 0 22px #c1122f60}
+.hero-art-caption{position:absolute;top:4%;right:4%;font-size:9px;letter-spacing:3px;color:#d9c8c4}
+@keyframes dropzy-float{50%{transform:translateY(-12px) rotate(5deg)}}@keyframes dropzy-wave{to{transform:scaleY(.35);opacity:.45}}@keyframes dropzy-pulse{50%{opacity:.35;transform:scale(.7)}}
+@media(max-width:800px){.hero{grid-template-columns:1fr;gap:0;padding-top:45px}.hero-art{height:270px;margin-top:5px}.hero-disc{width:205px}.disc-core{font-size:62px}.hero-art-word{bottom:0}.sound-bars{bottom:35px}}
+</style></head><body data-page="listen"><div class="ambient"></div><header><div class="brand"><span class="brand-mark" aria-label="DROPZY logo"><span class="logo-glyph">D</span><i></i></span>DROPZY</div><div class="headright"><input id="search" class="search" placeholder="⌕  Search sounds..." aria-label="Search sounds"><div class="avatar">D</div></div></header>
+<main class="wrap"><section class="hero"><div class="hero-copy"><div class="eyebrow">✦ INDIA IN EVERY BEAT · DROPZY ORIGINAL</div><h1>YOUR SOUND.<br><em>YOUR INDIA.</em></h1><p>From Hindi hooks to Punjabi fire, Marathi rhythm and regional favourites — discover the sounds that move you, all in one place.</p><div class="actions"><button class="btn primary" onclick="document.getElementById('live-library').scrollIntoView({behavior:'smooth'});loadLiveTracks()">▶ &nbsp; START LISTENING</button><button class="btn ghost" onclick="document.querySelector('#scenes').scrollIntoView()">EXPLORE DROPZY &nbsp; ↗</button></div><div class="hero-note"><span></span> MADE FOR THE MUSIC. BUILT AROUND YOU.</div></div><div class="hero-art" aria-hidden="true"><div class="hero-disc"><div class="disc-core">D<span>▶</span></div></div><div class="sound-bars"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><div class="hero-art-word">DROPZY</div><div class="hero-art-caption">MUSIC · FOREVER</div></div></section><section class="section" id="discover"><div class="sectiontop"><div><h2>Made for your mood <span style="color:#ff6caf">✦</span></h2><div class="sub">The sounds you'll have on repeat</div></div><a class="see" href="#scenes">VIEW ALL ↗</a></div><div class="rail" id="featured"><article class="tile wide" data-search="after hours night drive"><img src="https://images.unsplash.com/photo-1519608487953-e999c86e7455?auto=format&fit=crop&w=900&q=85"><span class="playdot">▶</span><div class="tiletext"><b>AFTER HOURS</b><small>Night drive edits · 24 sounds</small></div></article><article class="tile" data-search="bass pressure club"><img src="https://images.unsplash.com/photo-1571266028243-d220c9c3b9f9?auto=format&fit=crop&w=600&q=85"><span class="playdot">▶</span><div class="tiletext"><b>BASS MODE</b><small>Club energy</small></div></article><article class="tile" data-search="desi flip bollywood"><img src="https://images.unsplash.com/photo-1506157786151-b8491531f063?auto=format&fit=crop&w=600&q=85"><span class="playdot">▶</span><div class="tiletext"><b>DESI FLIP</b><small>Desi x global</small></div></article><article class="tile" data-search="slow burn chill"><img src="https://images.unsplash.com/photo-1470225620780-dba8ba36b745?auto=format&fit=crop&w=600&q=85"><span class="playdot">▶</span><div class="tiletext"><b>SLOW BURN</b><small>Late-night feels</small></div></article></div></section><section class="section" id="scenes"><div class="sectiontop"><div><h2>Explore the scenes</h2><div class="sub">Pick a world. Find your sound.</div></div><span class="eyebrow">DROPZY SELECTS</span></div><div class="rail" id="scenelist"><article class="tile" data-search="punjabi fire"><img src="https://images.unsplash.com/photo-1501386761578-eac5c94b800a?auto=format&fit=crop&w=600&q=85"><div class="tiletext"><b>PUNJABI FIRE</b><small>Big hooks · Big energy</small></div></article><article class="tile" data-search="bollywood reloaded"><img src="https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&w=600&q=85"><div class="tiletext"><b>BOLLYWOOD RELOADED</b><small>Old school, new rush</small></div></article><article class="tile" data-search="hip hop edits"><img src="https://images.unsplash.com/photo-1524368535928-5b5e00ddc76b?auto=format&fit=crop&w=600&q=85"><div class="tiletext"><b>HIP-HOP EDITS</b><small>808s & attitude</small></div></article><article class="tile" data-search="electronic rave"><img src="https://images.unsplash.com/photo-1470225620780-dba8ba36b745?auto=format&fit=crop&w=600&q=85"><div class="tiletext"><b>RAVE CULTURE</b><small>Lights out, volume up</small></div></article><article class="tile" data-search="viral reels trending"><img src="https://images.unsplash.com/photo-1516280440614-37939bbacd81?auto=format&fit=crop&w=600&q=85"><div class="tiletext"><b>REEL ROTATION</b><small>Loop-worthy moments</small></div></article></div></section><section class="section" id="mixlab"><div class="sectiontop"><div><h2>DROPZY Mix Lab <span style="color:#a77cff">✳</span></h2><div class="sub">Two tracks. One unexpected moment.</div></div><span class="eyebrow">YOUR TURN</span></div><div class="mixbox"><div><div class="eyebrow">✦ CREATE YOUR FLOW</div><h3>Make a little chaos.</h3><p>Build a 2-track or 3-track mashup sequence. Pick the format and preview your mix flow. Audio generation will arrive when licensed track sources are connected.</p><div class="mixcontrols"><button class="chip active" onclick="setMix(2,this)">2 TRACK MASHUP</button><button class="chip" onclick="setMix(3,this)">3 TRACK MASHUP</button><button class="btn primary" onclick="previewMix()">▶ PREVIEW FLOW</button></div><div id="mixstatus" class="sub" style="margin-top:14px">Choose your format to start.</div></div><div class="deck"><div class="disc"></div><div><div class="eyebrow">LIVE MIX VISUAL</div><div class="wave" id="wave"></div><div class="sub">DROPZY • ORIGINAL DEMO UI</div></div></div></div></section><section class="section"><div class="sectiontop"><div><h2>Trending in the room</h2><div class="sub">Sample interface only · choose real music below</div></div><span class="eyebrow">NOW SPINNING</span></div><div class="tracklist" id="tracks"><div class="track" data-search="after hours dropzy edit"><img class="cover" src="https://images.unsplash.com/photo-1519608487953-e999c86e7455?auto=format&fit=crop&w=120&q=80"><div class="trackinfo"><b>After Hours — DROPZY Edit</b><small>DROPZY Selects · Demo track</small></div><button onclick="document.getElementById('live-library').scrollIntoView({behavior:'smooth'});loadLiveTracks()">▶</button></div><div class="track" data-search="midnight bounce club edit"><img class="cover" src="https://images.unsplash.com/photo-1571266028243-d220c9c3b9f9?auto=format&fit=crop&w=120&q=80"><div class="trackinfo"><b>Midnight Bounce — Club Edit</b><small>DROPZY Selects · Demo track</small></div><button onclick="document.getElementById('live-library').scrollIntoView({behavior:'smooth'});loadLiveTracks()">▶</button></div><div class="track" data-search="dil se flip desi mix"><img class="cover" src="https://images.unsplash.com/photo-1506157786151-b8491531f063?auto=format&fit=crop&w=120&q=80"><div class="trackinfo"><b>Dil Se Flip — Desi Mix</b><small>DROPZY Selects · Demo track</small></div><button onclick="document.getElementById('live-library').scrollIntoView({behavior:'smooth'});loadLiveTracks()">▶</button></div></div></section>
+
+<section class="section" id="mainstream">
+ <div class="sectiontop"><div><h2>DROPZY MUSIC <span style="color:#ff6caf">✦</span></h2><div class="sub">Hindi • Punjabi • Marathi • Haryanvi • Bhojpuri • Telugu • Rajasthani • Coke Studio</div></div><span class="eyebrow">ALL INSIDE DROPZY</span></div>
+ <div class="mixbox" style="grid-template-columns:1fr;gap:16px">
+  <div class="eyebrow">SEARCH ARTISTS IN DROPZY</div>
+  <div style="display:flex;gap:10px;flex-wrap:wrap">
+   <input id="mainstream-search" class="search" style="width:min(100%,420px)" placeholder="Search Indian songs, artists or Coke Studio…" aria-label="Search songs and singers">
+   <button class="btn primary" id="mainstream-go">SEARCH DROPZY</button>
+  </div>
+  <div class="sub">Choose a singer or search a track. Available music plays inside the DROPZY player.</div>
+  <div class="mixcontrols" id="artist-chips">
+   <button class="chip artist-chip" type="button">Yo Yo Honey Singh</button><button class="chip artist-chip" type="button">Badshah</button><button class="chip artist-chip" type="button">AP Dhillon</button><button class="chip artist-chip" type="button">Diljit Dosanjh</button><button class="chip artist-chip" type="button">Karan Aujla</button><button class="chip artist-chip" type="button">Shubh</button><button class="chip artist-chip" type="button">Sidhu Moose Wala</button><button class="chip artist-chip" type="button">Guru Randhawa</button><button class="chip artist-chip" type="button">Gippy Grewal</button><button class="chip artist-chip" type="button">Ammy Virk</button><button class="chip artist-chip" type="button">Jass Manak</button><button class="chip artist-chip" type="button">AP Dhillon</button>
+   <button class="chip artist-chip" type="button">Arijit Singh</button><button class="chip artist-chip" type="button">Shreya Ghoshal</button><button class="chip artist-chip" type="button">Jubin Nautiyal</button><button class="chip artist-chip" type="button">Pritam</button><button class="chip artist-chip" type="button">A.R. Rahman</button><button class="chip artist-chip" type="button">Vishal-Shekhar</button><button class="chip artist-chip" type="button">Neha Kakkar</button><button class="chip artist-chip" type="button">King</button><button class="chip artist-chip" type="button">DIVINE</button><button class="chip artist-chip" type="button">Raftaar</button><button class="chip artist-chip" type="button">Ikka</button><button class="chip artist-chip" type="button">Talwiinder</button><button class="chip artist-chip" type="button">B Praak</button><button class="chip artist-chip" type="button">Darshan Raval</button><button class="chip artist-chip" type="button">Anuv Jain</button><button class="chip artist-chip" type="button">Ritviz</button><button class="chip artist-chip" type="button">Sachet Tandon</button><button class="chip artist-chip" type="button">Mithoon</button><button class="chip artist-chip" type="button">Sonu Nigam</button><button class="chip artist-chip" type="button">Sunidhi Chauhan</button><button class="chip artist-chip" type="button">Lata Mangeshkar</button><button class="chip artist-chip" type="button">Kishore Kumar</button><button class="chip artist-chip" type="button">Udit Narayan</button><button class="chip artist-chip" type="button">KK</button><button class="chip artist-chip" type="button">Vishal Mishra</button><button class="chip artist-chip" type="button">Mohit Chauhan</button>
+   <button class="chip artist-chip" type="button">Ajay-Atul</button><button class="chip artist-chip" type="button">Avadhoot Gupte</button><button class="chip artist-chip" type="button">Bela Shende</button><button class="chip artist-chip" type="button">Shalmali Kholgade</button><button class="chip artist-chip" type="button">Sanju Rathod</button><button class="chip artist-chip" type="button">Adarsh Shinde</button>
+   <button class="chip artist-chip" type="button">Masoom Sharma</button><button class="chip artist-chip" type="button">KD</button><button class="chip artist-chip" type="button">Amit Saini Rohtakiya</button><button class="chip artist-chip" type="button">Ruchika Jangid</button><button class="chip artist-chip" type="button">Renuka Panwar</button><button class="chip artist-chip" type="button">Gulzaar Chhaniwala</button><button class="chip artist-chip" type="button">Khasa Aala Chahar</button>
+   <button class="chip artist-chip" type="button">Bad Bunny</button><button class="chip artist-chip" type="button">The Weeknd</button><button class="chip artist-chip" type="button">Drake</button><button class="chip artist-chip" type="button">Taylor Swift</button>
+  </div>
+ </div>
+</section>
+<section class="section" id="live-library">
+ <div class="sectiontop"><div><h2>DROPZY LIVE <span style="color:#ff6caf">●</span></h2><div class="sub">Hindi • Punjabi • Marathi • Bhojpuri • Bengali • Tamil • Telugu • Malayalam • Kannada • Gujarati • Assamese • Odia • Haryanvi • English</div></div><span class="eyebrow">DROPZY PLAYER</span></div>
+ <div class="mixbox" style="grid-template-columns:1fr;gap:14px">
+  <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap"><div><div class="eyebrow">LANGUAGE-FIRST SONG SEARCH</div><h3 style="margin:7px 0 0">Find actual songs, not just beats.</h3></div><span id="live-status" class="sub" aria-live="polite">Loading live tracks…</span></div>
+  <div class="mixcontrols" aria-label="Browse Indian songs and Coke Studio"><button class="chip active" type="button" data-audius-query="India Mix">INDIA MIX</button><button class="chip" type="button" data-audius-query="Hindi">HINDI</button><button class="chip" type="button" data-audius-query="Punjabi">PUNJABI</button><button class="chip" type="button" data-audius-query="Marathi">MARATHI</button><button class="chip" type="button" data-audius-query="Haryanvi">HARYANVI</button><button class="chip" type="button" data-audius-query="Bhojpuri">BHOJPURI</button><button class="chip" type="button" data-audius-query="Telugu">TELUGU</button><button class="chip" type="button" data-audius-query="Rajasthani">RAJASTHANI</button><button class="chip" type="button" data-audius-query="Coke Studio India">COKE STUDIO INDIA</button><button class="chip" type="button" data-audius-query="Coke Studio Pakistan">COKE STUDIO PAKISTAN</button></div><div class="tracklist" id="live-tracks"><div class="empty">Loading DROPZY music…</div></div>
+  <div class="eyebrow">SONG VERSIONS</div>
+  <div class="mixcontrols" id="version-filters" aria-label="Filter song versions">
+   <button class="chip active" type="button" data-song-version="">ALL VERSIONS</button>
+   <button class="chip" type="button" data-song-version="lofi">LO-FI</button>
+   <button class="chip" type="button" data-song-version="slowed reverb">SLOWED + REVERB</button>
+   <button class="chip" type="button" data-song-version="reverb">REVERB</button>
+   <button class="chip" type="button" data-song-version="male version">MALE VERSION</button>
+   <button class="chip" type="button" data-song-version="female version">FEMALE VERSION</button>
+   <button class="chip" type="button" data-song-version="reply version">REPLY VERSION</button>
+   <button class="chip" type="button" data-song-version="cover version">COVER VERSION</button>
+   <button class="chip" type="button" data-song-version="remix">REMIX</button>
+   <button class="chip" type="button" data-song-version="acoustic">ACOUSTIC</button>
+  </div>
+  <div class="sub">Version filters search tracks by their titles and tags.</div>
+  <div class="sub">Tracks play in the DROPZY player. Only recordings cleared for streaming can be added to the full DROPZY catalogue.</div>
+ </div>
+</section>
+
+<section class="section" id="your-library">
+ <div class="sectiontop"><div><h2>Your Library</h2><div class="sub">Your saved songs stay on this device</div></div><span class="eyebrow">MY MUSIC</span></div>
+ <div class="mixbox" style="grid-template-columns:1fr;gap:14px">
+  <div class="library-tools"><button class="btn primary" id="create-playlist">＋ CREATE PLAYLIST</button><span class="sub" id="library-count">0 saved songs</span></div>
+  <div id="playlist-list" class="mixcontrols"></div>
+  <div class="tracklist" id="favorite-tracks"><div class="empty">Tap the ♡ on any song to save it here.</div></div>
+ </div>
+</section>
+<div class="notice">DROPZY is free to use. Music plays inside the DROPZY player.</div></main><footer class="player"><img class="playerart" src="https://images.unsplash.com/photo-1519608487953-e999c86e7455?auto=format&fit=crop&w=120&q=80"><div class="playing"><b id="nowplaying">Choose your next sound</b><small>DROPZY PLAYER</small></div><div class="controls"><button onclick="skip(-1)" aria-label="Previous track">⏮</button><button class="big" id="playbtn" onclick="togglePlay()" aria-label="Play or pause">▶</button><button onclick="skip(1)" aria-label="Next track">⏭</button></div><div class="player-extra"><button id="shuffle-btn" aria-label="Shuffle" title="Shuffle">⤨</button><button id="repeat-btn" aria-label="Repeat" title="Repeat">↻</button><input class="volume" id="volume-control" type="range" min="0" max="1" step=".05" value="1" aria-label="Volume"></div><div class="progress"><span>0:00</span><div class="bar"><i id="progress"></i></div><span>3:24</span></div></footer><nav class="mobile-dock" aria-label="Main navigation">
+<a data-page-link="listen" href="listen.html"><span>⌂</span>Listen</a>
+<a data-page-link="browse" href="browse.html"><span>◈</span>Browse</a>
+<a data-page-link="radio" href="radio.html"><span>◉</span>Radio</a>
+<a data-page-link="search" href="search.html"><span>⌕</span>Search</a>
+<a data-page-link="library" href="library.html"><span>▤</span>Library</a>
+</nav><script>
+const demoTracks=['After Hours — DROPZY Edit','Midnight Bounce — Club Edit','Dil Se Flip — Desi Mix'];let current=0,playing=false,mixCount=2;const $=s=>document.querySelector(s);function playTrack(name){current=Math.max(0,demoTracks.indexOf(name));$('#nowplaying').textContent=name;playing=true;$('#playbtn').textContent='Ⅱ';$('#progress').style.width='35%'}function togglePlay(){if(!$('#nowplaying').textContent.includes('Choose'))playing=!playing;else playTrack(demoTracks[0]);$('#playbtn').textContent=playing?'Ⅱ':'▶'}function skip(n){current=(current+n+demoTracks.length)%demoTracks.length;playTrack(demoTracks[current])}function setMix(n,b){mixCount=n;document.querySelectorAll('.chip').forEach(x=>x.classList.remove('active'));b.classList.add('active');$('#mixstatus').textContent=n+' tracks selected. Preview the sequence when ready.'}function previewMix(){$('#mixstatus').textContent='Mix sequence preview: '+demoTracks.slice(0,mixCount).join(' → ')+' · Connect playable tracks to hear a real mix.'}$('#search').addEventListener('input',e=>{const q=e.target.value.toLowerCase();document.querySelectorAll('[data-search]').forEach(el=>el.classList.toggle('hidden',!el.dataset.search.includes(q)))});for(let i=0;i<42;i++){const b=document.createElement('i');b.style.setProperty('--h',(8+Math.random()*34)+'px');$('#wave').append(b)}
+
+/* richer interaction layer */
+const playerBar=document.querySelector('.player');
+const originalPlayTrack=playTrack;
+playTrack=function(name){
+ playerBar.classList.add('is-changing');
+ window.setTimeout(()=>{originalPlayTrack(name);playerBar.classList.remove('is-changing');playerBar.classList.add('is-playing')},180);
+ document.querySelectorAll('.track').forEach(row=>row.classList.toggle('is-active',row.querySelector('b')?.textContent===name));
+};
+const originalToggle=togglePlay;
+togglePlay=function(){originalToggle();playerBar.classList.toggle('is-playing',playing)};
+document.addEventListener('pointermove',e=>{document.documentElement.style.setProperty('--mx',e.clientX+'px');document.documentElement.style.setProperty('--my',e.clientY+'px')},{passive:true});
+document.querySelectorAll('.tile').forEach(tile=>{
+ tile.addEventListener('pointermove',e=>{if(innerWidth<850)return;const r=tile.getBoundingClientRect(),x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;tile.style.transform='perspective(700px) rotateY('+(x*7)+'deg) rotateX('+(-y*7)+'deg) translateY(-5px)'});
+ tile.addEventListener('pointerleave',()=>tile.style.transform='');
+ tile.addEventListener('click',()=>{const label=tile.querySelector('b')?.textContent||'DROPZY mix';loadLiveTracks(label.toLowerCase());document.getElementById('live-library').scrollIntoView({behavior:'smooth'})});
+});
+const revealObserver=new IntersectionObserver(entries=>entries.forEach(entry=>{if(entry.isIntersecting){entry.target.classList.add('visible');revealObserver.unobserve(entry.target)}}),{threshold:.12});
+document.querySelectorAll('.section').forEach(section=>{section.classList.add('reveal');revealObserver.observe(section)});
+document.addEventListener('keydown',e=>{if(['INPUT','TEXTAREA'].includes(document.activeElement.tagName))return;if(e.code==='Space'){e.preventDefault();togglePlay()}if(e.key==='ArrowRight')skip(1);if(e.key==='ArrowLeft')skip(-1)});
+document.querySelectorAll('.btn,.chip,.playdot').forEach(el=>el.addEventListener('click',e=>{const ripple=document.createElement('span');ripple.style.cssText='position:absolute;inset:0;border-radius:inherit;pointer-events:none;background:radial-gradient(circle at '+(e.offsetX||20)+'px '+(e.offsetY||20)+'px,#ffffff55,transparent 35%);animation:rippleOut .45s forwards';el.style.position='relative';el.append(ripple);setTimeout(()=>ripple.remove(),460)}));
+const rippleStyle=document.createElement('style');rippleStyle.textContent='@keyframes rippleOut{to{opacity:0;transform:scale(1.3)}}.track.is-active{border-color:#ff5eaa88;background:#c1122f12}';document.head.append(rippleStyle);
+
+
+/* DROPZY in-page music player */
+const DROPZY_CATALOG_FUNCTION = 'YOUR_SUPABASE_FUNCTION_URL';
+let approvedTracks = [];
+let approvedIndex = -1;
+let approvedTrackPlaying = false;
+const verifiedStatus = document.getElementById('verified-status');
+const verifiedList = document.getElementById('verified-tracks');
+async function loadApprovedCatalogue() {
+  if (!DROPZY_CATALOG_FUNCTION.startsWith('https://') || DROPZY_CATALOG_FUNCTION.includes('YOUR_')) {
+    verifiedStatus.textContent = 'DROPZY catalogue is not connected yet.';
+    return;
+  }
+  verifiedStatus.textContent = 'Loading approved tracks…';
+  try {
+    const response = await fetch(DROPZY_CATALOG_FUNCTION, { headers: { Accept: 'application/json' } });
+    if (!response.ok) throw new Error('Catalogue service unavailable');
+    const payload = await response.json();
+    approvedTracks = payload.tracks || [];
+    verifiedList.replaceChildren();
+    if (!approvedTracks.length) {
+      verifiedList.innerHTML = '<div class="empty">No approved songs yet. Artists can publish music after confirming they control the required rights.</div>';
+      verifiedStatus.textContent = '0 published tracks · artist submissions appear after rights confirmation';
+      return;
+    }
+    approvedTracks.forEach((track, index) => {
+      const row = document.createElement('div'); row.className = 'track';
+      const art = document.createElement('div'); art.className = 'cover'; art.style.cssText = 'display:grid;place-items:center;background:linear-gradient(135deg,#c1122f,#7b1024);font-weight:900'; art.textContent = 'D';
+      const info = document.createElement('div'); info.className = 'trackinfo';
+      const title = document.createElement('b'); title.textContent = track.title || 'Untitled';
+      const artist = document.createElement('small'); artist.textContent = [track.artist, track.language, track.version_label].filter(Boolean).join(' · ');
+      info.append(title, artist);
+      const play = document.createElement('button'); play.textContent = '▶'; play.setAttribute('aria-label', 'Play ' + track.title);
+      play.addEventListener('click', () => playApprovedTrack(index));
+      row.append(art, info, play); verifiedList.append(row);
+    });
+    verifiedStatus.textContent = approvedTracks.length + ' published track(s) · rights confirmation supplied by uploader';
+  } catch (error) {
+    verifiedStatus.textContent = 'Could not load the approved catalogue. Check the Supabase function setup.';
+  }
+}
+async function playApprovedTrack(index) {
+  const track = approvedTracks[index]; if (!track) return;
+  approvedIndex = index; approvedTrackPlaying = true;
+  try {
+    const response = await fetch(DROPZY_CATALOG_FUNCTION + '?id=' + encodeURIComponent(track.id), { headers: { Accept: 'application/json' } });
+    const payload = await response.json();
+    if (!response.ok || !payload.track?.stream_url) throw new Error(payload.error || 'Track unavailable');
+    liveAudio.pause(); liveAudio.src = payload.track.stream_url; liveAudio.load();
+    document.getElementById('nowplaying').textContent = track.title || 'Now playing';
+    document.querySelector('.playerart').src = 'https://images.unsplash.com/photo-1470225620780-dba8ba36b745?auto=format&fit=crop&w=120&q=80';
+    document.querySelector('.playing small').textContent = (track.artist || 'DROPZY artist') + ' · VERIFIED';
+    playerBar.classList.add('is-playing');
+    await liveAudio.play(); playing = true; document.getElementById('playbtn').textContent = 'Ⅱ';
+    document.querySelectorAll('#verified-tracks .track').forEach((row, i) => row.classList.toggle('is-active', i === index));
+  } catch (error) {
+    approvedTrackPlaying = false;
+    verifiedStatus.textContent = 'Could not play this approved track. Please try again.';
+  }
+}
+
+const AUDIUS_API = 'https://api.audius.co/v1';
+const AUDIUS_APP = 'DROPZY';
+const liveAudio = new Audio();
+liveAudio.preload = 'none';
+let liveResults = [];
+let liveQueue = [];
+let liveIndex = -1;
+let liveSearchTimer = null;
+let selectedSongVersion = '';
+
+const liveStatus = document.getElementById('live-status');
+const liveList = document.getElementById('live-tracks');
+const liveSearch = document.getElementById('search');
+
+function textSafe(value) {
+  return String(value || '').replace(/[&<>"']/g, ch => ({
+    '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
+  }[ch]));
+}
+function audioArt(track) {
+  const art = track.artwork || {};
+  return art['480x480'] || art['150x150'] || art['1000x1000'] ||
+    'https://images.unsplash.com/photo-1470225620780-dba8ba36b745?auto=format&fit=crop&w=120&q=80';
+}
+function audioTime(seconds) {
+  if (!Number.isFinite(seconds)) return '0:00';
+  return Math.floor(seconds / 60) + ':' + String(Math.floor(seconds % 60)).padStart(2,'0');
+}
+function streamUrl(track) {
+  return AUDIUS_API + '/tracks/' + encodeURIComponent(track.id) +
+    '/stream?app_name=' + encodeURIComponent(AUDIUS_APP);
+}
+
+function renderLiveTracks(tracks) {
+  liveResults = tracks;
+  liveList.replaceChildren();
+  if (!tracks.length) {
+    liveList.innerHTML = '<div class="empty">No playable tracks found. Try another genre or search.</div>';
+    return;
+  }
+  tracks.forEach((track, index) => {
+    const row = document.createElement('div');
+    row.className = 'track';
+    const art = document.createElement('img');
+    art.className = 'cover'; art.src = audioArt(track); art.alt = ''; art.loading = 'lazy';
+    const info = document.createElement('div'); info.className = 'trackinfo';
+    const title = document.createElement('b'); title.textContent = track.title || 'Untitled track';
+    const creator = document.createElement('small');
+    creator.textContent = (track.user && track.user.name) || 'DROPZY artist';
+    info.append(title, creator);
+    const play = document.createElement('button'); play.textContent = '▶';
+    play.setAttribute('aria-label','Play ' + (track.title || 'track'));
+    play.addEventListener('click', () => playLiveTrack(index));
+    const queue = document.createElement('button'); queue.className = 'queue-btn';
+    queue.textContent = '+ Queue';
+    queue.addEventListener('click', () => {
+      liveQueue.push(track);
+      liveStatus.textContent = 'Queued · ' + liveQueue.length + ' track(s)';
+    });
+    row.append(art, info, play, queue);
+    row.addEventListener('dblclick', () => playLiveTrack(index));
+    liveList.append(row);
+  });
+}
+const LANGUAGE_SEARCH_TERMS = {
+  'India Mix': ['Hindi vocal song India', 'Punjabi vocal song India', 'Marathi vocal song India', 'Haryanvi vocal song India', 'Bhojpuri vocal song India', 'Telugu vocal song India', 'Rajasthani folk song vocals', 'Coke Studio India'],
+  Hindi: ['Hindi vocal song India', 'Hindi pop song vocals India', 'Bollywood song vocals India', 'Hindi love song India'],
+  Punjabi: ['Punjabi vocal song India', 'Punjabi pop song vocals India', 'Punjabi folk song India'],
+  Marathi: ['Marathi vocal song India', 'Marathi pop song India', 'Marathi folk song India'],
+  Haryanvi: ['Haryanvi vocal song', 'Haryanvi ragni', 'Haryanvi folk music'],
+  Bhojpuri: ['Bhojpuri vocal song India', 'Bhojpuri lok geet', 'Bhojpuri folk song'],
+  Telugu: ['Telugu vocal song India', 'Telugu film song', 'Telugu pop song India'],
+  Rajasthani: ['Rajasthani folk song vocals', 'Rajasthani lok geet', 'Rajasthani traditional song'],
+  'Coke Studio India': ['Coke Studio India official song', 'Coke Studio Bharat song'],
+  'Coke Studio Pakistan': ['Coke Studio Pakistan official song', 'Coke Studio Pakistan vocals']
+};
+function looksLikeBeatOnly(track) {
+  const title = String(track.title || '').toLowerCase();
+  const tags = String(track.tags || '').toLowerCase();
+  const text = title + ' ' + tags;
+  return /\b(type beat|instrumental only|instrumental beat|beat tape|free beat|prod\. by|loop pack|karaoke|background score)\b/.test(text) &&
+    !/\b(song|vocal|lyrics|singer|feat\.|ft\.|official audio)\b/.test(title);
+}
+async function searchAudius(term, limit = 18) {
+  const url = AUDIUS_API + '/tracks/search?query=' + encodeURIComponent(term) +
+    '&limit=' + limit + '&app_name=' + encodeURIComponent(AUDIUS_APP);
+  const response = await fetch(url, { headers: { Accept: 'application/json' } });
+  if (!response.ok) throw new Error('Audius returned ' + response.status);
+  const payload = await response.json();
+  return (payload.data || []).filter(track => track && track.id && track.title && track.is_streamable !== false);
+}
+async function loadLiveTracks(query = '') {
+  liveStatus.textContent = query ? 'Searching ' + query + ' songs…' : 'Loading trending tracks…';
+  liveList.innerHTML = '<div class="empty">Finding songs…</div>';
+  try {
+    let tracks = [];
+    if (query && LANGUAGE_SEARCH_TERMS[query]) {
+      const batches = await Promise.all(LANGUAGE_SEARCH_TERMS[query].map(term => searchAudius(term + (selectedSongVersion ? ' ' + selectedSongVersion : ''), 14)));
+      const seen = new Set();
+      tracks = batches.flat().filter(track => {
+        if (seen.has(track.id)) return false;
+        seen.add(track.id);
+        return true;
+      });
+    } else if (query) {
+      tracks = await searchAudius(query + (selectedSongVersion ? ' ' + selectedSongVersion : ''), 30);
+    } else if (selectedSongVersion) {
+      tracks = await searchAudius(selectedSongVersion + ' vocal song', 30);
+    } else {
+      const response = await fetch(AUDIUS_API + '/tracks/trending?time=week&limit=30&app_name=' + encodeURIComponent(AUDIUS_APP), {
+        headers: { Accept: 'application/json' }
+      });
+      if (!response.ok) throw new Error('Audius returned ' + response.status);
+      const payload = await response.json();
+      tracks = (payload.data || []).filter(track => track && track.id && track.title && track.is_streamable !== false);
+    }
+    const songResults = tracks.filter(track => !looksLikeBeatOnly(track));
+    renderLiveTracks(songResults);
+    liveStatus.textContent = songResults.length
+      ? songResults.length + ' vocal/song-focused results · free creator catalogue'
+      : 'No clear song matches in this search. Try another spelling or language.';
+  } catch (error) {
+    liveStatus.textContent = 'Catalog temporarily unavailable';
+    liveList.innerHTML = '<div class="empty">Could not load tracks. Check your internet and try again.</div>';
+  }
+}
+function setNowPlaying(track) {
+  document.getElementById('nowplaying').textContent = track.title || 'Now playing';
+  document.querySelector('.playerart').src = audioArt(track);
+  document.querySelector('.playing small').textContent =
+    ((track.user && track.user.name) || 'DROPZY artist') + ' · DROPZY TRACK';
+  playerBar.classList.add('is-playing');
+}
+function playLiveTrack(index) {
+  approvedTrackPlaying = false;
+  const track = liveResults[index];
+  if (!track) return;
+  liveIndex = index;
+  liveAudio.pause();
+  liveAudio.src = streamUrl(track);
+  liveAudio.load();
+  setNowPlaying(track);
+  liveAudio.play().then(() => {
+    playing = true;
+    document.getElementById('playbtn').textContent = 'Ⅱ';
+  }).catch(() => {
+    playing = false;
+    document.getElementById('playbtn').textContent = '▶';
+    liveStatus.textContent = 'Tap play again to start this track, or choose another one.';
+  });
+  document.querySelectorAll('#live-tracks .track').forEach((row, i) =>
+    row.classList.toggle('is-active', i === index)
+  );
+}
+function togglePlay() {
+  if (!liveAudio.src) {
+    if (liveResults.length) playLiveTrack(0);
+    else loadLiveTracks();
+    return;
+  }
+  if (liveAudio.paused) {
+    liveAudio.play().then(() => {
+      playing = true;
+      document.getElementById('playbtn').textContent = 'Ⅱ';
+      playerBar.classList.add('is-playing');
+    }).catch(() => {});
+  } else {
+    liveAudio.pause();
+    playing = false;
+    document.getElementById('playbtn').textContent = '▶';
+    playerBar.classList.remove('is-playing');
+  }
+}
+function skip(direction) {
+  if (approvedTrackPlaying && approvedTracks.length) {
+    const next = (approvedIndex + direction + approvedTracks.length) % approvedTracks.length;
+    playApprovedTrack(next);
+    return;
+  }
+  if (liveQueue.length && direction > 0) {
+    const nextTrack = liveQueue.shift();
+    liveResults = [nextTrack, ...liveResults.filter(track => track.id !== nextTrack.id)];
+    renderLiveTracks(liveResults);
+    playLiveTrack(0);
+    return;
+  }
+  if (!liveResults.length) return;
+  const nextIndex = (liveIndex + direction + liveResults.length) % liveResults.length;
+  playLiveTrack(nextIndex);
+}
+liveAudio.addEventListener('timeupdate', () => {
+  const percent = liveAudio.duration ? liveAudio.currentTime / liveAudio.duration * 100 : 0;
+  document.getElementById('progress').style.width = percent + '%';
+  const labels = document.querySelectorAll('.progress span');
+  if (labels.length) {
+    labels[0].textContent = audioTime(liveAudio.currentTime);
+    labels[1].textContent = audioTime(liveAudio.duration);
+  }
+});
+liveAudio.addEventListener('ended', () => skip(1));
+liveAudio.addEventListener('error', () => {
+  liveStatus.textContent = 'This track is unavailable. Please try another track.';
+  playerBar.classList.remove('is-playing');
+});
+document.querySelector('.progress .bar').addEventListener('click', event => {
+  if (!liveAudio.duration) return;
+  const bounds = event.currentTarget.getBoundingClientRect();
+  liveAudio.currentTime = Math.max(0, Math.min(1, (event.clientX - bounds.left) / bounds.width)) * liveAudio.duration;
+});
+liveSearch.addEventListener('input', event => {
+  clearTimeout(liveSearchTimer);
+  const query = event.target.value.trim();
+  liveSearchTimer = setTimeout(() => loadLiveTracks(query), 500);
+});
+liveSearch.addEventListener('keydown', event => {
+  if (event.key === 'Enter') {
+    event.preventDefault();
+    loadLiveTracks(event.target.value.trim());
+    document.getElementById('live-library').scrollIntoView({ behavior:'smooth' });
+  }
+});
+document.querySelectorAll('[data-song-version]').forEach(button => {
+  button.addEventListener('click', () => {
+    selectedSongVersion = button.dataset.songVersion || '';
+    document.querySelectorAll('[data-song-version]').forEach(item => item.classList.toggle('active', item === button));
+    const activeLanguage = document.querySelector('[data-audius-query].active');
+    loadLiveTracks(activeLanguage ? activeLanguage.dataset.audiusQuery : '');
+  });
+});
+document.querySelectorAll('[data-audius-query]').forEach(button => {
+  button.addEventListener('click', () => {
+    document.querySelectorAll('[data-audius-query]').forEach(item => item.classList.remove('active'));
+    button.classList.add('active');
+    loadLiveTracks(button.dataset.audiusQuery);
+  });
+});
+
+/* Search and artist discovery stay inside DROPZY. */
+const mainstreamInput = document.getElementById('mainstream-search');
+function searchInsideDropzy() {
+  const query = mainstreamInput.value.trim();
+  if (!query) return;
+  document.getElementById('live-library').scrollIntoView({ behavior:'smooth' });
+  loadLiveTracks(query);
+}
+document.getElementById('mainstream-go').addEventListener('click', searchInsideDropzy);
+mainstreamInput.addEventListener('keydown', event => {
+  if (event.key === 'Enter') { event.preventDefault(); searchInsideDropzy(); }
+});
+document.querySelectorAll('.artist-chip').forEach(button => {
+  button.addEventListener('click', () => {
+    const artist = button.textContent.trim();
+    mainstreamInput.value = artist;
+    document.querySelectorAll('.artist-chip').forEach(item => item.classList.toggle('active', item === button));
+    document.getElementById('live-library').scrollIntoView({ behavior:'smooth' });
+    loadLiveTracks(artist + ' songs');
+  });
+});
+loadLiveTracks('India Mix');
+loadApprovedCatalogue();
+
+/* DROPZY Library, playlists and player controls */
+const DROPZY_STORE = 'dropzy-library-v1';
+const PLAYLIST_STORE = 'dropzy-playlists-v1';
+let savedTracks = [];
+let userPlaylists = [];
+try { savedTracks = JSON.parse(localStorage.getItem(DROPZY_STORE) || '[]'); } catch(e) {}
+try { userPlaylists = JSON.parse(localStorage.getItem(PLAYLIST_STORE) || '[]'); } catch(e) {}
+const favList = document.getElementById('favorite-tracks');
+const playlistList = document.getElementById('playlist-list');
+function persistLibrary(){localStorage.setItem(DROPZY_STORE,JSON.stringify(savedTracks));localStorage.setItem(PLAYLIST_STORE,JSON.stringify(userPlaylists));}
+function isSaved(track){return savedTracks.some(item=>item.id===track.id);}
+function paintLibrary(){
+ document.getElementById('library-count').textContent=savedTracks.length+' saved song'+(savedTracks.length===1?'':'s');
+ favList.replaceChildren();
+ if(!savedTracks.length){const empty=document.createElement('div');empty.className='empty';empty.textContent='Tap the ♡ on any song to save it here.';favList.append(empty);}
+ savedTracks.forEach(track=>{
+  const row=document.createElement('div');row.className='track';
+  const art=document.createElement('img');art.className='cover';art.src=track.artwork||'';art.alt='';art.loading='lazy';
+  const info=document.createElement('div');info.className='trackinfo';
+  const title=document.createElement('b');title.textContent=track.title||'Untitled';
+  const artist=document.createElement('small');artist.textContent=(track.artist||'Independent artist')+' · Saved';
+  info.append(title,artist);
+  const play=document.createElement('button');play.textContent='▶';play.setAttribute('aria-label','Play '+title.textContent);
+  play.addEventListener('click',()=>{liveResults=[track,...liveResults.filter(t=>t.id!==track.id)];renderLiveTracks(liveResults);playLiveTrack(0);});
+  const remove=document.createElement('button');remove.className='fav-btn saved';remove.textContent='♥';remove.setAttribute('aria-label','Remove from library');
+  remove.addEventListener('click',()=>{savedTracks=savedTracks.filter(t=>t.id!==track.id);persistLibrary();paintLibrary();refreshFavButtons();});
+  row.append(art,info,play,remove);favList.append(row);
+ });
+ playlistList.replaceChildren();
+ userPlaylists.forEach((list,i)=>{const chip=document.createElement('button');chip.className='chip';chip.textContent=list.name+' · '+list.ids.length;chip.addEventListener('click',()=>{const tracks=savedTracks.filter(t=>list.ids.includes(t.id));if(tracks.length){liveResults=tracks;renderLiveTracks(tracks);document.getElementById('live-library').scrollIntoView({behavior:'smooth'});}});playlistList.append(chip);});
+}
+function toggleSaved(track){
+ if(isSaved(track))savedTracks=savedTracks.filter(item=>item.id!==track.id);
+ else savedTracks.unshift({id:track.id,title:track.title,artist:(track.user&&track.user.name)||track.artist||'Independent artist',artwork:audioArt(track)});
+ persistLibrary();paintLibrary();refreshFavButtons();
+}
+function refreshFavButtons(){
+ document.querySelectorAll('#live-tracks .track').forEach((row,i)=>{
+  const track=liveResults[i];const button=row.querySelector('.fav-btn');if(track&&button){button.textContent=isSaved(track)?'♥':'♡';button.classList.toggle('saved',isSaved(track));}
+ });
+}
+const baseRenderLiveTracks=renderLiveTracks;
+renderLiveTracks=function(tracks){
+ baseRenderLiveTracks(tracks);
+ document.querySelectorAll('#live-tracks .track').forEach((row,i)=>{
+  const track=tracks[i];if(!track||row.querySelector('.fav-btn'))return;
+  const fav=document.createElement('button');fav.className='fav-btn'+(isSaved(track)?' saved':'');fav.textContent=isSaved(track)?'♥':'♡';
+  fav.setAttribute('aria-label',isSaved(track)?'Remove from library':'Add to library');
+  fav.addEventListener('click',()=>toggleSaved(track));row.append(fav);
+ });
+};
+document.getElementById('create-playlist').addEventListener('click',()=>{
+ const name=prompt('Playlist name?');if(!name||!name.trim())return;
+ userPlaylists.push({name:name.trim().slice(0,40),ids:savedTracks.map(t=>t.id)});persistLibrary();paintLibrary();
+});
+paintLibrary();
+let shuffleEnabled=false,repeatEnabled=false;
+document.getElementById('shuffle-btn').addEventListener('click',e=>{shuffleEnabled=!shuffleEnabled;e.currentTarget.classList.toggle('active',shuffleEnabled);e.currentTarget.setAttribute('aria-pressed',String(shuffleEnabled));});
+document.getElementById('repeat-btn').addEventListener('click',e=>{repeatEnabled=!repeatEnabled;e.currentTarget.classList.toggle('active',repeatEnabled);e.currentTarget.setAttribute('aria-pressed',String(repeatEnabled));});
+document.getElementById('volume-control').addEventListener('input',e=>{liveAudio.volume=Number(e.target.value);});
+const baseSkipWithQueue=skip;
+skip=function(direction){
+ if(direction>0&&repeatEnabled&&liveAudio.src){if(approvedTrackPlaying&&approvedIndex>=0){playApprovedTrack(approvedIndex);}else if(liveIndex>=0){playLiveTrack(liveIndex);}return;}
+ if(direction>0&&shuffleEnabled&&liveResults.length>1&&!approvedTrackPlaying){let next=Math.floor(Math.random()*liveResults.length);if(next===liveIndex)next=(next+1)%liveResults.length;playLiveTrack(next);return;}
+ baseSkipWithQueue(direction);
+};
+liveAudio.volume=1;
+document.querySelectorAll('.mobile-dock a').forEach(link=>link.classList.toggle('active',link.dataset.pageLink===document.body.dataset.page));
+
+</script></body></html>
