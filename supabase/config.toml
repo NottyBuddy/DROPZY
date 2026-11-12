@@ -1,0 +1,2 @@
+[functions.dropzy-catalog]
+verify_jwt = false
