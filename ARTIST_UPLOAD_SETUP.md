@@ -17,6 +17,8 @@ The artist portal is `artist-upload.html`. Artist uploads remain private and pen
 7. In Supabase Auth, set the allowed site URL and email confirmation settings.
 8. Assign the DROPZY reviewer role only to a trusted administrator using Supabase Auth user app_metadata `{"role":"admin"}`. Do not allow ordinary users to edit app_metadata.
 9. Open `/artist-upload.html`, create an artist account and test a private submission.
+10. Put the deployed function URL (`https://<project-ref>.supabase.co/functions/v1/dropzy-catalog`) in `index.html` as `DROPZY_CATALOG_FUNCTION`.
+11. Put the same Supabase URL and anon key in `admin-review.html` to enable the private review dashboard.
 
 ## Review and rights checks
 
@@ -26,7 +28,7 @@ The artist portal is `artist-upload.html`. Artist uploads remain private and pen
 - Artists can attach private rights evidence. Verify the master recording AND composition, samples, contributors, territories, licence term, attribution and derivative/remix rights before approval.
 - A cover, slowed/reverb edit, remix, reply version or male/female re-recording is not automatically cleared just because the uploader made the edit. Check the underlying composition and any original recording used.
 - Mainstream label/film songs require direct written agreements from the relevant rights holders. Being available on YouTube, Spotify, Apple Music, Gaana, Hungama or JioSaavn does not grant DROPZY permission to copy or host the audio.
-- Admin review is done by POSTing to the Edge Function with a valid administrator JWT and a pending submission id. Use status `approved` or `rejected`; `taken_down` is available for later takedowns.
+- Admin review is available at `/admin-review.html` after configuring its public Supabase URL and anon key. The dashboard requires a signed-in user whose Supabase Auth app_metadata role is `admin`. Use status `approved` or `rejected`; `taken_down` is available for later takedowns.
 - The public GET catalogue endpoint returns approved metadata only. GET with `?id=<submission-id>` returns a short-lived signed stream URL only when the track is approved.
 
 ## Edge Function deployment
