@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#08080d">
+<title>DROPZY — Artist Upload</title>
+<style>
+:root{color-scheme:dark;--bg:#08080d;--panel:#14131d;--line:#30283d;--pink:#ff3d9a;--violet:#875cff;--muted:#aaa5b8}
+*{box-sizing:border-box}body{margin:0;min-height:100vh;background:radial-gradient(ellipse at 80% 0%,#572a7038,transparent 38%),var(--bg);color:#f8f6fc;font:15px system-ui,sans-serif}
+main{width:min(720px,92%);margin:45px auto 90px}.brand{font-size:27px;font-weight:900;letter-spacing:-1.5px}.brand span{color:var(--pink)}
+a{color:#ff80bd}.intro{margin:34px 0 24px}.eyebrow{color:#ff80bd;font-size:11px;font-weight:800;letter-spacing:2px}.intro h1{font-size:clamp(34px,7vw,52px);line-height:1.02;letter-spacing:-2px;margin:12px 0}.intro p,.hint{color:var(--muted);line-height:1.65}
+.panel{background:#14131ddd;border:1px solid var(--line);border-radius:22px;padding:25px;margin:18px 0;box-shadow:0 18px 55px #0005}
+label{display:block;font-size:12px;font-weight:700;margin:15px 0 7px}
+input,select{width:100%;background:#0c0b12;border:1px solid #393247;color:white;border-radius:11px;padding:13px;font:inherit;outline:none}
+input:focus,select:focus{border-color:var(--pink)}input[type=file]{padding:10px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.check{display:flex;gap:10px;align-items:flex-start;margin:17px 0;color:#d7d2df;font-size:12px;line-height:1.55}.check input{width:auto;margin-top:3px}
+button{border:0;border-radius:24px;padding:13px 19px;font-weight:800;background:linear-gradient(100deg,var(--pink),var(--violet));color:white;cursor:pointer;margin-top:10px}
+button.secondary{background:#ffffff12;border:1px solid #ffffff2b}.row{display:flex;gap:10px;flex-wrap:wrap}.status{font-size:13px;color:#ff9ccc;min-height:22px;margin-top:12px}.hidden{display:none!important}
+.notice{font-size:12px;color:#c5bfd0;background:#ffffff08;border:1px solid #ffffff14;padding:14px;border-radius:12px;line-height:1.6}
+@media(max-width:540px){.grid{grid-template-columns:1fr}.panel{padding:19px}}
+</style>
+</head>
+<body><main>
+<a href="./" style="text-decoration:none;color:inherit"><div class="brand">DROP<span>ZY</span></div></a>
+<section class="intro"><div class="eyebrow">INDIA'S MUSIC, FROM THE ARTISTS</div><h1>Your music.<br><span style="color:#ff70b5">Your DROPZY stage.</span></h1><p>Submit original recordings in any Indian language. Every submission is reviewed before it can appear in the DROPZY catalogue. Only tracks with verified streaming rights are approved.</p></section>
+<div class="notice">This is an artist-submission portal, not an instant public upload. Do not submit film, label, cover, remix or other third-party recordings unless you have written permission for every right needed. Your audio remains private while it is reviewed.</div>
+<section class="panel" id="auth-panel"><h2>Artist account</h2><p class="hint">Create an account or sign in to submit your original music.</p>
+<label>Email</label><input id="email" type="email" autocomplete="email" placeholder="you@example.com">
+<label>Password</label><input id="password" type="password" autocomplete="current-password" minlength="8" placeholder="At least 8 characters">
+<div class="row"><button id="signup">Create account</button><button id="login" class="secondary">Sign in</button><button id="logout" class="secondary hidden">Sign out</button></div><div id="auth-status" class="status" aria-live="polite"></div>
+</section>
+<section class="panel hidden" id="upload-panel"><h2>Submit a song</h2>
+<form id="song-form">
+<label>Song title</label><input name="title" required maxlength="160" placeholder="Track title">
+<div class="grid"><div><label>Artist / stage name</label><input name="artist" required maxlength="120"></div><div><label>Language</label><select name="language" required><option value="">Choose language</option><option>Hindi</option><option>Punjabi</option><option>Marathi</option><option>Haryanvi</option><option>Bhojpuri</option><option>Bengali</option><option>Tamil</option><option>Telugu</option><option>Malayalam</option><option>Kannada</option><option>Gujarati</option><option>Assamese</option><option>Odia</option><option>Kashmiri</option><option>Rajasthani</option><option>Urdu</option><option>Other Indian language</option><option>English</option><option>Other</option></select></div></div>
+<label>Genre</label><input name="genre" maxlength="80" placeholder="Pop, folk, hip-hop, devotional…">
+<label>Audio file (MP3, WAV, M4A, FLAC · max 100 MB)</label><input name="audio" type="file" accept="audio/mpeg,audio/wav,audio/mp4,audio/flac,.mp3,.wav,.m4a,.flac" required>
+<label>Rights / ownership note</label><input name="rights_note" required maxlength="1000" placeholder="Explain why you control the master and composition rights">
+<label class="check"><input name="rights" type="checkbox" required><span>I confirm I own or control all rights needed to grant DROPZY a worldwide, non-exclusive licence to host and stream this recording on demand. I have permission from every relevant contributor and rights holder, and I can provide proof if asked.</span></label>
+<label class="check"><input name="approval" type="checkbox" required><span>I understand this song stays private until DROPZY reviews and approves it. I agree to provide accurate credits and respond to rights checks or takedown requests.</span></label>
+<button type="submit" id="submit-song">Send for review</button><div id="upload-status" class="status" aria-live="polite"></div>
+</form></section>
+<p class="hint" style="text-align:center;font-size:12px">DROPZY · Artist submissions are reviewed manually.</p>
+</main>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+/* Configure only with a project's public URL and anon key. Never put a service-role key here. */
+const DROPZY_SUPABASE_URL = 'YOUR_SUPABASE_PROJECT_URL';
+const DROPZY_SUPABASE_ANON_KEY = 'YOUR_SUPABASE_ANON_KEY';
+const configured = DROPZY_SUPABASE_URL.startsWith('https://') && !DROPZY_SUPABASE_URL.includes('YOUR_') && !DROPZY_SUPABASE_ANON_KEY.includes('YOUR_');
+const authStatus=document.getElementById('auth-status'),uploadStatus=document.getElementById('upload-status');
+const authPanel=document.getElementById('auth-panel'),uploadPanel=document.getElementById('upload-panel');
+let client=null,currentUser=null;
+function message(el,text){el.textContent=text}
+function showSession(user){currentUser=user;uploadPanel.classList.toggle('hidden',!user);document.getElementById('logout').classList.toggle('hidden',!user);document.getElementById('signup').classList.toggle('hidden',!!user);document.getElementById('login').classList.toggle('hidden',!!user);message(authStatus,user?'Signed in as '+user.email:'');}
+if(configured && window.supabase){client=window.supabase.createClient(DROPZY_SUPABASE_URL,DROPZY_SUPABASE_ANON_KEY);client.auth.getSession().then(({data})=>showSession(data.session?.user||null));client.auth.onAuthStateChange((_event,session)=>showSession(session?.user||null));}
+else{message(authStatus,'Portal UI is ready. Secure storage is not connected yet; project setup is required before artists can upload.');}
+async function auth(kind){if(!client)return message(authStatus,'Secure upload is not connected yet.');const email=document.getElementById('email').value.trim(),password=document.getElementById('password').value;if(!email||password.length<8)return message(authStatus,'Enter a valid email and password (8+ characters).');message(authStatus,'Please wait…');const result=kind==='signup'?await client.auth.signUp({email,password}):await client.auth.signInWithPassword({email,password});if(result.error)return message(authStatus,result.error.message);if(kind==='signup'&&!result.data.session)message(authStatus,'Check your email to confirm your artist account, then sign in.');else message(authStatus,'Account ready.');}
+document.getElementById('signup').addEventListener('click',()=>auth('signup'));document.getElementById('login').addEventListener('click',()=>auth('login'));
+document.getElementById('logout').addEventListener('click',async()=>{await client?.auth.signOut();showSession(null);});
+document.getElementById('song-form').addEventListener('submit',async event=>{event.preventDefault();if(!client||!currentUser)return message(uploadStatus,'Sign in after secure storage is connected.');const form=event.currentTarget,data=new FormData(form),file=data.get('audio');if(!file||!file.size)return message(uploadStatus,'Choose an audio file.');if(file.size>100*1024*1024)return message(uploadStatus,'Audio file must be 100 MB or smaller.');const allowed=['audio/mpeg','audio/wav','audio/x-wav','audio/mp4','audio/flac',''];if(!allowed.includes(file.type))return message(uploadStatus,'Use MP3, WAV, M4A or FLAC audio.');const id=crypto.randomUUID(),ext=(file.name.split('.').pop()||'audio').toLowerCase().replace(/[^a-z0-9]/g,'');const path=currentUser.id+'/'+id+'.'+ext;const button=document.getElementById('submit-song');button.disabled=true;message(uploadStatus,'Uploading privately…');try{const uploaded=await client.storage.from('artist-submissions').upload(path,file,{contentType:file.type||'application/octet-stream',upsert:false});if(uploaded.error)throw uploaded.error;const inserted=await client.from('song_submissions').insert({user_id:currentUser.id,title:String(data.get('title')).trim(),artist:String(data.get('artist')).trim(),language:String(data.get('language')),genre:String(data.get('genre')||''),storage_path:path,original_filename:file.name,rights_note:String(data.get('rights_note')).trim(),rights_confirmed:true,status:'pending'});if(inserted.error){await client.storage.from('artist-submissions').remove([path]);throw inserted.error;}form.reset();message(uploadStatus,'Submitted successfully. Your recording is private and pending DROPZY review.');}catch(error){message(uploadStatus,error.message||'Upload failed. Please try again.');}finally{button.disabled=false;}});
+</script>
+</body></html>
