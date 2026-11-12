@@ -1,14 +1,28 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 300" role="img" aria-labelledby="title desc">
-<title id="title">DROPZY Music Forever</title><desc id="desc">A crimson and ivory D emblem with play symbol, orbital ring, headphones and sound waves, followed by DROPZY wordmark.</desc>
-<defs><linearGradient id="red" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#fff4ed"/><stop offset=".36" stop-color="#e34a5d"/><stop offset="1" stop-color="#8c0b24"/></linearGradient><linearGradient id="ivory" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#fffaf5"/><stop offset="1" stop-color="#d9c9c2"/></linearGradient></defs>
-<g fill="none" stroke="#c1122f" stroke-linecap="round" opacity=".9"><path stroke-width="9" d="M18 122v42m22-66v90m22-115v140m22-98v56m22-39v22"/><path stroke-width="9" d="M410 122v42m22-66v90m22-115v140m22-98v56m22-39v22"/></g>
-<g transform="translate(78 8)">
-<path d="M170 30a105 105 0 0 1 210 0" fill="none" stroke="url(#red)" stroke-width="14" stroke-linecap="round"/>
-<path d="M160 62h160q73 0 73 75v65q0 75-73 75H160V62z" fill="url(#red)" stroke="#f7f0eb" stroke-opacity=".65" stroke-width="4"/>
-<path d="M230 118l0 100 84-50z" fill="#090708" stroke="#f7f0eb" stroke-width="7" stroke-linejoin="round"/>
-<path d="M126 211c61-91 208-130 310-80-43 9-82 29-112 56-66 60-137 72-198 48z" fill="none" stroke="url(#ivory)" stroke-width="13" stroke-linecap="round"/>
-<path d="M358 62q45 0 45 47v52q0 47-45 47" fill="none" stroke="#c1122f" stroke-width="17" stroke-linecap="round"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600" role="img" aria-labelledby="t d">
+<title id="t">DROPZY DZ Headphone Logo</title><desc id="d">White headphones and headset microphone surrounding DZ letters, with red play symbol and audio waveform on black.</desc>
+<defs>
+ <filter id="glow" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="7" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+ <linearGradient id="red" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#ff4052"/><stop offset="1" stop-color="#b50925"/></linearGradient>
+</defs>
+<g fill="none" stroke="#f7f0eb" stroke-linecap="round" stroke-linejoin="round">
+ <path d="M105 286V246a195 195 0 0 1 390 0v40" stroke-width="29"/>
+ <path d="M110 292v118c0 24 18 42 42 42h0c24 0 42-18 42-42V302c0-24-18-42-42-42h0c-24 0-42 14-42 32z" fill="#f7f0eb" stroke="none"/>
+ <path d="M406 302v108c0 24 18 42 42 42h0c24 0 42-18 42-42V302c0-24-18-42-42-42h0c-24 0-42 14-42 42z" fill="#f7f0eb" stroke="none"/>
+ <path d="M448 440c-5 65-62 102-148 105" stroke-width="10"/>
+ <path d="M299 545h-58c-15 0-25-10-25-23v-8c0-13 10-23 25-23h60c15 0 25 10 25 23v8c0 13-12 23-27 23z" fill="#f7f0eb" stroke="none"/>
 </g>
-<text x="555" y="164" font-family="Arial,sans-serif" font-size="112" font-weight="900" letter-spacing="-7" fill="url(#ivory)">DROPZY</text>
-<text x="580" y="220" font-family="Arial,sans-serif" font-size="24" letter-spacing="13" fill="#c1122f">MUSIC  •  FOREVER</text>
+<g fill="none" stroke="#f7f0eb" stroke-width="7" stroke-linecap="round" stroke-linejoin="round">
+ <path d="M78 230h31l12-55 18 94 19-68 16 29h28"/>
+ <path d="M398 230h28l14-55 17 94 18-68 15 29h28"/>
+</g>
+<g filter="url(#glow)">
+ <path d="M300 126a67 67 0 1 0 67 67" fill="none" stroke="url(#red)" stroke-width="17" stroke-linecap="round"/>
+ <path d="M286 158c-9-6-21 1-21 12v49c0 11 12 18 21 12l39-25c9-6 9-18 0-24z" fill="url(#red)"/>
+</g>
+<path d="M196 290c-22 0-35 14-35 35v64c0 21 13 35 35 35h34v-35h-30v-18h25v-31h-25v-15h30v-35z" fill="#ed1b2f"/>
+<path d="M235 290h37c34 0 55 23 55 67s-21 67-55 67h-37V290zm36 34v66c13 0 20-10 20-33s-7-33-20-33z" fill="#f7f0eb"/>
+<path d="M344 290h71v31l-37 68h37v35h-78v-31l38-68h-31z" fill="#ed1b2f"/>
+<path d="M349 297h60l-48 85h46" fill="none" stroke="#f7f0eb" stroke-width="8" stroke-linejoin="round"/>
+<path d="M190 290c-10 0-18 8-18 18v92c0 10 8 18 18 18" fill="none" stroke="#f7f0eb" stroke-width="9"/>
+<path d="M410 290c10 0 18 8 18 18v92c0 10-8 18-18 18" fill="none" stroke="#f7f0eb" stroke-width="9"/>
 </svg>
