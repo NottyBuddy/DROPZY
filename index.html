@@ -136,9 +136,7 @@ function streamUrl(track) {
   return AUDIUS_API + '/tracks/' + encodeURIComponent(track.id) +
     '/stream?app_name=' + encodeURIComponent(AUDIUS_APP);
 }
-function creatorUrl(track) {
-  return track.permalink ? 'https://audius.co' + track.permalink : 'https://audius.co';
-}
+
 function renderLiveTracks(tracks) {
   liveResults = tracks;
   liveList.replaceChildren();
@@ -232,7 +230,7 @@ function setNowPlaying(track) {
   document.getElementById('nowplaying').textContent = track.title || 'Now playing';
   document.querySelector('.playerart').src = audioArt(track);
   document.querySelector('.playing small').textContent =
-    ((track.user && track.user.name) || 'Audius creator') + ' · DROPZY TRACK';
+    ((track.user && track.user.name) || 'DROPZY artist') + ' · DROPZY TRACK';
   playerBar.classList.add('is-playing');
 }
 function playLiveTrack(index) {
