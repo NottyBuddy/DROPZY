@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 300" role="img" aria-labelledby="title desc">
+<title id="title">DROPZY Music Forever</title><desc id="desc">A crimson and ivory D emblem with play symbol, orbital ring, headphones and sound waves, followed by DROPZY wordmark.</desc>
+<defs><linearGradient id="red" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#fff4ed"/><stop offset=".36" stop-color="#e34a5d"/><stop offset="1" stop-color="#8c0b24"/></linearGradient><linearGradient id="ivory" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#fffaf5"/><stop offset="1" stop-color="#d9c9c2"/></linearGradient></defs>
+<g fill="none" stroke="#c1122f" stroke-linecap="round" opacity=".9"><path stroke-width="9" d="M18 122v42m22-66v90m22-115v140m22-98v56m22-39v22"/><path stroke-width="9" d="M410 122v42m22-66v90m22-115v140m22-98v56m22-39v22"/></g>
+<g transform="translate(78 8)">
+<path d="M170 30a105 105 0 0 1 210 0" fill="none" stroke="url(#red)" stroke-width="14" stroke-linecap="round"/>
+<path d="M160 62h160q73 0 73 75v65q0 75-73 75H160V62z" fill="url(#red)" stroke="#f7f0eb" stroke-opacity=".65" stroke-width="4"/>
+<path d="M230 118l0 100 84-50z" fill="#090708" stroke="#f7f0eb" stroke-width="7" stroke-linejoin="round"/>
+<path d="M126 211c61-91 208-130 310-80-43 9-82 29-112 56-66 60-137 72-198 48z" fill="none" stroke="url(#ivory)" stroke-width="13" stroke-linecap="round"/>
+<path d="M358 62q45 0 45 47v52q0 47-45 47" fill="none" stroke="#c1122f" stroke-width="17" stroke-linecap="round"/>
+</g>
+<text x="555" y="164" font-family="Arial,sans-serif" font-size="112" font-weight="900" letter-spacing="-7" fill="url(#ivory)">DROPZY</text>
+<text x="580" y="220" font-family="Arial,sans-serif" font-size="24" letter-spacing="13" fill="#c1122f">MUSIC  •  FOREVER</text>
+</svg>
