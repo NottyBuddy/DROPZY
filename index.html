@@ -92,6 +92,14 @@ body:before{content:"";position:fixed;inset:-25%;z-index:-2;pointer-events:none;
   <div class="sub">Tracks play in the DROPZY player. Only recordings cleared for streaming can be added to the full DROPZY catalogue.</div>
  </div>
 </section>
+<section class="section" id="verified-catalogue">
+ <div class="sectiontop"><div><h2>DROPZY VERIFIED CATALOGUE <span style="color:#ff6caf">✦</span></h2><div class="sub">Only artist submissions approved after rights review</div></div><span class="eyebrow">RIGHTS-CHECKED</span></div>
+ <div class="mixbox" style="grid-template-columns:1fr;gap:12px">
+  <div class="sub" id="verified-status" aria-live="polite">Approved catalogue setup is required before verified tracks can appear.</div>
+  <div class="tracklist" id="verified-tracks"><div class="empty">No verified catalogue is connected yet.</div></div>
+  <div class="sub">Artists can submit music through <a href="artist-upload.html" style="color:#ff80bd">Artist Upload</a>. Pending tracks stay private; approved tracks stream inside DROPZY using short-lived private URLs.</div>
+ </div>
+</section>
 <div class="notice">DROPZY is free to use. Music plays inside the DROPZY player.</div></main><footer class="player"><img class="playerart" src="https://images.unsplash.com/photo-1519608487953-e999c86e7455?auto=format&fit=crop&w=120&q=80"><div class="playing"><b id="nowplaying">Choose your next sound</b><small>DROPZY PLAYER</small></div><div class="controls"><button onclick="skip(-1)">⏮</button><button class="big" id="playbtn" onclick="togglePlay()">▶</button><button onclick="skip(1)">⏭</button></div><div class="progress"><span>0:00</span><div class="bar"><i id="progress"></i></div><span>3:24</span></div></footer><script>
 const demoTracks=['After Hours — DROPZY Edit','Midnight Bounce — Club Edit','Dil Se Flip — Desi Mix'];let current=0,playing=false,mixCount=2;const $=s=>document.querySelector(s);function playTrack(name){current=Math.max(0,demoTracks.indexOf(name));$('#nowplaying').textContent=name;playing=true;$('#playbtn').textContent='Ⅱ';$('#progress').style.width='35%'}function togglePlay(){if(!$('#nowplaying').textContent.includes('Choose'))playing=!playing;else playTrack(demoTracks[0]);$('#playbtn').textContent=playing?'Ⅱ':'▶'}function skip(n){current=(current+n+demoTracks.length)%demoTracks.length;playTrack(demoTracks[current])}function setMix(n,b){mixCount=n;document.querySelectorAll('.chip').forEach(x=>x.classList.remove('active'));b.classList.add('active');$('#mixstatus').textContent=n+' tracks selected. Preview the sequence when ready.'}function previewMix(){$('#mixstatus').textContent='Mix flow: '+demoTracks.slice(0,mixCount).join(' → ')+' · Demo sequence only';playTrack(demoTracks[0])}$('#search').addEventListener('input',e=>{const q=e.target.value.toLowerCase();document.querySelectorAll('[data-search]').forEach(el=>el.classList.toggle('hidden',!el.dataset.search.includes(q)))});for(let i=0;i<42;i++){const b=document.createElement('i');b.style.setProperty('--h',(8+Math.random()*34)+'px');$('#wave').append(b)}
 
@@ -119,6 +127,65 @@ const rippleStyle=document.createElement('style');rippleStyle.textContent='@keyf
 
 
 /* DROPZY in-page music player */
+const DROPZY_CATALOG_FUNCTION = 'YOUR_SUPABASE_FUNCTION_URL';
+let approvedTracks = [];
+let approvedIndex = -1;
+let approvedTrackPlaying = false;
+const verifiedStatus = document.getElementById('verified-status');
+const verifiedList = document.getElementById('verified-tracks');
+async function loadApprovedCatalogue() {
+  if (!DROPZY_CATALOG_FUNCTION.startsWith('https://') || DROPZY_CATALOG_FUNCTION.includes('YOUR_')) {
+    verifiedStatus.textContent = 'Rights-cleared catalogue backend is not configured yet. Artist uploads remain disabled until Supabase setup is completed.';
+    return;
+  }
+  verifiedStatus.textContent = 'Loading approved tracks…';
+  try {
+    const response = await fetch(DROPZY_CATALOG_FUNCTION, { headers: { Accept: 'application/json' } });
+    if (!response.ok) throw new Error('Catalogue service unavailable');
+    const payload = await response.json();
+    approvedTracks = payload.tracks || [];
+    verifiedList.replaceChildren();
+    if (!approvedTracks.length) {
+      verifiedList.innerHTML = '<div class="empty">No approved songs yet. Artists can submit original music for rights review.</div>';
+      verifiedStatus.textContent = '0 approved tracks · new submissions appear after manual rights review';
+      return;
+    }
+    approvedTracks.forEach((track, index) => {
+      const row = document.createElement('div'); row.className = 'track';
+      const art = document.createElement('div'); art.className = 'cover'; art.style.cssText = 'display:grid;place-items:center;background:linear-gradient(135deg,#ff3d9a,#875cff);font-weight:900'; art.textContent = 'D';
+      const info = document.createElement('div'); info.className = 'trackinfo';
+      const title = document.createElement('b'); title.textContent = track.title || 'Untitled';
+      const artist = document.createElement('small'); artist.textContent = [track.artist, track.language, track.version_label].filter(Boolean).join(' · ');
+      info.append(title, artist);
+      const play = document.createElement('button'); play.textContent = '▶'; play.setAttribute('aria-label', 'Play ' + track.title);
+      play.addEventListener('click', () => playApprovedTrack(index));
+      row.append(art, info, play); verifiedList.append(row);
+    });
+    verifiedStatus.textContent = approvedTracks.length + ' approved track(s) · reviewed before listing';
+  } catch (error) {
+    verifiedStatus.textContent = 'Could not load the approved catalogue. Check the Supabase function setup.';
+  }
+}
+async function playApprovedTrack(index) {
+  const track = approvedTracks[index]; if (!track) return;
+  approvedIndex = index; approvedTrackPlaying = true;
+  try {
+    const response = await fetch(DROPZY_CATALOG_FUNCTION + '?id=' + encodeURIComponent(track.id), { headers: { Accept: 'application/json' } });
+    const payload = await response.json();
+    if (!response.ok || !payload.track?.stream_url) throw new Error(payload.error || 'Track unavailable');
+    liveAudio.pause(); liveAudio.src = payload.track.stream_url; liveAudio.load();
+    document.getElementById('nowplaying').textContent = track.title || 'Now playing';
+    document.querySelector('.playerart').src = 'https://images.unsplash.com/photo-1470225620780-dba8ba36b745?auto=format&fit=crop&w=120&q=80';
+    document.querySelector('.playing small').textContent = (track.artist || 'DROPZY artist') + ' · VERIFIED';
+    playerBar.classList.add('is-playing');
+    await liveAudio.play(); playing = true; document.getElementById('playbtn').textContent = 'Ⅱ';
+    document.querySelectorAll('#verified-tracks .track').forEach((row, i) => row.classList.toggle('is-active', i === index));
+  } catch (error) {
+    approvedTrackPlaying = false;
+    verifiedStatus.textContent = 'Could not play this approved track. Please try again.';
+  }
+}
+
 const AUDIUS_API = 'https://api.audius.co/v1';
 const AUDIUS_APP = 'DROPZY';
 const liveAudio = new Audio();
@@ -300,6 +367,11 @@ function togglePlay() {
   }
 }
 function skip(direction) {
+  if (approvedTrackPlaying && approvedTracks.length) {
+    const next = (approvedIndex + direction + approvedTracks.length) % approvedTracks.length;
+    playApprovedTrack(next);
+    return;
+  }
   if (liveQueue.length && direction > 0) {
     const nextTrack = liveQueue.shift();
     liveResults = [nextTrack, ...liveResults.filter(track => track.id !== nextTrack.id)];
@@ -380,4 +452,5 @@ document.querySelectorAll('.artist-chip').forEach(button => {
   });
 });
 loadLiveTracks();
+loadApprovedCatalogue();
 </script></body></html>
