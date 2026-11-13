@@ -290,7 +290,28 @@ main.wrap,.wrap{width:100%;max-width:1180px;margin-inline:auto;padding-left:clam
 }
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
 </style>
-</head><body><div class="dropzy-video-bg" aria-hidden="true"><video autoplay muted loop playsinline preload="auto"><source src="https://raw.githubusercontent.com/NottyBuddy/DROPZY/main/Anime-bg.mp4" type="video/mp4"></video></div><div class="dropzy-video-shade" aria-hidden="true"></div><main class="wrap"><header class="top"><a class="brand" href="listen.html"><img src="assets/dropzy-logo.svg" alt="DROPZY DZ"></a><a class="back" href="listen.html">← Back to DROPZY</a></header>
+<style id="dropzy-fixed-dock-v4">
+/* Fixed viewport layers: keep 3D effects on cards, never on the page root */
+html{perspective:none!important;transform:none!important;filter:none!important}
+body{transform:none!important;filter:none!important;perspective:none!important;padding-bottom:170px!important}
+.mobile-dock{position:fixed!important;left:12px!important;right:12px!important;bottom:max(10px,env(safe-area-inset-bottom))!important;top:auto!important;transform:none!important;width:auto!important;max-width:620px!important;margin-inline:auto!important;min-height:54px!important;z-index:10002!important;display:flex!important;align-items:center!important;justify-content:space-around!important;gap:4px!important}
+.mobile-dock a{flex:1 1 0!important;min-width:0!important;display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;gap:3px!important}
+.player{position:fixed!important;left:0!important;right:0!important;bottom:max(72px,calc(64px + env(safe-area-inset-bottom)))!important;top:auto!important;transform:none!important;width:100%!important;max-width:none!important;min-height:64px!important;z-index:10001!important}
+@media(max-width:700px){
+ body{padding-bottom:156px!important}
+ main.wrap,.wrap{padding-bottom:165px!important}
+ .mobile-dock{left:10px!important;right:10px!important;width:auto!important;max-width:none!important;min-height:56px!important;padding:6px 7px!important;border-radius:17px!important}
+ .player{min-height:64px!important;padding:8px 11px calc(8px + env(safe-area-inset-bottom))!important;grid-template-columns:minmax(0,1fr) auto!important;gap:8px!important;border-radius:16px 16px 0 0!important}
+ .player .playing{min-width:0!important}
+ .player .playing b{display:block!important;max-width:42vw!important;overflow:hidden!important;text-overflow:ellipsis!important;white-space:nowrap!important}
+ .player .controls{display:flex!important;align-items:center!important;gap:7px!important;margin:0!important}
+ .player .controls button{width:30px!important;height:30px!important}
+ .player .controls .big{width:40px!important;height:40px!important}
+ .player .progress,.player-extra{display:none!important}
+ .notice{padding-bottom:150px!important}
+}
+@media(prefers-reduced-motion:reduce){.mobile-dock,.player{transition:none!important}}
+</style></head><body><div class="dropzy-video-bg" aria-hidden="true"><video autoplay muted loop playsinline preload="auto"><source src="https://raw.githubusercontent.com/NottyBuddy/DROPZY/main/Anime-bg.mp4" type="video/mp4"></video></div><div class="dropzy-video-shade" aria-hidden="true"></div><main class="wrap"><header class="top"><a class="brand" href="listen.html"><img src="assets/dropzy-logo.svg" alt="DROPZY DZ"></a><a class="back" href="listen.html">← Back to DROPZY</a></header>
 <section class="panel"><div class="eyebrow">OFFICIAL PLAYER CONNECTION</div><h1>Play a track link.</h1><p>Paste a public YouTube video, Spotify track/album/playlist, or Apple Music song/album link. It will play here through that platform's official embedded player.</p>
 <div class="providers"><button type="button" data-provider="youtube" class="active">YouTube</button><button type="button" data-provider="spotify">Spotify</button><button type="button" data-provider="apple">Apple Music</button></div>
 <form id="form"><div class="field"><input id="url" type="url" required placeholder="Paste a public music link here"><button type="submit">LOAD PLAYER</button></div></form>
