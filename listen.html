@@ -145,7 +145,7 @@ header{margin-left:0!important}
 .mobile-dock a span{font-size:18px;line-height:1}
 .mobile-dock a.active{color:#f7f0eb;background:#c1122f12}
 .player{left:0!important}
-body[data-page="listen"] #scenes,body[data-page="listen"] #mainstream,body[data-page="listen"] #mixlab,body[data-page="listen"] #live-library,body[data-page="listen"] #your-library{display:none!important}
+body[data-page="listen"] #discover,body[data-page="listen"] #scenes,body[data-page="listen"] #mainstream,body[data-page="listen"] #mixlab,body[data-page="listen"] #your-library{display:none!important}body[data-page="listen"] #live-library{display:block!important}
 body[data-page="browse"] .hero,body[data-page="browse"] #discover,body[data-page="browse"] #mixlab,body[data-page="browse"] #live-library,body[data-page="browse"] #your-library{display:none!important}
 body[data-page="radio"] .hero,body[data-page="radio"] #discover,body[data-page="radio"] #scenes,body[data-page="radio"] #mainstream,body[data-page="radio"] #live-library,body[data-page="radio"] #your-library{display:none!important}
 body[data-page="search"] .hero,body[data-page="search"] #discover,body[data-page="search"] #scenes,body[data-page="search"] #mainstream,body[data-page="search"] #mixlab,body[data-page="search"] #your-library{display:none!important}
@@ -624,6 +624,7 @@ main.wrap,.wrap{padding-bottom:145px!important}
 <section class="section" id="live-library">
  <div class="sectiontop"><div><h2>DROPZY LIVE <span style="color:#ff6caf">●</span></h2><div class="sub">Hindi • Punjabi • Marathi • Bhojpuri • Bengali • Tamil • Telugu • Malayalam • Kannada • Gujarati • Assamese • Odia • Haryanvi • English</div></div><span class="eyebrow">DROPZY PLAYER</span></div>
  <div class="mixbox" style="grid-template-columns:1fr;gap:14px">
+  <div style="display:flex;gap:10px;flex-wrap:wrap"><input id="audius-song-search" class="search" style="flex:1;min-width:190px" placeholder="Search songs or singers · Audius" aria-label="Search Audius songs"><button class="btn primary" id="audius-song-search-btn" type="button">SEARCH SONGS</button></div>
   <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap"><div><div class="eyebrow">LANGUAGE-FIRST SONG SEARCH</div><h3 style="margin:7px 0 0">Find actual songs, not just beats.</h3></div><span id="live-status" class="sub" aria-live="polite">Loading live tracks…</span></div>
   <div class="mixcontrols" aria-label="Browse Indian songs and Coke Studio"><button class="chip active" type="button" data-audius-query="India Mix">INDIA MIX</button><button class="chip" type="button" data-audius-query="Hindi">HINDI</button><button class="chip" type="button" data-audius-query="Punjabi">PUNJABI</button><button class="chip" type="button" data-audius-query="Marathi">MARATHI</button><button class="chip" type="button" data-audius-query="Haryanvi">HARYANVI</button><button class="chip" type="button" data-audius-query="Bhojpuri">BHOJPURI</button><button class="chip" type="button" data-audius-query="Telugu">TELUGU</button><button class="chip" type="button" data-audius-query="Rajasthani">RAJASTHANI</button><button class="chip" type="button" data-audius-query="Coke Studio India">COKE STUDIO INDIA</button><button class="chip" type="button" data-audius-query="Coke Studio Pakistan">COKE STUDIO PAKISTAN</button></div><div class="tracklist" id="live-tracks"><div class="empty">Loading DROPZY music…</div></div>
   <div class="eyebrow">SONG VERSIONS</div>
@@ -1012,6 +1013,8 @@ document.querySelectorAll('.artist-chip').forEach(button => {
     loadLiveTracks(artist + ' songs');
   });
 });
+document.getElementById('audius-song-search-btn').addEventListener('click',()=>{const q=document.getElementById('audius-song-search').value.trim();if(q)loadLiveTracks(q);});
+document.getElementById('audius-song-search').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();document.getElementById('audius-song-search-btn').click();}});
 loadLiveTracks('India Mix');
 loadApprovedCatalogue();
 
