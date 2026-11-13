@@ -337,6 +337,45 @@ body{padding-bottom:160px!important}
  .player{width:calc(100vw - 24px)!important;min-width:0!important}
 }
 @media(prefers-reduced-motion:reduce){.mobile-dock,.player{transition:none!important}}
+</style><style id="dropzy-consolidated-dock">
+/* Consolidated fixed player + edge-to-edge navigation */
+html,body{width:100%!important;max-width:100%!important;overflow-x:clip!important;perspective:none!important;transform:none!important;transform-style:flat!important}
+body{padding-bottom:calc(160px + env(safe-area-inset-bottom))!important}
+body *{scroll-margin-bottom:150px}
+.mobile-dock{position:fixed!important;left:0!important;right:0!important;top:auto!important;bottom:0!important;transform:none!important;width:100%!important;max-width:none!important;min-height:66px!important;height:auto!important;z-index:10030!important;display:flex!important;align-items:center!important;justify-content:space-around!important;gap:2px!important;padding:8px 6px calc(8px + env(safe-area-inset-bottom))!important;margin:0!important;border-radius:0!important;border:0!important;border-top:1px solid rgba(255,255,255,.2)!important;background:rgba(12,9,12,.84)!important;backdrop-filter:blur(30px) saturate(180%)!important;-webkit-backdrop-filter:blur(30px) saturate(180%)!important;box-shadow:0 -12px 36px rgba(0,0,0,.42),inset 0 1px 0 rgba(255,255,255,.1)!important}
+.mobile-dock a{flex:1 1 0!important;min-width:0!important;display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;gap:3px!important;padding:4px 1px!important;margin:0!important;border-radius:10px!important;color:#b9adb0!important;text-decoration:none!important;font-size:10px!important;line-height:1.1!important;white-space:nowrap!important;transform:none!important}
+.mobile-dock a span{font-size:17px!important;line-height:1!important}
+.mobile-dock a small{font-size:10px!important;font-weight:700!important}
+.mobile-dock a.active{color:#fff!important;background:rgba(193,18,47,.2)!important}
+.player{position:fixed!important;left:50%!important;right:auto!important;top:auto!important;bottom:calc(78px + env(safe-area-inset-bottom))!important;transform:translateX(-50%)!important;width:min(440px,58vw)!important;min-width:230px!important;max-width:calc(100vw - 28px)!important;z-index:10020!important;display:flex!important;align-items:center!important;justify-content:space-between!important;gap:7px!important;min-height:58px!important;height:auto!important;padding:7px 10px!important;border:1px solid rgba(255,255,255,.2)!important;border-radius:18px!important;background:rgba(16,12,16,.78)!important;backdrop-filter:blur(28px) saturate(180%)!important;-webkit-backdrop-filter:blur(28px) saturate(180%)!important;box-shadow:0 12px 38px rgba(0,0,0,.42),inset 0 1px 0 rgba(255,255,255,.12)!important}
+.player .playing{min-width:0!important;flex:1 1 auto!important}
+.player .playing b{display:block!important;max-width:24vw!important;overflow:hidden!important;text-overflow:ellipsis!important;white-space:nowrap!important;font-size:11px!important}
+.player .playing small{font-size:9px!important}
+.player .playerart{width:36px!important;height:36px!important;flex:0 0 36px!important}
+.player .controls{display:flex!important;align-items:center!important;gap:4px!important;flex:0 0 auto!important;margin:0!important}
+.player .controls button{width:27px!important;height:27px!important;padding:0!important;font-size:12px!important}
+.player .controls .big{width:35px!important;height:35px!important}
+.player .progress,.player-extra{display:none!important}
+main.wrap,.wrap{padding-bottom:145px!important}
+@media(max-width:700px){
+ body{padding-bottom:calc(160px + env(safe-area-inset-bottom))!important}
+ .mobile-dock{min-height:64px!important}
+ .mobile-dock a,.mobile-dock a small{font-size:9px!important}
+ .mobile-dock a span{font-size:16px!important}
+ .player{width:min(380px,58vw)!important;min-width:225px!important;bottom:calc(76px + env(safe-area-inset-bottom))!important;min-height:54px!important;padding:6px 8px!important;gap:6px!important}
+ .player .playerart{width:32px!important;height:32px!important;flex-basis:32px!important}
+ .player .playing b{max-width:20vw!important;font-size:10px!important}
+ .player .controls{gap:3px!important}
+ .player .controls button{width:24px!important;height:24px!important;font-size:11px!important}
+ .player .controls .big{width:32px!important;height:32px!important}
+ main.wrap,.wrap{padding-bottom:145px!important}
+}
+@media(max-width:360px){
+ .mobile-dock{padding-left:2px!important;padding-right:2px!important}
+ .mobile-dock a small{font-size:8px!important}
+ .player{width:calc(100vw - 90px)!important;min-width:220px!important}
+}
+@media(prefers-reduced-motion:reduce){.mobile-dock,.player{transition:none!important}}
 </style></head><body><div class="dropzy-video-bg" aria-hidden="true"><video autoplay muted loop playsinline preload="auto"><source src="https://raw.githubusercontent.com/NottyBuddy/DROPZY/main/Anime-bg.mp4" type="video/mp4"></video></div><div class="dropzy-video-shade" aria-hidden="true"></div><main class="wrap"><header class="top"><a class="brand" href="listen.html"><img src="assets/dropzy-logo.svg" alt="DROPZY DZ"></a><a class="back" href="listen.html">← Back to DROPZY</a></header>
 <section class="panel"><div class="eyebrow">OFFICIAL PLAYER CONNECTION</div><h1>Play a track link.</h1><p>Paste a public YouTube video, Spotify track/album/playlist, or Apple Music song/album link. It will play here through that platform's official embedded player.</p>
 <div class="providers"><button type="button" data-provider="youtube" class="active">YouTube</button><button type="button" data-provider="spotify">Spotify</button><button type="button" data-provider="apple">Apple Music</button></div>
@@ -348,4 +387,11 @@ body{padding-bottom:160px!important}
 let provider='youtube';document.querySelectorAll('[data-provider]').forEach(b=>b.addEventListener('click',()=>{provider=b.dataset.provider;document.querySelectorAll('[data-provider]').forEach(x=>x.classList.toggle('active',x===b));document.getElementById('url').placeholder='Paste a public '+(provider==='apple'?'Apple Music':provider[0].toUpperCase()+provider.slice(1))+' link here'}));
 function getEmbed(raw){const u=new URL(raw);if(provider==='youtube'){let id=u.hostname.includes('youtu.be')?u.pathname.slice(1):u.searchParams.get('v');if(!id&&u.pathname.includes('/embed/'))id=u.pathname.split('/embed/')[1].split('/')[0];if(!id)throw Error('Use a YouTube video URL, not a search page.');return 'https://www.youtube.com/embed/'+encodeURIComponent(id)}if(provider==='spotify'){if(!u.hostname.endsWith('spotify.com'))throw Error('Paste a Spotify link.');const m=u.pathname.match(/\/(track|album|playlist|episode|show)\/([A-Za-z0-9]+)/);if(!m)throw Error('Use a Spotify track, album or playlist link.');return 'https://open.spotify.com/embed/'+m[1]+'/'+m[2]+'?utm_source=generator'}if(provider==='apple'){if(!u.hostname.endsWith('music.apple.com'))throw Error('Paste an Apple Music link.');return 'https://embed.music.apple.com'+u.pathname+u.search}throw Error('Choose a supported platform.')}
 document.getElementById('form').addEventListener('submit',e=>{e.preventDefault();const status=document.getElementById('status'),box=document.getElementById('player');try{const embed=getEmbed(document.getElementById('url').value.trim());box.innerHTML='<iframe src="'+embed+'" allow="autoplay *; encrypted-media *; fullscreen *; clipboard-write" sandbox="allow-forms allow-popups allow-same-origin allow-scripts allow-presentation" allowfullscreen loading="lazy" title="Official music player"></iframe>';status.textContent='Official '+provider+' player loaded inside DROPZY.'}catch(err){status.textContent=err.message;box.innerHTML='<span class="hint">Check the link and try again.</span>'}});
-</script></body></html>
+</script><nav class="mobile-dock" aria-label="Main navigation">
+<a data-page-link="listen" href="listen.html"><span>⌂</span><small>Listen</small></a>
+<a data-page-link="browse" href="browse.html"><span>◈</span><small>Browse</small></a>
+<a data-page-link="radio" href="radio.html"><span>◉</span><small>Radio</small></a>
+<a data-page-link="artists" href="artists.html"><span>✦</span><small>Artist</small></a>
+<a data-page-link="albums" href="albums.html"><span>▣</span><small>Album</small></a>
+<a data-page-link="library" href="library.html"><span>▤</span><small>Library</small></a>
+</nav></body></html>
