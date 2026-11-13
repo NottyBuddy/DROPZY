@@ -82,7 +82,17 @@ body{animation:dropzyPageEnter .65s cubic-bezier(.2,.75,.25,1) both}
  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}
 }
 </style>
-</head><body><main class="wrap"><header class="top"><a class="brand" href="listen.html"><img src="assets/dropzy-logo.svg" alt="DROPZY DZ"></a><a class="back" href="listen.html">← Back to DROPZY</a></header>
+<style id="dropzy-video-background">
+body{isolation:isolate!important;background:transparent!important}
+.dropzy-video-bg{position:fixed;inset:0;z-index:-2;overflow:hidden;pointer-events:none;background:#090708}
+.dropzy-video-bg video{width:100%;height:100%;object-fit:cover;object-position:center;opacity:.58}
+.dropzy-video-shade{position:fixed;inset:0;z-index:-1;pointer-events:none;background:linear-gradient(90deg,#090708df,#0907088c 55%,#090708bb),linear-gradient(0deg,#090708e8,transparent 65%);}
+/* Let the uploaded motion background remain visible beneath page content */
+.ambient{background:radial-gradient(ellipse at 80% 4%,#542b7a22,transparent 35%),radial-gradient(ellipse at 5% 35%,#c1122f18,transparent 32%)!important}
+.hero:after{background:linear-gradient(90deg,#090708dd,transparent 55%),linear-gradient(0deg,#090708aa,transparent 55%)!important;opacity:.6!important}
+@media(prefers-reduced-motion:reduce){.dropzy-video-bg video{display:none}.dropzy-video-bg{background:#090708}}
+</style>
+</head><body><div class="dropzy-video-bg" aria-hidden="true"><video autoplay muted loop playsinline preload="auto"><source src="https://raw.githubusercontent.com/NottyBuddy/DROPZY/main/Anime-bg.mp4" type="video/mp4"></video></div><div class="dropzy-video-shade" aria-hidden="true"></div><main class="wrap"><header class="top"><a class="brand" href="listen.html"><img src="assets/dropzy-logo.svg" alt="DROPZY DZ"></a><a class="back" href="listen.html">← Back to DROPZY</a></header>
 <section class="panel"><div class="eyebrow">OFFICIAL PLAYER CONNECTION</div><h1>Play a track link.</h1><p>Paste a public YouTube video, Spotify track/album/playlist, or Apple Music song/album link. It will play here through that platform's official embedded player.</p>
 <div class="providers"><button type="button" data-provider="youtube" class="active">YouTube</button><button type="button" data-provider="spotify">Spotify</button><button type="button" data-provider="apple">Apple Music</button></div>
 <form id="form"><div class="field"><input id="url" type="url" required placeholder="Paste a public music link here"><button type="submit">LOAD PLAYER</button></div></form>
