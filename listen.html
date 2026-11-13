@@ -954,7 +954,7 @@ async function searchDropzyYouTube(query){
   if(!response.ok) throw new Error(data.error?.message||'YouTube search failed');
   const items=(data.items||[]).filter(x=>x.id&&x.id.videoId&&x.snippet);
   if(!items.length){ytStatus.textContent='No videos found. Try another singer or song.';return;}
-  ytStatus.textContent=items.length+' results · '+dropzyYouTubeLanguage+' · Select a song to play here.';
+  ytStatus.textContent=items.length+' results · Select a song to play here.';
   items.forEach(item=>{
    const videoId=item.id.videoId, title=item.snippet.title, channel=item.snippet.channelTitle;
    const row=document.createElement('div');row.className='track';
