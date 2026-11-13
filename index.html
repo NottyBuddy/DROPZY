@@ -30,6 +30,43 @@ button:hover,a:hover{transform:translateY(-3px) scale(1.035);filter:brightness(1
 .logo-wrap:hover{transform:translateY(-5px) rotateY(-5deg) rotateX(3deg) scale(1.025)}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
 
-</style></head><body><div class="backdrop"></div><div class="grid"></div>
+</style><style id="dropzy-visual-fix">
+/* DROPZY visual system: consistent motion, depth and accessibility */
+html{perspective:1200px;scroll-behavior:smooth}
+body{animation:dropzyPageEnter .65s cubic-bezier(.2,.75,.25,1) both}
+@keyframes dropzyPageEnter{from{opacity:0;transform:translateY(12px);filter:blur(2px)}to{opacity:1;transform:none;filter:none}}
+:where(.tile,.track,.card,.song-card,.playlist-card,.album-card,.artist-card,.radio-card,.feature-card,.source-card,.result-card,.cover-card,.stat-card,[class*="card"],article){
+ transform-style:preserve-3d;backface-visibility:hidden;
+ transition:transform .32s cubic-bezier(.2,.8,.2,1),box-shadow .32s ease,border-color .32s ease,background-color .32s ease,filter .32s ease;
+}
+:where(button,.btn,.chip,a,nav a,.mobile-dock a,.back,.playdot){
+ transition:transform .26s cubic-bezier(.2,.8,.2,1),box-shadow .26s ease,filter .26s ease,color .26s ease,background-color .26s ease,border-color .26s ease;
+}
+:where(img,.cover,.playerart){transition:transform .38s cubic-bezier(.2,.8,.2,1),filter .38s ease}
+@media(hover:hover) and (pointer:fine){
+ :where(.tile,.track,.card,.song-card,.playlist-card,.album-card,.artist-card,.radio-card,.feature-card,.source-card,.result-card,.cover-card,.stat-card,[class*="card"],article):hover{
+  transform:translateY(-7px) rotateX(2deg) rotateY(-1deg) scale(1.012);
+  box-shadow:0 18px 38px #0009,0 0 0 1px #c1122f45;
+  border-color:#c1122f88;
+ }
+ :where(.tile,.card,.song-card,.playlist-card,.album-card,.artist-card,.radio-card,.feature-card,.source-card,.result-card,.cover-card,[class*="card"]):hover img{
+  transform:scale(1.045);filter:saturate(1.12) brightness(1.04)
+ }
+ :where(button,.btn,.chip,nav a,.mobile-dock a,.back):hover{
+  transform:translateY(-3px) scale(1.025);filter:brightness(1.12);
+  box-shadow:0 9px 24px #c1122f30
+ }
+ .track:hover{transform:translateY(-3px) translateX(3px);box-shadow:0 10px 25px #0007,0 0 0 1px #c1122f55}
+}
+:where(button,a,input,textarea,select):focus-visible{outline:2px solid #c1122f;outline-offset:3px}
+@media(hover:none),(pointer:coarse){
+ :where(.tile,.track,.card,.song-card,.playlist-card,.album-card,.artist-card,.radio-card,.feature-card,.source-card,.result-card,.cover-card,.stat-card,[class*="card"],article,button,.btn,.chip,a,nav a,.mobile-dock a,.back){transform:none!important;filter:none}
+}
+@media(prefers-reduced-motion:reduce){
+ html{scroll-behavior:auto}
+ *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}
+}
+</style>
+</head><body><div class="backdrop"></div><div class="grid"></div>
 <main class="stage" aria-label="DROPZY animated intro"><div class="orbit"><i></i></div><div class="wave"><i style="--h:18px;--d:0s"></i><i style="--h:54px;--d:-0.11s"></i><i style="--h:81px;--d:-0.22s"></i><i style="--h:90px;--d:-0.33s"></i><i style="--h:79px;--d:-0.44s"></i><i style="--h:52px;--d:-0.55s"></i><i style="--h:21px;--d:-0.66s"></i><i style="--h:57px;--d:-0.77s"></i><i style="--h:82px;--d:-0.88s"></i><i style="--h:90px;--d:0s"></i><i style="--h:78px;--d:-0.11s"></i><i style="--h:50px;--d:-0.22s"></i><i style="--h:24px;--d:-0.33s"></i><i style="--h:59px;--d:-0.44s"></i><i style="--h:83px;--d:-0.55s"></i><i style="--h:90px;--d:-0.66s"></i><i style="--h:76px;--d:-0.77s"></i><i style="--h:47px;--d:-0.88s"></i><i style="--h:26px;--d:0s"></i><i style="--h:61px;--d:-0.11s"></i><i style="--h:84px;--d:-0.22s"></i><i style="--h:89px;--d:-0.33s"></i><i style="--h:75px;--d:-0.44s"></i><i style="--h:44px;--d:-0.55s"></i><i style="--h:29px;--d:-0.66s"></i><i style="--h:63px;--d:-0.77s"></i><i style="--h:85px;--d:-0.88s"></i><i style="--h:89px;--d:0s"></i><i style="--h:73px;--d:-0.11s"></i><i style="--h:42px;--d:-0.22s"></i><i style="--h:32px;--d:-0.33s"></i><i style="--h:66px;--d:-0.44s"></i><i style="--h:86px;--d:-0.55s"></i><i style="--h:88px;--d:-0.66s"></i><i style="--h:71px;--d:-0.77s"></i><i style="--h:39px;--d:-0.88s"></i><i style="--h:34px;--d:0s"></i><i style="--h:68px;--d:-0.11s"></i><i style="--h:87px;--d:-0.22s"></i><i style="--h:88px;--d:-0.33s"></i><i style="--h:69px;--d:-0.44s"></i><i style="--h:37px;--d:-0.55s"></i><i style="--h:37px;--d:-0.66s"></i><i style="--h:70px;--d:-0.77s"></i><i style="--h:88px;--d:-0.88s"></i><i style="--h:87px;--d:0s"></i><i style="--h:67px;--d:-0.11s"></i><i style="--h:34px;--d:-0.22s"></i><i style="--h:40px;--d:-0.33s"></i><i style="--h:71px;--d:-0.44s"></i><i style="--h:89px;--d:-0.55s"></i><i style="--h:86px;--d:-0.66s"></i><i style="--h:65px;--d:-0.77s"></i><i style="--h:31px;--d:-0.88s"></i><i style="--h:42px;--d:0s"></i></div><div class="logo-wrap"><img class="logo" src="assets/dropzy-logo.svg" alt="DROPZY DZ headset logo"></div><div class="word">MUSIC <b>•</b> FOREVER</div><div class="progress"><i></i></div><div class="loading">GET READY TO LISTEN</div></main>
 <a class="skip" href="listen.html">Skip intro ↗</a><script>window.setTimeout(()=>{window.location.replace("listen.html")},5500)</script></body></html>
