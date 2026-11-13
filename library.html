@@ -290,6 +290,76 @@ body{isolation:isolate!important;background:transparent!important}
 .hero:after{background:linear-gradient(90deg,#090708dd,transparent 55%),linear-gradient(0deg,#090708aa,transparent 55%)!important;opacity:.6!important}
 @media(prefers-reduced-motion:reduce){.dropzy-video-bg video{display:none}.dropzy-video-bg{background:#090708}}
 </style>
+<style id="dropzy-liquid-glass-v2">
+/* DROPZY responsive + liquid glass system */
+:root{color-scheme:dark;--bg:#080708;--panel:rgba(18,13,16,.48);--glass:rgba(255,255,255,.075);--glass-line:rgba(255,255,255,.16);--pink:#c1122f;--crimson:#e0183b;--white:#f7f0eb}
+html,body{width:100%!important;max-width:100%!important;min-width:0!important;min-height:100%;margin:0!important;background:#080708!important;overflow-x:hidden!important}
+body{position:relative;isolation:isolate;color:var(--white)!important}
+*,*::before,*::after{box-sizing:border-box}
+.dropzy-video-bg{position:fixed!important;inset:0!important;width:100vw!important;height:100svh!important;z-index:0!important;overflow:hidden!important;pointer-events:none!important;background:#080708!important}
+.dropzy-video-bg video{display:block!important;width:100%!important;height:100%!important;object-fit:cover!important;object-position:center!important;opacity:.5!important}
+.dropzy-video-shade{position:fixed!important;inset:0!important;z-index:0!important;pointer-events:none!important;background:linear-gradient(115deg,rgba(5,4,6,.76),rgba(8,5,8,.42) 48%,rgba(5,4,6,.72)),linear-gradient(0deg,rgba(5,4,6,.82),transparent 60%)!important}
+.backdrop,.grid,.ambient{pointer-events:none!important}
+.backdrop,.grid{z-index:0!important}
+header,.wrap,main,footer,.stage,.player,.mobile-dock,.skip,.top,.panel,.notice{z-index:1}
+.wrap{width:100%!important;max-width:1440px!important;margin-left:auto!important;margin-right:auto!important}
+main,.wrap,.stage{max-width:100%!important}
+header{max-width:100%!important}
+.mobile-dock{z-index:30!important}
+.player{z-index:29!important}
+header,.top,.panel,.mixbox,.tile,.track,.card,.song-card,.playlist-card,.album-card,.artist-card,.radio-card,.feature-card,.source-card,.result-card,.cover-card,.stat-card,.yt-search-panel,.yt-panel,.search-panel,.hero-card{
+ background:rgba(18,13,17,.48)!important;
+ border:1px solid var(--glass-line)!important;
+ -webkit-backdrop-filter:blur(24px) saturate(155%)!important;
+ backdrop-filter:blur(24px) saturate(155%)!important;
+ box-shadow:0 12px 38px rgba(0,0,0,.24),inset 0 1px 0 rgba(255,255,255,.09)!important
+}
+header{background:rgba(8,7,8,.48)!important;border-color:rgba(255,255,255,.1)!important}
+.mobile-dock{background:rgba(16,12,17,.58)!important;border:1px solid rgba(255,255,255,.2)!important;-webkit-backdrop-filter:blur(28px) saturate(180%)!important;backdrop-filter:blur(28px) saturate(180%)!important;box-shadow:0 16px 45px rgba(0,0,0,.48),inset 0 1px 0 rgba(255,255,255,.14)!important}
+.player{background:rgba(12,10,12,.7)!important;border-top:1px solid rgba(255,255,255,.16)!important;-webkit-backdrop-filter:blur(28px) saturate(160%)!important;backdrop-filter:blur(28px) saturate(160%)!important;box-shadow:0 -12px 40px rgba(0,0,0,.25)!important}
+input,textarea,select{max-width:100%;background:rgba(10,8,10,.48)!important;border:1px solid rgba(255,255,255,.17)!important;color:#fff!important;-webkit-backdrop-filter:blur(14px)!important;backdrop-filter:blur(14px)!important}
+button,.btn,.primary,.chip{transition:transform .32s cubic-bezier(.2,.8,.2,1),box-shadow .32s ease,filter .32s ease!important}
+:where(.tile,.track,.card,.song-card,.playlist-card,.album-card,.artist-card,.radio-card,.feature-card,.source-card,.result-card,.cover-card,.stat-card){transform-style:preserve-3d;transition:transform .42s cubic-bezier(.2,.8,.2,1),box-shadow .42s ease,border-color .42s ease!important}
+@media(hover:hover) and (pointer:fine){
+ :where(.tile,.track,.card,.song-card,.playlist-card,.album-card,.artist-card,.radio-card,.feature-card,.source-card,.result-card,.cover-card,.stat-card):hover{transform:translate3d(0,-8px,18px) rotateX(3deg) rotateY(-2deg) scale(1.018)!important;border-color:rgba(225,24,59,.58)!important;box-shadow:0 24px 52px rgba(0,0,0,.4),0 0 28px rgba(193,18,47,.16),inset 0 1px 0 rgba(255,255,255,.2)!important}
+ button:hover,.btn:hover,.chip:hover{transform:translateY(-3px) scale(1.035)!important;box-shadow:0 12px 28px rgba(193,18,47,.22)!important}
+}
+button:active,.btn:active,.chip:active,.tile:active,.track:active{transform:scale(.975)!important}
+:where(button,a,input,textarea,select):focus-visible{outline:2px solid #e0183b!important;outline-offset:3px}
+@media(max-width:700px){
+ html,body{width:100%!important;max-width:100vw!important;overflow-x:hidden!important}
+ .wrap{width:100%!important;max-width:100vw!important;padding-left:16px!important;padding-right:16px!important}
+ header{width:100%!important;padding-left:14px!important;padding-right:14px!important}
+ .hero{width:100%;min-width:0}
+ .hero h1{font-size:clamp(36px,9vw,54px)!important;letter-spacing:-2px!important;max-width:100%}
+ .rail{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:12px!important}
+ .tile,.track,.mixbox,.panel{min-width:0;max-width:100%}
+ .track{gap:9px!important;padding:9px!important}
+ .trackinfo{min-width:0;overflow:hidden}
+ .trackinfo b,.trackinfo small{overflow-wrap:anywhere}
+ .mobile-dock{left:12px!important;right:12px!important;bottom:calc(72px + env(safe-area-inset-bottom))!important;width:auto!important;max-width:none!important;transform:none!important;border-radius:20px!important;padding:9px 7px!important}
+ .mobile-dock a{min-width:0!important;flex:1!important;font-size:10px!important}
+ .player{left:0!important;right:0!important;bottom:0!important;width:100%!important;padding:9px 12px calc(9px + env(safe-area-inset-bottom))!important;min-height:66px!important}
+ .player .progress,.player-extra{display:none!important}
+ .playing{min-width:0!important;flex:1!important}
+ .playing b{max-width:32vw!important;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+ .controls{gap:9px!important;margin:0!important}
+ .playerart{width:36px!important;height:36px!important}
+ .notice{padding-bottom:170px!important}
+ .mixbox{padding:15px!important}
+ .yt-results,.tracklist{width:100%;min-width:0}
+}
+@media(max-width:380px){
+ .wrap{padding-left:12px!important;padding-right:12px!important}
+ .mobile-dock{left:7px!important;right:7px!important}
+ .controls{gap:5px!important}
+ .playing b{max-width:27vw!important}
+}
+@media(prefers-reduced-motion:reduce){
+ *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}
+ .dropzy-video-bg video{opacity:.25!important}
+}
+</style>
 </head><body data-page="library"><div class="dropzy-video-bg" aria-hidden="true"><video autoplay muted loop playsinline preload="auto"><source src="https://raw.githubusercontent.com/NottyBuddy/DROPZY/main/Anime-bg.mp4" type="video/mp4"></video></div><div class="dropzy-video-shade" aria-hidden="true"></div><div class="ambient"></div><header><a class="brand" href="listen.html" aria-label="DROPZY home"><img src="assets/dropzy-logo.svg" alt="DROPZY logo"></a><div class="headright"><input id="search" class="search" placeholder="⌕  Search sounds..." aria-label="Search sounds"><div class="avatar"><img src="assets/dropzy-logo.svg" alt="DROPZY"></div></div></header>
 <main class="wrap"><section class="hero"><div><div class="eyebrow">✦ Your next obsession starts here</div><h1>FEEL THE<br><em>NEXT SOUND.</em></h1><p>Fresh DJ edits. Unexpected mashups. Sounds made for the moment you hit replay. Your vibe, turned all the way up.</p><div class="actions"><button class="btn primary" onclick="document.getElementById('live-library').scrollIntoView({behavior:'smooth'});loadLiveTracks()">▶ &nbsp; PLAY THE VIBE</button><button class="btn ghost" onclick="document.querySelector('#scenes').scrollIntoView()">EXPLORE MIXES &nbsp; ↗</button></div></div></section><section class="section" id="discover"><div class="sectiontop"><div><h2>Made for your mood <span style="color:#ff6caf">✦</span></h2><div class="sub">The sounds you'll have on repeat</div></div><a class="see" href="#scenes">VIEW ALL ↗</a></div><div class="rail" id="featured"><article class="tile wide" data-search="after hours night drive"><img src="https://images.unsplash.com/photo-1519608487953-e999c86e7455?auto=format&fit=crop&w=900&q=85"><span class="playdot">▶</span><div class="tiletext"><b>AFTER HOURS</b><small>Night drive edits · 24 sounds</small></div></article><article class="tile" data-search="bass pressure club"><img src="https://images.unsplash.com/photo-1571266028243-d220c9c3b9f9?auto=format&fit=crop&w=600&q=85"><span class="playdot">▶</span><div class="tiletext"><b>BASS MODE</b><small>Club energy</small></div></article><article class="tile" data-search="desi flip bollywood"><img src="https://images.unsplash.com/photo-1506157786151-b8491531f063?auto=format&fit=crop&w=600&q=85"><span class="playdot">▶</span><div class="tiletext"><b>DESI FLIP</b><small>Desi x global</small></div></article><article class="tile" data-search="slow burn chill"><img src="https://images.unsplash.com/photo-1470225620780-dba8ba36b745?auto=format&fit=crop&w=600&q=85"><span class="playdot">▶</span><div class="tiletext"><b>SLOW BURN</b><small>Late-night feels</small></div></article></div></section><section class="section" id="scenes"><div class="sectiontop"><div><h2>Explore the scenes</h2><div class="sub">Pick a world. Find your sound.</div></div><span class="eyebrow">DROPZY SELECTS</span></div><div class="rail" id="scenelist"><article class="tile" data-search="punjabi fire"><img src="https://images.unsplash.com/photo-1501386761578-eac5c94b800a?auto=format&fit=crop&w=600&q=85"><div class="tiletext"><b>PUNJABI FIRE</b><small>Big hooks · Big energy</small></div></article><article class="tile" data-search="bollywood reloaded"><img src="https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&w=600&q=85"><div class="tiletext"><b>BOLLYWOOD RELOADED</b><small>Old school, new rush</small></div></article><article class="tile" data-search="hip hop edits"><img src="https://images.unsplash.com/photo-1524368535928-5b5e00ddc76b?auto=format&fit=crop&w=600&q=85"><div class="tiletext"><b>HIP-HOP EDITS</b><small>808s & attitude</small></div></article><article class="tile" data-search="electronic rave"><img src="https://images.unsplash.com/photo-1470225620780-dba8ba36b745?auto=format&fit=crop&w=600&q=85"><div class="tiletext"><b>RAVE CULTURE</b><small>Lights out, volume up</small></div></article><article class="tile" data-search="viral reels trending"><img src="https://images.unsplash.com/photo-1516280440614-37939bbacd81?auto=format&fit=crop&w=600&q=85"><div class="tiletext"><b>REEL ROTATION</b><small>Loop-worthy moments</small></div></article></div></section><section class="section" id="mixlab"><div class="sectiontop"><div><h2>DROPZY Mix Lab <span style="color:#a77cff">✳</span></h2><div class="sub">Two tracks. One unexpected moment.</div></div><span class="eyebrow">YOUR TURN</span></div><div class="mixbox"><div><div class="eyebrow">✦ CREATE YOUR FLOW</div><h3>Make a little chaos.</h3><p>Build a 2-track or 3-track mashup sequence. Pick the format and preview your mix flow. Audio generation will arrive when licensed track sources are connected.</p><div class="mixcontrols"><button class="chip active" onclick="setMix(2,this)">2 TRACK MASHUP</button><button class="chip" onclick="setMix(3,this)">3 TRACK MASHUP</button><button class="btn primary" onclick="previewMix()">▶ PREVIEW FLOW</button></div><div id="mixstatus" class="sub" style="margin-top:14px">Choose your format to start.</div></div><div class="deck"><div class="disc"></div><div><div class="eyebrow">LIVE MIX VISUAL</div><div class="wave" id="wave"></div><div class="sub">DROPZY • ORIGINAL DEMO UI</div></div></div></div></section><section class="section"><div class="sectiontop"><div><h2>Trending in the room</h2><div class="sub">Sample interface only · choose real music below</div></div><span class="eyebrow">NOW SPINNING</span></div><div class="tracklist" id="tracks"><div class="track" data-search="after hours dropzy edit"><img class="cover" src="https://images.unsplash.com/photo-1519608487953-e999c86e7455?auto=format&fit=crop&w=120&q=80"><div class="trackinfo"><b>After Hours — DROPZY Edit</b><small>DROPZY Selects · Demo track</small></div><button onclick="document.getElementById('live-library').scrollIntoView({behavior:'smooth'});loadLiveTracks()">▶</button></div><div class="track" data-search="midnight bounce club edit"><img class="cover" src="https://images.unsplash.com/photo-1571266028243-d220c9c3b9f9?auto=format&fit=crop&w=120&q=80"><div class="trackinfo"><b>Midnight Bounce — Club Edit</b><small>DROPZY Selects · Demo track</small></div><button onclick="document.getElementById('live-library').scrollIntoView({behavior:'smooth'});loadLiveTracks()">▶</button></div><div class="track" data-search="dil se flip desi mix"><img class="cover" src="https://images.unsplash.com/photo-1506157786151-b8491531f063?auto=format&fit=crop&w=120&q=80"><div class="trackinfo"><b>Dil Se Flip — Desi Mix</b><small>DROPZY Selects · Demo track</small></div><button onclick="document.getElementById('live-library').scrollIntoView({behavior:'smooth'});loadLiveTracks()">▶</button></div></div></section>
 
