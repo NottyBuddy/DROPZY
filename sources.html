@@ -217,6 +217,14 @@ button,.btn,.chip,a{transition:transform .35s cubic-bezier(.2,.8,.2,1),filter .3
 }
 @media(prefers-reduced-motion:reduce){.dropzy-video-bg video{opacity:.35!important}}
 </style>
+
+<style id="dropzy-fixed-navigation">
+.mobile-dock{display:flex!important;position:fixed!important;left:50%!important;right:auto!important;bottom:calc(76px + env(safe-area-inset-bottom))!important;top:auto!important;transform:translateX(-50%)!important;width:min(680px,calc(100vw - 24px))!important;max-width:calc(100vw - 24px)!important;z-index:99999!important;isolation:isolate!important;justify-content:space-around!important;align-items:center!important;pointer-events:auto!important}
+.mobile-dock a{flex:1 1 0!important;min-width:0!important;text-align:center!important}
+.player{z-index:99998!important;position:fixed!important;left:0!important;right:0!important;bottom:0!important;width:100%!important}
+body{padding-bottom:150px!important}
+@media(max-width:560px){.mobile-dock{bottom:calc(72px + env(safe-area-inset-bottom))!important;width:calc(100vw - 16px)!important;max-width:calc(100vw - 16px)!important}.player{min-height:62px!important}}
+</style>
 </head><body><div class="dropzy-video-bg" aria-hidden="true"><video autoplay muted loop playsinline preload="auto"><source src="https://raw.githubusercontent.com/NottyBuddy/DROPZY/main/Anime-bg.mp4" type="video/mp4"></video></div><div class="dropzy-video-shade" aria-hidden="true"></div><main class="wrap"><header class="top"><a class="brand" href="listen.html"><img src="assets/dropzy-logo.svg" alt="DROPZY DZ"></a><a class="back" href="listen.html">← Back to DROPZY</a></header>
 <section class="panel"><div class="eyebrow">OFFICIAL PLAYER CONNECTION</div><h1>Play a track link.</h1><p>Paste a public YouTube video, Spotify track/album/playlist, or Apple Music song/album link. It will play here through that platform's official embedded player.</p>
 <div class="providers"><button type="button" data-provider="youtube" class="active">YouTube</button><button type="button" data-provider="spotify">Spotify</button><button type="button" data-provider="apple">Apple Music</button></div>
