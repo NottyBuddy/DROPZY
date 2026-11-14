@@ -825,12 +825,29 @@ const LANGUAGE_SEARCH_TERMS = {
   'Coke Studio India': ['Coke Studio India official song', 'Coke Studio Bharat song'],
   'Coke Studio Pakistan': ['Coke Studio Pakistan official song', 'Coke Studio Pakistan vocals']
 };
+function trackLanguageText(track) {
+  const user = track.user || {};
+  return [
+    track.title, track.genre, track.mood, track.tags, track.description,
+    user.name, user.handle, user.bio
+  ].filter(Boolean).join(' ').toLowerCase();
+}
+function isIndianLanguageTrack(track) {
+  const text = trackLanguageText(track);
+  // Native scripts: Devanagari, Gurmukhi, Bengali, Gujarati, Odia,
+  // Tamil, Telugu, Kannada, Malayalam and Urdu/Arabic script.
+  const indianScript = /[\\u0900-\\u097F\\u0A00-\\u0A7F\\u0980-\\u09FF\\u0A80-\\u0AFF\\u0B00-\\u0B7F\\u0B80-\\u0BFF\\u0C00-\\u0C7F\\u0C80-\\u0CFF\\u0D00-\\u0D7F\\u0600-\\u06FF]/;
+  if (indianScript.test(text)) return true;
+  // Roman-script metadata must explicitly identify an Indian language/music scene.
+  const languageMarkers = /\\b(hindi|hindustani|punjabi|panjabi|marathi|haryanvi|bhojpuri|telugu|tamil|kannada|malayalam|bengali|bangla|gujarati|odia|oriya|assamese|rajasthani|urdu|desi|bollywood|tollywood|kollywood|mollywood|sandalwood|bhangra|garba|lok geet|lokgeet|indian folk|coke studio bharat|coke studio india)\\b/;
+  return languageMarkers.test(text);
+}
 function looksLikeBeatOnly(track) {
   const title = String(track.title || '').toLowerCase();
   const tags = String(track.tags || '').toLowerCase();
   const text = title + ' ' + tags;
-  return /\b(type beat|instrumental only|instrumental beat|beat tape|free beat|prod\. by|loop pack|karaoke|background score)\b/.test(text) &&
-    !/\b(song|vocal|lyrics|singer|feat\.|ft\.|official audio)\b/.test(title);
+  return /\\b(type beat|instrumental only|instrumental beat|beat tape|free beat|prod\\. by|loop pack|karaoke|background score)\\b/.test(text) &&
+    !/\\b(song|vocal|lyrics|singer|feat\\.|ft\\.|official audio)\\b/.test(title);
 }
 async function audiusRequest(path) {
   let lastError;
@@ -865,18 +882,23 @@ async function loadLiveTracks(query = '') {
         return true;
       });
     } else if (query) {
-      tracks = await searchAudius(query + (selectedSongVersion ? ' ' + selectedSongVersion : ''), 50);
+      tracks = await searchAudius(query + ' Hindi Punjabi Marathi Indian language song' + (selectedSongVersion ? ' ' + selectedSongVersion : ''), 50);
     } else if (selectedSongVersion) {
-      tracks = await searchAudius(selectedSongVersion + ' vocal song', 50);
+      tracks = await searchAudius(selectedSongVersion + ' Hindi Punjabi Marathi Indian language vocal song', 50);
     } else {
-      const data = await audiusRequest('/tracks/trending?time=week&limit=50&app_name=' + encodeURIComponent(AUDIUS_APP));
-      tracks = data.filter(track => track && track.id && track.title && track.is_streamable !== false);
+      const batches = await Promise.all(LANGUAGE_SEARCH_TERMS['India Mix'].map(term => searchAudius(term, 25)));
+      const seen = new Set();
+      tracks = batches.flat().filter(track => {
+        if (!track || !track.id || !track.title || track.is_streamable === false || seen.has(track.id)) return false;
+        seen.add(track.id);
+        return true;
+      });
     }
-    const songResults = tracks.filter(track => !looksLikeBeatOnly(track));
+    const songResults = tracks.filter(track => isIndianLanguageTrack(track) && !looksLikeBeatOnly(track));
     renderLiveTracks(songResults);
     liveStatus.textContent = songResults.length
       ? songResults.length + ' vocal/song-focused results · creator-uploaded Audius tracks'
-      : 'No clear song matches in this search. Try another spelling or language.';
+      : 'No verified Indian-language matches found. Try a Hindi, Punjabi, Marathi or other Indian-language singer/song title.';
   } catch (error) {
     liveStatus.textContent = 'Music catalogue could not connect. Tap a language again to retry.';
     liveList.innerHTML = '<div class="empty">Could not load tracks. Check your internet and try again.</div>';
@@ -1016,7 +1038,7 @@ document.querySelectorAll('.artist-chip').forEach(button => {
 });
 document.getElementById('audius-song-search-btn').addEventListener('click',()=>{const q=document.getElementById('audius-song-search').value.trim();if(q)loadLiveTracks(q);});
 document.getElementById('audius-song-search').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();document.getElementById('audius-song-search-btn').click();}});
-loadLiveTracks();
+loadLiveTracks('India Mix');
 loadApprovedCatalogue();
 
 /* DROPZY Library, playlists and player controls */
