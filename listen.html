@@ -1016,7 +1016,7 @@ document.querySelectorAll('.artist-chip').forEach(button => {
 });
 document.getElementById('audius-song-search-btn').addEventListener('click',()=>{const q=document.getElementById('audius-song-search').value.trim();if(q)loadLiveTracks(q);});
 document.getElementById('audius-song-search').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();document.getElementById('audius-song-search-btn').click();}});
-loadLiveTracks('India Mix');
+loadLiveTracks();
 loadApprovedCatalogue();
 
 /* DROPZY Library, playlists and player controls */
