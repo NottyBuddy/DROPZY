@@ -778,7 +778,7 @@ function audioTime(seconds) {
   return Math.floor(seconds / 60) + ':' + String(Math.floor(seconds % 60)).padStart(2,'0');
 }
 function streamUrl(track) {
-  return AUDIUS_API + '/tracks/' + encodeURIComponent(track.id) +
+  return activeAudiusApi + '/tracks/' + encodeURIComponent(track.id) +
     '/stream?app_name=' + encodeURIComponent(AUDIUS_APP);
 }
 
@@ -814,12 +814,28 @@ function renderLiveTracks(tracks) {
   });
 }
 const INDIA_ARTIST_SEARCH_TERMS = [
-  'Badshah Hindi songs', 'Yo Yo Honey Singh songs', 'Arijit Singh Hindi songs',
-  'Shreya Ghoshal Hindi songs', 'Diljit Dosanjh Punjabi songs', 'Sidhu Moose Wala Punjabi songs',
-  'AP Dhillon Punjabi songs', 'Karan Aujla Punjabi songs', 'Guru Randhawa Punjabi songs',
-  'Neha Kakkar Hindi songs', 'Jubin Nautiyal Hindi songs', 'Raftaar Hindi songs',
-  'King Hindi songs', 'DIVINE Hindi songs', 'MC Stan Hindi songs',
-  'Darshan Raval Hindi songs', 'B Praak Punjabi songs', 'Anirudh Tamil songs'
+  'Arijit Singh Hindi songs','Shreya Ghoshal Hindi songs','Sonu Nigam Hindi songs','Sunidhi Chauhan Hindi songs',
+  'Alka Yagnik Hindi songs','Udit Narayan Hindi songs','Kumar Sanu Hindi songs','Kishore Kumar songs',
+  'Lata Mangeshkar songs','Asha Bhosle songs','Mohit Chauhan Hindi songs','Shaan Hindi songs',
+  'Jubin Nautiyal Hindi songs','Atif Aslam Hindi songs','Darshan Raval Hindi songs','Armaan Malik Hindi songs',
+  'Vishal Mishra Hindi songs','Sachet Tandon Hindi songs','B Praak Hindi songs','Ankit Tiwari Hindi songs',
+  'Badshah Hindi songs','Yo Yo Honey Singh Hindi songs','Raftaar Hindi songs','DIVINE Hindi songs',
+  'MC Stan Hindi songs','Emiway Bantai Hindi songs','King Hindi songs','Ikka Hindi songs',
+  'Karan Aujla Punjabi songs','Diljit Dosanjh Punjabi songs','Sidhu Moose Wala Punjabi songs',
+  'AP Dhillon Punjabi songs','Shubh Punjabi songs','Guru Randhawa Punjabi songs','Amrinder Gill Punjabi songs',
+  'Gurdas Maan Punjabi songs','Jass Manak Punjabi songs','Jassie Gill Punjabi songs','Gippy Grewal Punjabi songs',
+  'Ninja Punjabi songs','R Nait Punjabi songs','Satinder Sartaaj Punjabi songs','Parmish Verma Punjabi songs',
+  'Sukhwinder Singh Punjabi songs','Mankirt Aulakh Punjabi songs','Ranjit Bawa Punjabi songs',
+  'Ajay Atul Marathi songs','Avadhoot Gupte Marathi songs','Ajay Gogavale Marathi songs',
+  'Shreya Ghoshal Marathi songs','Bela Shende Marathi songs','Swapnil Bandodkar Marathi songs',
+  'Armaan Malik Telugu songs','Sid Sriram Telugu songs','Anirudh Tamil songs','A R Rahman Tamil songs',
+  'Dhanush Tamil songs','Vijay Antony Tamil songs','Shankar Mahadevan Tamil songs','S P Balasubrahmanyam songs',
+  'K S Chithra Malayalam songs','Vijay Yesudas Malayalam songs','Sithara Krishnakumar Malayalam songs',
+  'Sid Sriram Kannada songs','Vasuki Vaibhav Kannada songs','Arijit Singh Bengali songs',
+  'Anupam Roy Bengali songs','Nachiketa Chakraborty Bengali songs','Shreya Ghoshal Bengali songs',
+  'Papon Assamese songs','Zubeen Garg Assamese songs','Raja Hasan Rajasthani songs',
+  'Ritesh Pandey Bhojpuri songs','Pawan Singh Bhojpuri songs','Khesari Lal Yadav Bhojpuri songs',
+  'Masoom Sharma Haryanvi songs','KD Desi Rock Haryanvi songs','Renuka Panwar Haryanvi songs'
 ];
 const INDIAN_ARTIST_MARKERS = [
   'badshah','honey singh','yo yo honey singh','arijit singh','shreya ghoshal',
@@ -829,16 +845,23 @@ const INDIAN_ARTIST_MARKERS = [
   'sonu nigam','alka yagnik','sunidhi chauhan','sachet-parampara','atif aslam'
 ];
 const LANGUAGE_SEARCH_TERMS = {
-  'India Mix': ['Hindi vocal song India', 'Punjabi vocal song India', 'Marathi vocal song India', 'Haryanvi vocal song India', 'Bhojpuri vocal song India', 'Telugu vocal song India', 'Rajasthani folk song vocals', 'Coke Studio India'],
-  Hindi: ['Hindi vocal song India', 'Hindi pop song vocals India', 'Bollywood song vocals India', 'Hindi love song India'],
-  Punjabi: ['Punjabi vocal song India', 'Punjabi pop song vocals India', 'Punjabi folk song India'],
-  Marathi: ['Marathi vocal song India', 'Marathi pop song India', 'Marathi folk song India'],
-  Haryanvi: ['Haryanvi vocal song', 'Haryanvi ragni', 'Haryanvi folk music'],
-  Bhojpuri: ['Bhojpuri vocal song India', 'Bhojpuri lok geet', 'Bhojpuri folk song'],
-  Telugu: ['Telugu vocal song India', 'Telugu film song', 'Telugu pop song India'],
-  Rajasthani: ['Rajasthani folk song vocals', 'Rajasthani lok geet', 'Rajasthani traditional song'],
-  'Coke Studio India': ['Coke Studio India official song', 'Coke Studio Bharat song'],
-  'Coke Studio Pakistan': ['Coke Studio Pakistan official song', 'Coke Studio Pakistan vocals']
+  'India Mix': ['Hindi vocal songs','Bollywood vocal songs','Punjabi vocal songs','Marathi vocal songs','Haryanvi songs vocals','Bhojpuri lok geet','Telugu vocal songs','Tamil vocal songs','Malayalam vocal songs','Kannada vocal songs','Bengali vocal songs','Gujarati folk songs','Assamese songs vocals','Odia songs vocals','Rajasthani lok geet','Urdu ghazal vocals','Indian independent music','Coke Studio Bharat'],
+  Hindi: ['Hindi vocal songs','Hindi pop songs','Bollywood songs vocals','Hindi indie songs','Hindi folk songs','Hindi ghazal vocals'],
+  Punjabi: ['Punjabi vocal songs','Punjabi pop songs','Punjabi folk songs','Punjabi bhangra songs','Punjabi indie songs'],
+  Marathi: ['Marathi vocal songs','Marathi pop songs','Marathi folk songs','Marathi natya sangeet'],
+  Haryanvi: ['Haryanvi vocal songs','Haryanvi ragni','Haryanvi folk music'],
+  Bhojpuri: ['Bhojpuri vocal songs','Bhojpuri lok geet','Bhojpuri folk songs'],
+  Telugu: ['Telugu vocal songs','Telugu folk songs','Telugu indie songs'],
+  Tamil: ['Tamil vocal songs','Tamil folk songs','Tamil indie songs'],
+  Malayalam: ['Malayalam vocal songs','Malayalam indie songs','Malayalam folk songs'],
+  Kannada: ['Kannada vocal songs','Kannada indie songs','Kannada folk songs'],
+  Bengali: ['Bengali vocal songs','Bangla band songs','Bengali folk songs'],
+  Gujarati: ['Gujarati vocal songs','Gujarati garba songs','Gujarati folk songs'],
+  Assamese: ['Assamese vocal songs','Assamese folk songs','Bihu songs'],
+  Odia: ['Odia vocal songs','Odia folk songs','Odia modern songs'],
+  Rajasthani: ['Rajasthani folk songs','Rajasthani lok geet','Rajasthani traditional songs'],
+  'Coke Studio India': ['Coke Studio India songs','Coke Studio Bharat songs'],
+  'Coke Studio Pakistan': ['Coke Studio Pakistan songs','Coke Studio Pakistan vocals']
 };
 function trackLanguageText(track) {
   const user = track.user || {};
@@ -885,40 +908,52 @@ async function searchAudius(term, limit = 50) {
   const data = await audiusRequest(path);
   return data.filter(track => track && track.id && track.title && track.is_streamable !== false);
 }
+async function searchAudiusBatch(terms, limit = 50) {
+  const output = [];
+  const concurrency = 6;
+  for (let start = 0; start < terms.length; start += concurrency) {
+    const group = terms.slice(start, start + concurrency);
+    const settled = await Promise.allSettled(group.map(async item => {
+      const term = typeof item === 'string' ? item : item.term;
+      const markIndian = typeof item === 'object' && item.markIndian;
+      const found = await searchAudius(term, limit);
+      return markIndian ? found.map(track => ({...track,__dropzyIndianLanguageSearch:true})) : found;
+    }));
+    settled.forEach(result => { if (result.status === 'fulfilled') output.push(...result.value); });
+  }
+  const seen = new Set();
+  return output.filter(track => {
+    if (!track || !track.id || !track.title || track.is_streamable === false || seen.has(track.id)) return false;
+    seen.add(track.id); return true;
+  });
+}
 async function loadLiveTracks(query = '') {
-  liveStatus.textContent = query ? 'Searching ' + query + ' songs…' : 'Loading trending tracks…';
-  liveList.innerHTML = '<div class="empty">Finding songs…</div>';
+  liveStatus.textContent = query ? 'Searching ' + query + ' songs…' : 'Loading a wider Indian music catalogue…';
+  liveList.innerHTML = '<div class="empty">Searching more artists and regional-language catalogues…</div>';
   try {
     let tracks = [];
+    const version = selectedSongVersion ? ' ' + selectedSongVersion : '';
     if (query && LANGUAGE_SEARCH_TERMS[query]) {
-      const batches = await Promise.all(LANGUAGE_SEARCH_TERMS[query].map(async term => (await searchAudius(term + (selectedSongVersion ? ' ' + selectedSongVersion : ''), 25)).map(track => ({...track, __dropzyIndianLanguageSearch:true}))));
-      const seen = new Set();
-      tracks = batches.flat().filter(track => {
-        if (seen.has(track.id)) return false;
-        seen.add(track.id);
-        return true;
-      });
+      const terms = LANGUAGE_SEARCH_TERMS[query].map(term => ({term:term + version,markIndian:true}));
+      if (query === 'India Mix') terms.push(...INDIA_ARTIST_SEARCH_TERMS.map(term => ({term:term,markIndian:true})));
+      tracks = await searchAudiusBatch(terms, 50);
     } else if (query) {
-      tracks = await searchAudius(query + ' Hindi Punjabi Marathi Indian language song' + (selectedSongVersion ? ' ' + selectedSongVersion : ''), 50);
+      tracks = await searchAudius(query + ' Indian song vocal' + version, 50);
     } else if (selectedSongVersion) {
-      tracks = await searchAudius(selectedSongVersion + ' Hindi Punjabi Marathi Indian language vocal song', 50);
+      tracks = await searchAudiusBatch(LANGUAGE_SEARCH_TERMS['India Mix'].map(term => ({term:term + version,markIndian:true})), 50);
     } else {
-      const batches = await Promise.all([
-        ...LANGUAGE_SEARCH_TERMS['India Mix'].map(async term => (await searchAudius(term, 25)).map(track => ({...track, __dropzyIndianLanguageSearch:true}))),
-        ...INDIA_ARTIST_SEARCH_TERMS.map(term => searchAudius(term, 15))
-      ]);
-      const seen = new Set();
-      tracks = batches.flat().filter(track => {
-        if (!track || !track.id || !track.title || track.is_streamable === false || seen.has(track.id)) return false;
-        seen.add(track.id);
-        return true;
-      });
+      const terms = [
+        ...LANGUAGE_SEARCH_TERMS['India Mix'].map(term => ({term,markIndian:true})),
+        ...INDIA_ARTIST_SEARCH_TERMS.map(term => ({term,markIndian:true}))
+      ];
+      tracks = await searchAudiusBatch(terms, 50);
     }
     const songResults = tracks.filter(track => isIndianLanguageTrack(track) && !looksLikeBeatOnly(track));
-    renderLiveTracks(songResults);
+    songResults.sort((a,b) => (Number(b.play_count)||0) - (Number(a.play_count)||0));
+    renderLiveTracks(songResults.slice(0,350));
     liveStatus.textContent = songResults.length
-      ? songResults.length + ' vocal/song-focused results · creator-uploaded Audius tracks'
-      : 'No verified Indian-language matches found. Try a Hindi, Punjabi, Marathi or other Indian-language singer/song title.';
+      ? Math.min(songResults.length,350) + ' playable discovery results shown · ' + songResults.length + ' unique streamable matches found across Indian artists and languages on Audius'
+      : 'No matching Indian-language tracks found in this search. Try a singer or song title.';
   } catch (error) {
     liveStatus.textContent = 'Music catalogue could not connect. Tap a language again to retry.';
     liveList.innerHTML = '<div class="empty">Could not load tracks. Check your internet and try again.</div>';
