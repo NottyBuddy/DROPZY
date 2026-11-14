@@ -623,7 +623,7 @@ main.wrap,.wrap{padding-bottom:145px!important}
  </div>
 </section></details>
 <section class="section" id="live-library">
- <div class="sectiontop"><div><h2>DROPZY LIVE <span style="color:#ff6caf">●</span></h2><div class="sub">Hindi • Punjabi • Marathi • Bhojpuri • Bengali • Tamil • Telugu • Malayalam • Kannada • Gujarati • Assamese • Odia • Haryanvi • English</div></div><span class="eyebrow">DROPZY PLAYER</span></div>
+ <div class="sectiontop"><div><h2>DROPZY LIVE <span style="color:#ff6caf">●</span></h2><div class="sub">Hindi • Punjabi • Marathi • Bhojpuri • Bengali • Tamil • Telugu • Malayalam • Kannada • Gujarati • Assamese • Odia • Haryanvi</div></div><span class="eyebrow">DROPZY PLAYER</span></div>
  <div class="mixbox" style="grid-template-columns:1fr;gap:14px">
   <div style="display:flex;gap:10px;flex-wrap:wrap"><input id="audius-song-search" class="search" style="flex:1;min-width:190px" placeholder="Search songs or singers · Audius" aria-label="Search Audius songs"><button class="btn primary" id="audius-song-search-btn" type="button">SEARCH SONGS</button></div>
   <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap"><div><div class="eyebrow">LANGUAGE-FIRST SONG SEARCH</div><h3 style="margin:7px 0 0">Find actual songs, not just beats.</h3></div><span id="live-status" class="sub" aria-live="polite">Loading live tracks…</span></div>
@@ -813,6 +813,21 @@ function renderLiveTracks(tracks) {
     liveList.append(row);
   });
 }
+const INDIA_ARTIST_SEARCH_TERMS = [
+  'Badshah Hindi songs', 'Yo Yo Honey Singh songs', 'Arijit Singh Hindi songs',
+  'Shreya Ghoshal Hindi songs', 'Diljit Dosanjh Punjabi songs', 'Sidhu Moose Wala Punjabi songs',
+  'AP Dhillon Punjabi songs', 'Karan Aujla Punjabi songs', 'Guru Randhawa Punjabi songs',
+  'Neha Kakkar Hindi songs', 'Jubin Nautiyal Hindi songs', 'Raftaar Hindi songs',
+  'King Hindi songs', 'DIVINE Hindi songs', 'MC Stan Hindi songs',
+  'Darshan Raval Hindi songs', 'B Praak Punjabi songs', 'Anirudh Tamil songs'
+];
+const INDIAN_ARTIST_MARKERS = [
+  'badshah','honey singh','yo yo honey singh','arijit singh','shreya ghoshal',
+  'diljit dosanjh','sidhu moose wala','ap dhillon','karan aujla','guru randhawa',
+  'neha kakkar','jubin nautiyal','raftaar','darshan raval','b praak','anirudh',
+  'divine','mc stan','king','ikka','emiway','amit trivedi','ar rahman',
+  'sonu nigam','alka yagnik','sunidhi chauhan','sachet-parampara','atif aslam'
+];
 const LANGUAGE_SEARCH_TERMS = {
   'India Mix': ['Hindi vocal song India', 'Punjabi vocal song India', 'Marathi vocal song India', 'Haryanvi vocal song India', 'Bhojpuri vocal song India', 'Telugu vocal song India', 'Rajasthani folk song vocals', 'Coke Studio India'],
   Hindi: ['Hindi vocal song India', 'Hindi pop song vocals India', 'Bollywood song vocals India', 'Hindi love song India'],
@@ -835,6 +850,7 @@ function trackLanguageText(track) {
 function isIndianLanguageTrack(track) {
   const text = trackLanguageText(track);
   if (track && track.__dropzyIndianLanguageSearch === true) return true;
+  if (INDIAN_ARTIST_MARKERS.some(name => text.includes(name))) return true;
   // Native scripts: Devanagari, Gurmukhi, Bengali, Gujarati, Odia,
   // Tamil, Telugu, Kannada, Malayalam and Urdu/Arabic script.
   const indianScript = /[\\u0900-\\u097F\\u0A00-\\u0A7F\\u0980-\\u09FF\\u0A80-\\u0AFF\\u0B00-\\u0B7F\\u0B80-\\u0BFF\\u0C00-\\u0C7F\\u0C80-\\u0CFF\\u0D00-\\u0D7F\\u0600-\\u06FF]/;
@@ -887,7 +903,10 @@ async function loadLiveTracks(query = '') {
     } else if (selectedSongVersion) {
       tracks = await searchAudius(selectedSongVersion + ' Hindi Punjabi Marathi Indian language vocal song', 50);
     } else {
-      const batches = await Promise.all(LANGUAGE_SEARCH_TERMS['India Mix'].map(async term => (await searchAudius(term, 25)).map(track => ({...track, __dropzyIndianLanguageSearch:true}))));
+      const batches = await Promise.all([
+        ...LANGUAGE_SEARCH_TERMS['India Mix'].map(async term => (await searchAudius(term, 25)).map(track => ({...track, __dropzyIndianLanguageSearch:true}))),
+        ...INDIA_ARTIST_SEARCH_TERMS.map(term => searchAudius(term, 15))
+      ]);
       const seen = new Set();
       tracks = batches.flat().filter(track => {
         if (!track || !track.id || !track.title || track.is_streamable === false || seen.has(track.id)) return false;
