@@ -7,14 +7,17 @@
 html{scroll-behavior:smooth}
 body[data-page]{
   color:var(--dz-ivory);
-  background:
-    radial-gradient(ellipse at 8% 4%,rgba(193,18,47,.18),transparent 36%),
-    radial-gradient(ellipse at 92% 42%,rgba(112,16,36,.12),transparent 34%),
-    linear-gradient(180deg,#0a0809 0%,#090708 62%,#0d090a 100%)!important;
+  /* Keep the original Anime-bg.mp4 visible behind the redesigned pages. */
+  background:transparent!important;
   padding-bottom:178px!important;
 }
-body[data-page] .dropzy-video-bg{opacity:.13!important;filter:saturate(.55) contrast(1.1)}
-body[data-page] .dropzy-video-shade{background:linear-gradient(180deg,rgba(8,6,7,.72),rgba(8,6,7,.9))!important}
+body[data-page] .dropzy-video-bg{opacity:1!important;filter:saturate(.78) contrast(1.08)}
+body[data-page] .dropzy-video-bg video{opacity:.58!important}
+body[data-page] .dropzy-video-shade{
+  background:
+    linear-gradient(115deg,rgba(8,6,7,.48),rgba(8,6,7,.30) 48%,rgba(8,6,7,.52)),
+    linear-gradient(0deg,rgba(8,6,7,.68),rgba(8,6,7,.12) 62%,rgba(8,6,7,.38))!important;
+}
 body[data-page] header{
   position:sticky!important;top:0!important;z-index:45!important;
   min-height:72px;background:rgba(12,9,10,.76)!important;
