@@ -256,6 +256,88 @@ header,.wrap,main,footer,.mobile-dock{animation:dropzyPageIn .72s cubic-bezier(.
 @media(hover:none){button:hover,.btn:hover,.chip:hover,.track:hover,.mixbox:hover,.card:hover,.tile:hover,.song-card:hover,.playlist-card:hover,.genre-card:hover,.artist-card:hover,.radio-card:hover,.feature-card:hover,.source-card:hover,.album-card:hover,.result-card:hover,.cover-card:hover,.stat-card:hover{transform:none;box-shadow:none}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
 
+
+/* DROPZY warm cosmic palette + animated gradient waves */
+:root{
+ --bg:#090503;--panel:#281008;--burnt:#A94312;--fire:#F47716;
+ --amber:#F5AD38;--champagne:#FFE5AD;--white:#FFEBD0;--muted:#C6A98A;
+ --pink:#F47716;--violet:#A94312;--line:#6A3219;
+ --dropzy-gradient:linear-gradient(110deg,#A94312 0%,#F47716 35%,#F5AD38 68%,#FFE5AD 100%);
+}
+html,body{background:#090503!important;color:#FFEBD0}
+body{position:relative;isolation:isolate}
+body:before{
+ content:"";position:fixed;inset:0;z-index:-2;pointer-events:none;
+ background:
+  radial-gradient(ellipse at 12% 18%,#A9431240,transparent 42%),
+  radial-gradient(ellipse at 86% 30%,#F4771626,transparent 40%),
+  radial-gradient(ellipse at 52% 100%,#F5AD381c,transparent 48%),
+  linear-gradient(145deg,#090503 0%,#281008 55%,#090503 100%);
+ background-size:150% 150%;animation:dropzyAurora 22s ease-in-out infinite alternate;
+}
+body:after{
+ content:"";position:fixed;left:-15%;right:-15%;bottom:-5vh;height:34vh;z-index:-1;
+ pointer-events:none;opacity:.24;filter:blur(1px);
+ background:
+  url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 320'%3E%3Cpath fill='%23A94312' fill-opacity='.65' d='M0 160 C180 80 260 250 440 170 S700 60 900 160 S1200 260 1440 130 V320 H0Z'/%3E%3Cpath fill='%23F47716' fill-opacity='.55' d='M0 210 C180 120 280 290 470 205 S730 100 930 200 S1220 300 1440 170 V320 H0Z'/%3E%3Cpath fill='%23F5AD38' fill-opacity='.4' d='M0 250 C220 170 320 310 520 240 S780 140 980 235 S1240 320 1440 215 V320 H0Z'/%3E%3C/svg%3E") center bottom/100% 100% no-repeat;
+ animation:dropzyWave 14s ease-in-out infinite alternate;
+}
+@keyframes dropzyAurora{0%{background-position:0% 0%;filter:hue-rotate(-4deg)}100%{background-position:100% 100%;filter:hue-rotate(8deg)}}
+@keyframes dropzyWave{0%{transform:translateX(-3%) translateY(3%) scaleY(.88)}100%{transform:translateX(3%) translateY(-2%) scaleY(1.12)}}
+.ambient{background:radial-gradient(ellipse at 18% 10%,#A9431230,transparent 42%),radial-gradient(ellipse at 82% 70%,#F477161c,transparent 40%)!important}
+.ambient:before{background:#A94312!important;opacity:.16}
+.ambient:after{background:#F5AD38!important;opacity:.12}
+header{background:#090503eF!important;border-color:#F5AD3826!important}
+.search{background:#281008!important;border-color:#A9431266!important;color:#FFEBD0!important}
+.brand-mark{background:var(--dropzy-gradient)!important;color:#090503!important;box-shadow:0 0 24px #F4771640!important}
+.avatar{background:var(--dropzy-gradient)!important;color:#090503!important}
+.eyebrow,.see{color:#F5AD38!important}
+.hero h1 em{background:var(--dropzy-gradient)!important;background-clip:text!important;color:transparent!important}
+.primary{background:var(--dropzy-gradient)!important;color:#090503!important;box-shadow:0 8px 30px #F4771635!important}
+.ghost,.chip{background:#281008!important;border-color:#A9431266!important;color:#FFE5AD!important}
+.chip.active{background:#A9431233!important;border-color:#F47716!important;color:#FFE5AD!important}
+.tile{background:#281008!important;border:1px solid #A9431233}
+.tile:after{background:linear-gradient(transparent,#090503f5)!important}
+.playdot{background:#FFE5AD!important;color:#281008!important}
+.mixbox,#live-library .mixbox{background:linear-gradient(125deg,#281008,#3A180A 52%,#090503)!important;border-color:#A9431266!important}
+.mixbox:before{background:linear-gradient(120deg,#A9431266,#F4771633,#F5AD3833)!important}
+.disc:before{background:var(--dropzy-gradient)!important;color:#090503!important}
+.wave i,.bar i{background:linear-gradient(180deg,#FFE5AD,#F5AD38,#F47716,#A94312)!important}
+.track{background:#28100899!important;border-color:#A9431233!important}
+.track:hover,.track.is-active{border-color:#F47716aa!important;background:#A9431222!important}
+.track .source{color:#F5AD38!important}
+.player{
+ left:50%!important;right:auto!important;transform:translateX(-50%);
+ bottom:72px!important;width:min(680px,calc(100% - 28px))!important;
+ border:1px solid #A9431266!important;border-radius:18px!important;
+ background:#281008f2!important;box-shadow:0 12px 42px #000b,0 0 28px #A9431220!important;
+ padding:10px 18px!important;
+}
+.controls .big{background:var(--dropzy-gradient)!important;color:#090503!important}
+.player .bar{background:#6A3219!important}.player .bar i{background:var(--dropzy-gradient)!important}
+.mobile-dock{
+ display:flex!important;position:fixed!important;z-index:40!important;
+ left:0!important;right:0!important;bottom:0!important;transform:none!important;
+ width:100%!important;max-width:none!important;border-radius:0!important;
+ justify-content:space-around!important;gap:5px!important;padding:10px 8px max(10px,env(safe-area-inset-bottom))!important;
+ background:#090503f5!important;border:0!important;border-top:1px solid #A9431266!important;
+ box-shadow:0 -10px 32px #0009!important;backdrop-filter:blur(22px)!important;
+}
+.mobile-dock a{color:#C6A98A!important}
+.mobile-dock a.active{color:#FFE5AD!important;background:#A9431233!important}
+.wrap{padding-bottom:190px!important}
+.notice{padding-bottom:190px!important}
+@media(min-width:601px){
+ .mobile-dock{padding:12px 8px!important}
+ .mobile-dock a{font-size:12px!important}
+}
+@media(max-width:600px){
+ .player{bottom:76px!important;width:calc(100% - 24px)!important;padding:8px 11px!important}
+ .mobile-dock{padding-bottom:max(9px,env(safe-area-inset-bottom))!important}
+ .wrap{padding-bottom:190px!important}
+}
+@media(prefers-reduced-motion:reduce){body:before,body:after{animation:none!important}}
+
 </style><style id="dropzy-visual-fix">
 /* DROPZY visual system: consistent motion, depth and accessibility */
 html{perspective:1200px;scroll-behavior:smooth}
