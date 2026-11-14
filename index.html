@@ -339,6 +339,16 @@ header{background:#090503eF!important;border-color:#F5AD3826!important}
 }
 @media(prefers-reduced-motion:reduce){body:before,body:after{animation:none!important}}
 
+
+/* Preserve the original DROPZY DZ monogram; only give it the intro's warm metallic finish. */
+header .brand{display:flex!important;align-items:center!important}
+header .brand img{
+ display:block!important;width:44px!important;height:44px!important;
+ object-fit:contain!important;mix-blend-mode:screen;
+ filter:sepia(1) saturate(4.8) hue-rotate(350deg) brightness(1.12)
+        drop-shadow(0 0 10px #F5AD3866)!important;
+}
+
 </style><style id="dropzy-visual-fix">
 /* DROPZY visual system: consistent motion, depth and accessibility */
 html{perspective:1200px;scroll-behavior:smooth}
