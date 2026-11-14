@@ -1103,7 +1103,7 @@ function startMixSequence(count){
  startingMixTrack=true;playLiveTrack(0);startingMixTrack=false;
 }
 const basePlayLiveTrackForMix=playLiveTrack;
-playLiveTrack=function(index){if(!startingMixTrack)mixSequenceIndex=-1;basePlayLiveTrackForMix(index);};
+playLiveTrack=function(index){if(!startingMixTrack){mixSequenceIndex=-1;mixSequence=[];liveQueue=[];}basePlayLiveTrackForMix(index);};
 setMix=function(n,b){
  mixCount=n;
  document.querySelectorAll('#mixlab .mixcontrols .chip').forEach(x=>x.classList.toggle('active',x===b));
