@@ -385,7 +385,29 @@ main.wrap,.wrap{padding-bottom:145px!important}
 </section></main>
 <script>
 let provider='youtube';document.querySelectorAll('[data-provider]').forEach(b=>b.addEventListener('click',()=>{provider=b.dataset.provider;document.querySelectorAll('[data-provider]').forEach(x=>x.classList.toggle('active',x===b));document.getElementById('url').placeholder='Paste a public '+(provider==='apple'?'Apple Music':provider[0].toUpperCase()+provider.slice(1))+' link here'}));
-function getEmbed(raw){const u=new URL(raw);if(provider==='youtube'){let id=u.hostname.includes('youtu.be')?u.pathname.slice(1):u.searchParams.get('v');if(!id&&u.pathname.includes('/embed/'))id=u.pathname.split('/embed/')[1].split('/')[0];if(!id)throw Error('Use a YouTube video URL, not a search page.');return 'https://www.youtube.com/embed/'+encodeURIComponent(id)}if(provider==='spotify'){if(!u.hostname.endsWith('spotify.com'))throw Error('Paste a Spotify link.');const m=u.pathname.match(/\/(track|album|playlist|episode|show)\/([A-Za-z0-9]+)/);if(!m)throw Error('Use a Spotify track, album or playlist link.');return 'https://open.spotify.com/embed/'+m[1]+'/'+m[2]+'?utm_source=generator'}if(provider==='apple'){if(!u.hostname.endsWith('music.apple.com'))throw Error('Paste an Apple Music link.');return 'https://embed.music.apple.com'+u.pathname+u.search}throw Error('Choose a supported platform.')}
+function getEmbed(raw){
+ const u=new URL(raw);
+ if(u.protocol!=='https:')throw Error('Use a secure HTTPS music link.');
+ if(provider==='youtube'){
+  if(!['youtube.com','www.youtube.com','m.youtube.com','youtu.be','www.youtube-nocookie.com'].includes(u.hostname))throw Error('Paste an official YouTube link.');
+  let id=u.hostname.includes('youtu.be')?u.pathname.slice(1):u.searchParams.get('v');
+  if(!id&&u.pathname.includes('/embed/'))id=u.pathname.split('/embed/')[1].split('/')[0];
+  if(!id||!/^[A-Za-z0-9_-]{11}$/.test(id))throw Error('Use a valid YouTube video link.');
+  return 'https://www.youtube-nocookie.com/embed/'+encodeURIComponent(id)+'?rel=0';
+ }
+ if(provider==='spotify'){
+  if(u.hostname!=='open.spotify.com')throw Error('Paste a link from open.spotify.com.');
+  const m=u.pathname.match(/^\/(track|album|playlist|episode|show)\/([A-Za-z0-9]{22})\/?$/);
+  if(!m)throw Error('Use a valid Spotify track, album, playlist, episode or show link.');
+  return 'https://open.spotify.com/embed/'+m[1]+'/'+m[2]+'?utm_source=generator';
+ }
+ if(provider==='apple'){
+  if(u.hostname!=='music.apple.com')throw Error('Paste a link from music.apple.com.');
+  if(!/^\/[a-z]{2}\/((album|playlist|station)\/|song\/)/i.test(u.pathname))throw Error('Use a valid Apple Music song, album or playlist link.');
+  return 'https://embed.music.apple.com'+u.pathname+u.search;
+ }
+ throw Error('Choose a supported platform.');
+}
 document.getElementById('form').addEventListener('submit',e=>{e.preventDefault();const status=document.getElementById('status'),box=document.getElementById('player');try{const embed=getEmbed(document.getElementById('url').value.trim());box.innerHTML='<iframe src="'+embed+'" allow="autoplay *; encrypted-media *; fullscreen *; clipboard-write" sandbox="allow-forms allow-popups allow-same-origin allow-scripts allow-presentation" allowfullscreen loading="lazy" title="Official music player"></iframe>';status.textContent='Official '+provider+' player loaded inside DROPZY.'}catch(err){status.textContent=err.message;box.innerHTML='<span class="hint">Check the link and try again.</span>'}});
 </script><nav class="mobile-dock" aria-label="Main navigation">
 <a data-page-link="listen" href="listen.html"><span>⌂</span><small>Listen</small></a>
