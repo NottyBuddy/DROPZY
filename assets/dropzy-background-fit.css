@@ -1,0 +1,29 @@
+/* DROPZY — shared full-viewport animated background fit + restrained brightness */
+html,body{min-height:100%;background:#090708}
+body{background:transparent!important}
+.dropzy-video-bg{
+  position:fixed!important;inset:0!important;
+  width:100vw!important;height:100vh!important;height:100dvh!important;
+  overflow:hidden!important;z-index:-2!important;
+  background:#090708!important;pointer-events:none!important;
+}
+.dropzy-video-bg video{
+  position:absolute!important;inset:0!important;
+  display:block!important;width:100%!important;height:100%!important;
+  min-width:100%!important;min-height:100%!important;
+  object-fit:cover!important;object-position:center center!important;
+  opacity:.48!important;
+  filter:brightness(.84) saturate(.78) contrast(1.04)!important;
+}
+/* Keep the moving artwork visible while protecting text contrast. */
+.dropzy-video-shade{
+  position:fixed!important;inset:0!important;
+  width:100vw!important;height:100vh!important;height:100dvh!important;
+  pointer-events:none!important;z-index:-1!important;
+  background:
+    linear-gradient(115deg,rgba(8,6,7,.48),rgba(8,6,7,.34) 48%,rgba(8,6,7,.50)),
+    linear-gradient(0deg,rgba(8,6,7,.62),rgba(8,6,7,.10) 62%,rgba(8,6,7,.34))!important;
+}
+@media(prefers-reduced-motion:reduce){
+  .dropzy-video-bg video{opacity:.42!important}
+}
