@@ -140,3 +140,35 @@ body[data-page] nav.mobile-dock a.active{background:rgba(193,18,47,.13)!importan
 @media(prefers-reduced-motion:reduce){
  body[data-page] *,body[data-page] *::before,body[data-page] *::after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
 }
+
+/* Precision pass: restrained motion, safe-area spacing and non-overlapping chrome. */
+body[data-page] a,body[data-page] button,body[data-page] .tile,body[data-page] .track,
+body[data-page] .mixbox,body[data-page] .song-card,body[data-page] .artist-card,
+body[data-page] .album-card,body[data-page] .radio-card{
+  transform-style:flat;
+}
+@media(hover:hover){
+ body[data-page] button:hover,body[data-page] .btn:hover,body[data-page] .chip:hover{
+   transform:translateY(-1px)!important;filter:brightness(1.06);
+   box-shadow:0 8px 20px rgba(193,18,47,.14)!important;
+ }
+ body[data-page] .tile:hover,body[data-page] .track:hover,body[data-page] .mixbox:hover,
+ body[data-page] .song-card:hover,body[data-page] .artist-card:hover,
+ body[data-page] .album-card:hover,body[data-page] .radio-card:hover{
+   transform:translateY(-2px)!important;box-shadow:0 14px 30px rgba(0,0,0,.24)!important;
+ }
+}
+body[data-page] nav.mobile-dock{
+  box-sizing:border-box;height:70px;min-height:70px;
+  padding-top:5px!important;padding-bottom:calc(5px + env(safe-area-inset-bottom))!important;
+}
+body[data-page] footer.player{
+  bottom:calc(80px + env(safe-area-inset-bottom))!important;
+}
+@media(min-width:701px){
+ body[data-page] nav.mobile-dock{height:64px;min-height:64px}
+ body[data-page] footer.player{bottom:74px!important}
+}
+@media(max-width:700px){
+ body[data-page] footer.player{bottom:calc(80px + env(safe-area-inset-bottom))!important}
+}
