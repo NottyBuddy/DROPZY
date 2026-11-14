@@ -589,7 +589,7 @@ main.wrap,.wrap{padding-bottom:145px!important}
 }
 @media(prefers-reduced-motion:reduce){.mobile-dock,.player{transition:none!important}}
 </style><link rel="stylesheet" href="assets/dropzy-lastwave.css"><style id="dropzy-expanded-player-style">
-.dropzy-player-overlay{position:fixed;inset:0;z-index:10050;display:flex;align-items:flex-end;justify-content:center;padding:16px;background:#050507d9;backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);opacity:0;visibility:hidden;pointer-events:none;transition:opacity .25s ease,visibility .25s ease}
+body.dropzy-player-open{overflow:hidden}.dropzy-player-overlay{position:fixed;inset:0;z-index:10050;display:flex;align-items:flex-end;justify-content:center;padding:16px;background:#050507d9;backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);opacity:0;visibility:hidden;pointer-events:none;transition:opacity .25s ease,visibility .25s ease}
 .dropzy-player-overlay.open{opacity:1;visibility:visible;pointer-events:auto}
 .dropzy-expanded-player{width:min(620px,100%);max-height:calc(100dvh - 28px);overflow:auto;border:1px solid #ffffff22;border-radius:28px 28px 20px 20px;padding:clamp(18px,4vw,30px);background:linear-gradient(145deg,#242126f5,#0d0d10f7 62%);box-shadow:0 24px 90px #000b;color:#f8f4f0;transform:translateY(28px);transition:transform .28s cubic-bezier(.2,.8,.2,1);overscroll-behavior:contain}
 .dropzy-player-overlay.open .dropzy-expanded-player{transform:translateY(0)}
@@ -1432,6 +1432,14 @@ ytQuery.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();se
  $id('dropzy-expanded-repeat').addEventListener('click',()=>{$id('repeat-btn').click();sync();});
  $id('dropzy-expanded-volume').addEventListener('input',event=>{$id('volume-control').value=event.target.value;liveAudio.volume=Number(event.target.value);});
  $id('dropzy-expanded-range').addEventListener('input',event=>{if(liveAudio.duration)liveAudio.currentTime=Number(event.target.value)/1000*liveAudio.duration;});
+ $id('dropzy-expanded-save').addEventListener('click',()=>{
+  let track=null;
+  if(typeof approvedTrackPlaying!=='undefined'&&approvedTrackPlaying&&approvedTracks[approvedIndex]){const t=approvedTracks[approvedIndex];track={...t,id:'approved:'+t.id,title:t.title,artist:t.artist,artwork:{'480x480':t.artwork||''}};}
+  else if(typeof iaCurrentIndex!=='undefined'&&iaCurrentIndex>=0&&liveAudio.src.includes('archive.org/download/')){const t=iaTracks[iaCurrentIndex];if(t)track={...t,id:'ia:'+t.id,title:t.title,artist:t.artist,artwork:{'480x480':'https://archive.org/services/img/'+encodeURIComponent(t.id)}};}
+  else if(typeof liveIndex!=='undefined'&&liveResults[liveIndex])track=liveResults[liveIndex];
+  if(!track){$id('dropzy-expanded-artist').textContent='Play a track first to save it.';return;}
+  if(typeof toggleSaved==='function'){toggleSaved(track);$id('dropzy-expanded-save').textContent=isSaved(track)?'♥':'♡';}
+ });
  $id('dropzy-player-queue').addEventListener('click',()=>{
   const list=$id('dropzy-expanded-queue-list');list.hidden=!list.hidden;
   list.replaceChildren();
