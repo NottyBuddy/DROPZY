@@ -738,6 +738,8 @@ let approvedTrackPlaying = false;
 const verifiedStatus = document.getElementById('verified-status');
 const verifiedList = document.getElementById('verified-tracks');
 async function loadApprovedCatalogue() {
+  // This optional catalogue panel is not mounted on every page.
+  if (!verifiedStatus || !verifiedList) return;
   if (!DROPZY_CATALOG_FUNCTION.startsWith('https://') || DROPZY_CATALOG_FUNCTION.includes('YOUR_')) {
     verifiedStatus.textContent = 'DROPZY catalogue is not connected yet.';
     return;
