@@ -1109,6 +1109,14 @@ let shuffleEnabled=false,repeatEnabled=false;
 document.getElementById('shuffle-btn').addEventListener('click',e=>{shuffleEnabled=!shuffleEnabled;e.currentTarget.classList.toggle('active',shuffleEnabled);e.currentTarget.setAttribute('aria-pressed',String(shuffleEnabled));});
 document.getElementById('repeat-btn').addEventListener('click',e=>{repeatEnabled=!repeatEnabled;e.currentTarget.classList.toggle('active',repeatEnabled);e.currentTarget.setAttribute('aria-pressed',String(repeatEnabled));});
 document.getElementById('volume-control').addEventListener('input',e=>{liveAudio.volume=Number(e.target.value);});
+// Make Mix preview use real loaded tracks instead of placeholder demo titles.
+previewMix=function(){
+ if(!liveResults.length){liveStatus.textContent='Loading real tracks for your mix…';loadLiveTracks();return;}
+ const count=Math.max(1,Math.min(mixCount,liveResults.length));
+ liveQueue=liveResults.slice(1,count);
+ liveStatus.textContent='Playing a mix of '+count+' real track(s).';
+ playLiveTrack(0);
+};
 const baseSkipWithQueue=skip;
 skip=function(direction){
  if(direction>0&&repeatEnabled&&liveAudio.src){if(approvedTrackPlaying&&approvedIndex>=0){playApprovedTrack(approvedIndex);}else if(liveIndex>=0){playLiveTrack(liveIndex);}return;}
@@ -1168,7 +1176,7 @@ ytQuery.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();se
 (function(){
  const overlay=document.getElementById('dropzy-player-overlay');
  const bar=document.querySelector('.player');
- if(!overlay||!bar||!window.liveAudio)return;
+ if(!overlay||!bar)return;
  const $id=id=>document.getElementById(id);
  const open=()=>{sync();overlay.classList.add('open');overlay.setAttribute('aria-hidden','false');document.body.classList.add('dropzy-player-open');};
  const close=()=>{overlay.classList.remove('open');overlay.setAttribute('aria-hidden','true');document.body.classList.remove('dropzy-player-open');};
@@ -1181,8 +1189,8 @@ ytQuery.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();se
   $id('dropzy-expanded-duration').textContent=typeof audioTime==='function'?audioTime(liveAudio.duration):'0:00';
   $id('dropzy-expanded-range').value=liveAudio.duration?Math.round(liveAudio.currentTime/liveAudio.duration*1000):0;
   $id('dropzy-expanded-volume').value=liveAudio.volume;
-  $id('dropzy-expanded-shuffle').classList.toggle('active',!!window.shuffleEnabled);
-  $id('dropzy-expanded-repeat').classList.toggle('active',!!window.repeatEnabled);
+  $id('dropzy-expanded-shuffle').classList.toggle('active',$id('shuffle-btn').classList.contains('active'));
+  $id('dropzy-expanded-repeat').classList.toggle('active',$id('repeat-btn').classList.contains('active'));
  };
  bar.addEventListener('click',event=>{
   if(event.target.closest('button,input,a,.progress,.player-extra'))return;
@@ -1203,7 +1211,7 @@ ytQuery.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();se
  $id('dropzy-player-queue').addEventListener('click',()=>{
   const list=$id('dropzy-expanded-queue-list');list.hidden=!list.hidden;
   list.replaceChildren();
-  const items=Array.isArray(window.liveQueue)?window.liveQueue:[];
+  const items=typeof liveQueue!=='undefined'?liveQueue:[];
   if(!items.length){list.textContent='No upcoming tracks queued yet.';return;}
   items.forEach(track=>{const row=document.createElement('div');row.className='track';row.textContent=(track.title||'Untitled')+' · '+((track.user&&track.user.name)||'DROPZY');list.append(row);});
  });
