@@ -622,6 +622,15 @@ main.wrap,.wrap{padding-bottom:145px!important}
   <div id="yt-results" class="tracklist"></div>
  </div>
 </section></details>
+<section class="section" id="open-audio-library">
+ <div class="sectiontop"><div><h2>OPEN AUDIO LIBRARY</h2><div class="sub">Internet Archive · reuse-friendly licence declared by uploader · independent audio</div></div><span class="eyebrow">FREE CATALOGUE</span></div>
+ <div class="mixbox" style="grid-template-columns:1fr;gap:12px">
+  <div style="display:flex;gap:10px;flex-wrap:wrap"><input id="ia-query" class="search" style="flex:1;min-width:190px" placeholder="Search open audio · artist, language, title" aria-label="Search Internet Archive open audio"><button class="btn primary" id="ia-search" type="button">SEARCH OPEN AUDIO</button></div>
+  <div id="ia-status" class="sub" aria-live="polite">Search audio shared under CC0, Public Domain, CC BY or CC BY-SA. Results are not mainstream-catalogue guarantees.</div>
+  <div id="ia-results" class="tracklist"></div>
+  <div class="sub">Licence information is supplied by the uploader and is not independently verified by DROPZY. Attribution is shown when available. Non-commercial-only and no-derivatives licences are excluded.</div>
+ </div>
+</section>
 <section class="section" id="live-library">
  <div class="sectiontop"><div><h2>DROPZY LIVE <span style="color:#ff6caf">●</span></h2><div class="sub">Hindi • Punjabi • Marathi • Bhojpuri • Bengali • Tamil • Telugu • Malayalam • Kannada • Gujarati • Assamese • Odia • Haryanvi</div></div><span class="eyebrow">DROPZY PLAYER</span></div>
  <div class="mixbox" style="grid-template-columns:1fr;gap:14px">
@@ -1165,6 +1174,132 @@ skip=function(direction){
 liveAudio.volume=1;
 document.querySelectorAll('.mobile-dock a').forEach(link=>link.classList.toggle('active',link.dataset.pageLink===document.body.dataset.page));
 
+
+
+
+// DROPZY Internet Archive open-licence audio discovery.
+// We only query uploader-declared CC0, Public Domain Mark, CC BY and CC BY-SA.
+// This is a metadata filter, not independent proof of copyright ownership.
+const iaQueryInput = document.getElementById('ia-query');
+const iaStatus = document.getElementById('ia-status');
+const iaResults = document.getElementById('ia-results');
+let iaTracks = [];
+function iaAllowedLicense(value) {
+  const license = String(value || '').toLowerCase();
+  return /creativecommons\.org\/publicdomain\/(zero\/1\.0|mark\/1\.0)/.test(license) ||
+    /creativecommons\.org\/licenses\/(by|by-sa)\/(2\.0|2\.5|3\.0|4\.0)/.test(license);
+}
+function iaLicenseLabel(value) {
+  const license = String(value || '').toLowerCase();
+  if (license.includes('/publicdomain/zero/')) return 'CC0';
+  if (license.includes('/publicdomain/mark/')) return 'Public Domain Mark';
+  if (license.includes('/by-sa/')) return 'CC BY-SA';
+  if (license.includes('/by/')) return 'CC BY';
+  return 'Open licence';
+}
+function iaText(value) { return String(value || '').replace(/\s+/g,' ').trim(); }
+async function searchInternetArchive(query = '') {
+  iaStatus.textContent = 'Searching Internet Archive for reuse-friendly audio…';
+  iaResults.replaceChildren();
+  try {
+    const licensePatterns = [
+      'http*creativecommons.org/publicdomain/zero/1.0*',
+      'http*creativecommons.org/publicdomain/mark/1.0*',
+      'http*creativecommons.org/licenses/by/4.0*',
+      'http*creativecommons.org/licenses/by/3.0*',
+      'http*creativecommons.org/licenses/by-sa/4.0*',
+      'http*creativecommons.org/licenses/by-sa/3.0*'
+    ];
+    const term = iaText(query).replace(/[+&|!(){}\[\]^"~*?:\\]/g,' ').slice(0,80);
+    const searches = await Promise.allSettled(licensePatterns.map(async license => {
+      const q = 'mediatype:audio AND licenseurl:' + license +
+        (term ? ' AND (title:(' + term + ') OR creator:(' + term + ') OR subject:(' + term + '))' : '');
+      const params = new URLSearchParams({q,fl:'identifier,title,creator,licenseurl,language,description',rows:'12',output:'json',page:'1'});
+      const response = await fetch('https://archive.org/advancedsearch.php?' + params.toString(), {headers:{Accept:'application/json'}});
+      if (!response.ok) throw new Error('Internet Archive search unavailable');
+      const payload = await response.json();
+      return (payload.response && payload.response.docs) || [];
+    }));
+    const docs = [];
+    const seen = new Set();
+    searches.forEach(result => {
+      if (result.status !== 'fulfilled') return;
+      result.value.forEach(doc => {
+        if (doc.identifier && !seen.has(doc.identifier) && iaAllowedLicense(doc.licenseurl)) {
+          seen.add(doc.identifier); docs.push(doc);
+        }
+      });
+    });
+    const details = await Promise.allSettled(docs.slice(0,36).map(async doc => {
+      const response = await fetch('https://archive.org/metadata/' + encodeURIComponent(doc.identifier), {headers:{Accept:'application/json'}});
+      if (!response.ok) throw new Error('Metadata unavailable');
+      const item = await response.json();
+      const meta = item.metadata || {};
+      const license = meta.licenseurl || doc.licenseurl;
+      if (!iaAllowedLicense(license)) return null;
+      const files = (item.files || []).filter(file => {
+        const name = String(file.name || '').toLowerCase();
+        const format = String(file.format || '').toLowerCase();
+        return /\.(mp3|ogg|oga|flac|m4a)$/.test(name) &&
+          !/metadata|torrent/.test(name) && (!file.size || Number(file.size) < 180000000) &&
+          (!file.source || file.source === 'original' || file.source === 'derivative') &&
+          !/text|image/.test(format);
+      }).sort((a,b) => {
+        const rank = file => (/\.mp3$/i.test(file.name)?0:/\.(ogg|oga)$/i.test(file.name)?1:/\.m4a$/i.test(file.name)?2:3) + (file.source === 'original' ? 0 : 4);
+        return rank(a)-rank(b);
+      });
+      if (!files.length) return null;
+      const file = files[0];
+      return {
+        id:doc.identifier,
+        title:iaText(meta.title || doc.title || doc.identifier),
+        artist:iaText(meta.creator || doc.creator || 'Internet Archive contributor'),
+        language:iaText(meta.language || doc.language || ''),
+        license:license,
+        licenseLabel:iaLicenseLabel(license),
+        rights:iaText(meta.rights || ''),
+        file:file.name,
+        audioUrl:'https://archive.org/download/' + encodeURIComponent(doc.identifier) + '/' + file.name.split('/').map(encodeURIComponent).join('/'),
+        pageUrl:'https://archive.org/details/' + encodeURIComponent(doc.identifier)
+      };
+    }));
+    iaTracks = details.filter(result => result.status === 'fulfilled' && result.value).map(result => result.value);
+    iaResults.replaceChildren();
+    if (!iaTracks.length) {
+      iaStatus.textContent = 'No matching playable open-licence audio found. Try a broader title, artist or language.';
+      return;
+    }
+    iaTracks.forEach((track,index) => {
+      const row=document.createElement('div'); row.className='track';
+      const art=document.createElement('div'); art.className='cover'; art.style.cssText='display:grid;place-items:center;background:linear-gradient(135deg,#c1122f,#202b35);font-weight:900'; art.textContent='IA';
+      const info=document.createElement('div'); info.className='trackinfo';
+      const title=document.createElement('b'); title.textContent=track.title;
+      const creator=document.createElement('small'); creator.textContent=[track.artist,track.language,track.licenseLabel].filter(Boolean).join(' · ');
+      const source=document.createElement('small'); source.className='source'; source.textContent='Uploader-declared licence · '+track.licenseLabel;
+      info.append(title,creator,source);
+      const play=document.createElement('button'); play.textContent='▶'; play.setAttribute('aria-label','Play '+track.title);
+      play.addEventListener('click',async()=>{
+        approvedTrackPlaying=false;
+        liveAudio.pause(); liveAudio.src=track.audioUrl; liveAudio.load();
+        document.getElementById('nowplaying').textContent=track.title;
+        document.querySelector('.playing small').textContent=track.artist+' · '+track.licenseLabel;
+        document.querySelector('.playerart').src='https://archive.org/services/img/'+encodeURIComponent(track.id);
+        playerBar.classList.add('is-playing');
+        try { await liveAudio.play(); playing=true; document.getElementById('playbtn').textContent='Ⅱ'; }
+        catch(error) { playing=false; document.getElementById('playbtn').textContent='▶'; iaStatus.textContent='This Archive file could not start playback. Try another result.'; }
+        document.querySelectorAll('#ia-results .track').forEach((item,i)=>item.classList.toggle('is-active',i===index));
+      });
+      const link=document.createElement('button'); link.className='queue-btn'; link.textContent='SOURCE ↗'; link.setAttribute('aria-label','Open Internet Archive source and licence');
+      link.addEventListener('click',()=>window.open(track.pageUrl,'_blank','noopener'));
+      row.append(art,info,play,link); iaResults.append(row);
+    });
+    iaStatus.textContent=iaTracks.length+' playable audio item(s) found · uploader-declared licences shown · open the source page to review terms and attribution.';
+  } catch(error) {
+    iaStatus.textContent='Internet Archive catalogue could not load right now. Check your connection and try again.';
+  }
+}
+document.getElementById('ia-search').addEventListener('click',()=>searchInternetArchive(iaQueryInput.value));
+iaQueryInput.addEventListener('keydown',event=>{if(event.key==='Enter'){event.preventDefault();searchInternetArchive(iaQueryInput.value);}});
 
 // DROPZY YouTube Data API v3 integration. Public browser key is restricted by HTTP referrer and API.
 const DROPZY_YOUTUBE_KEY = 'AIzaSyARGZJmsiP9Rd_FC8_275o0gdYfEd4rCrM';
