@@ -1167,6 +1167,10 @@ document.getElementById('repeat-btn').addEventListener('click',e=>{repeatEnabled
 document.getElementById('volume-control').addEventListener('input',e=>{liveAudio.volume=Number(e.target.value);});
 const baseSkipWithQueue=skip;
 skip=function(direction){
+ if(typeof iaCurrentIndex!=='undefined'&&iaCurrentIndex>=0&&liveAudio.src.includes('archive.org/download/')){
+  if(repeatEnabled&&direction>0){playIATrack(iaCurrentIndex);return;}
+  if(iaTracks.length){let next=iaCurrentIndex+direction;if(shuffleEnabled&&direction>0&&iaTracks.length>1){next=Math.floor(Math.random()*iaTracks.length);if(next===iaCurrentIndex)next=(next+1)%iaTracks.length;}else next=(next+iaTracks.length)%iaTracks.length;playIATrack(next);return;}
+ }
  if(direction>0&&repeatEnabled&&liveAudio.src){if(approvedTrackPlaying&&approvedIndex>=0){playApprovedTrack(approvedIndex);}else if(liveIndex>=0){playLiveTrack(liveIndex);}return;}
  if(direction>0&&shuffleEnabled&&liveResults.length>1&&!approvedTrackPlaying){let next=Math.floor(Math.random()*liveResults.length);if(next===liveIndex)next=(next+1)%liveResults.length;playLiveTrack(next);return;}
  baseSkipWithQueue(direction);
@@ -1184,6 +1188,7 @@ const iaQueryInput = document.getElementById('ia-query');
 const iaStatus = document.getElementById('ia-status');
 const iaResults = document.getElementById('ia-results');
 let iaTracks = [];
+let iaCurrentIndex = -1;
 function iaAllowedLicense(value) {
   const license = String(value || '').toLowerCase();
   return /creativecommons\.org\/publicdomain\/(zero\/1\.0|mark\/1\.0)/.test(license) ||
@@ -1198,6 +1203,18 @@ function iaLicenseLabel(value) {
   return 'Open licence';
 }
 function iaText(value) { return String(value || '').replace(/\s+/g,' ').trim(); }
+async function playIATrack(index) {
+  const track=iaTracks[index]; if(!track)return;
+  iaCurrentIndex=index; approvedTrackPlaying=false;
+  liveAudio.pause(); liveAudio.src=track.audioUrl; liveAudio.load();
+  document.getElementById('nowplaying').textContent=track.title;
+  document.querySelector('.playing small').textContent=track.artist+' · '+track.licenseLabel;
+  document.querySelector('.playerart').src='https://archive.org/services/img/'+encodeURIComponent(track.id);
+  playerBar.classList.add('is-playing');
+  try { await liveAudio.play(); playing=true; document.getElementById('playbtn').textContent='Ⅱ'; }
+  catch(error) { playing=false; document.getElementById('playbtn').textContent='▶'; iaStatus.textContent='This Archive file could not start playback. Try another result.'; }
+  document.querySelectorAll('#ia-results .track').forEach((item,i)=>item.classList.toggle('is-active',i===index));
+}
 async function searchInternetArchive(query = '') {
   iaStatus.textContent = 'Searching Internet Archive for reuse-friendly audio…';
   iaResults.replaceChildren();
@@ -1278,17 +1295,7 @@ async function searchInternetArchive(query = '') {
       const source=document.createElement('small'); source.className='source'; source.textContent='Uploader-declared licence · '+track.licenseLabel;
       info.append(title,creator,source);
       const play=document.createElement('button'); play.textContent='▶'; play.setAttribute('aria-label','Play '+track.title);
-      play.addEventListener('click',async()=>{
-        approvedTrackPlaying=false;
-        liveAudio.pause(); liveAudio.src=track.audioUrl; liveAudio.load();
-        document.getElementById('nowplaying').textContent=track.title;
-        document.querySelector('.playing small').textContent=track.artist+' · '+track.licenseLabel;
-        document.querySelector('.playerart').src='https://archive.org/services/img/'+encodeURIComponent(track.id);
-        playerBar.classList.add('is-playing');
-        try { await liveAudio.play(); playing=true; document.getElementById('playbtn').textContent='Ⅱ'; }
-        catch(error) { playing=false; document.getElementById('playbtn').textContent='▶'; iaStatus.textContent='This Archive file could not start playback. Try another result.'; }
-        document.querySelectorAll('#ia-results .track').forEach((item,i)=>item.classList.toggle('is-active',i===index));
-      });
+      play.addEventListener('click',()=>playIATrack(index));
       const link=document.createElement('button'); link.className='queue-btn'; link.textContent='SOURCE ↗'; link.setAttribute('aria-label','Open Internet Archive source and licence');
       link.addEventListener('click',()=>window.open(track.pageUrl,'_blank','noopener'));
       row.append(art,info,play,link); iaResults.append(row);
