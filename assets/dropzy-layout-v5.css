@@ -1,0 +1,86 @@
+/* DROPZY unified responsive shell v5 — one predictable desktop/mobile layout */
+:root{--dz-shell-bg:#09090d;--dz-shell-panel:rgba(18,17,22,.92);--dz-shell-line:rgba(255,255,255,.1);--dz-shell-red:#c1122f;--dz-shell-text:#f7f0eb;--dz-shell-muted:#a49ba0}
+html,body{min-height:100%;overflow-x:clip}
+body{background:#09090d!important;color:var(--dz-shell-text)!important}
+body>*{min-width:0}
+.mobile-dock{
+ position:fixed!important;z-index:10030!important;left:0!important;top:0!important;bottom:0!important;
+ width:232px!important;height:100dvh!important;max-width:232px!important;margin:0!important;
+ padding:28px 16px 24px!important;display:flex!important;flex-direction:column!important;
+ align-items:stretch!important;justify-content:flex-start!important;gap:7px!important;
+ overflow-y:auto!important;overflow-x:hidden!important;transform:none!important;
+ border:0!important;border-right:1px solid var(--dz-shell-line)!important;border-radius:0!important;
+ background:rgba(13,12,16,.97)!important;backdrop-filter:blur(24px) saturate(140%)!important;
+ box-shadow:12px 0 40px rgba(0,0,0,.24)!important
+}
+.mobile-dock:before{content:"DROPZY";display:block;padding:8px 12px 28px;color:#fff;font-size:23px;font-weight:900;letter-spacing:-1.3px}
+.mobile-dock a{
+ flex:0 0 auto!important;width:100%!important;min-height:44px!important;min-width:0!important;
+ display:flex!important;flex-direction:row!important;align-items:center!important;justify-content:flex-start!important;
+ gap:14px!important;padding:10px 13px!important;margin:0!important;border-radius:11px!important;
+ color:#aaa2a7!important;text-decoration:none!important;font-size:13px!important;font-weight:650!important;
+ line-height:1.2!important;white-space:nowrap!important;background:transparent!important
+}
+.mobile-dock a span{width:20px!important;flex:0 0 20px!important;text-align:center!important;font-size:18px!important;line-height:1!important}
+.mobile-dock a small{font-size:13px!important;font-weight:650!important}
+.mobile-dock a:hover,.mobile-dock a.active{color:#fff!important;background:rgba(193,18,47,.18)!important}
+.mobile-dock a.active{box-shadow:inset 2px 0 #e23a55!important}
+body>.wrap,body>main.wrap,.wrap{
+ margin-left:232px!important;width:calc(100% - 232px)!important;max-width:none!important;
+ padding-left:clamp(22px,3vw,48px)!important;padding-right:clamp(22px,3vw,48px)!important;
+ padding-bottom:118px!important;min-width:0!important
+}
+body>header{margin-left:232px!important;width:calc(100% - 232px)!important}
+body>main.wrap>header,body>.wrap>header{margin-left:0!important;width:100%!important}
+header{min-height:72px!important;height:auto!important;padding:12px 0!important;display:flex!important;gap:18px!important;flex-wrap:wrap!important}
+header .headright{min-width:0!important;display:flex!important;align-items:center!important;gap:10px!important}
+header .search{width:clamp(150px,22vw,280px)!important;max-width:100%!important}
+.hero{max-width:1500px!important;min-height:clamp(300px,42vw,500px)!important}
+.section{max-width:1500px!important;width:100%!important}
+.rail{grid-template-columns:repeat(auto-fit,minmax(min(190px,100%),1fr))!important}
+.tile{min-width:0!important}
+.track{min-width:0!important}
+.player{
+ left:calc(232px + (100% - 232px)/2)!important;right:auto!important;bottom:18px!important;
+ transform:translateX(-50%)!important;width:min(820px,calc(100% - 280px))!important;
+ min-width:420px!important;max-width:calc(100% - 270px)!important;z-index:10020!important;
+ border-radius:16px!important
+}
+#dz-back-top{bottom:105px!important}
+#dz-toast{bottom:105px!important}
+@media(max-width:900px){
+ .mobile-dock{
+  left:0!important;right:0!important;top:auto!important;bottom:0!important;width:100%!important;
+  max-width:none!important;height:auto!important;max-height:76px!important;min-height:66px!important;
+  padding:7px 8px calc(7px + env(safe-area-inset-bottom))!important;
+  flex-direction:row!important;align-items:center!important;justify-content:flex-start!important;
+  gap:4px!important;overflow-x:auto!important;overflow-y:hidden!important;
+  border-right:0!important;border-top:1px solid var(--dz-shell-line)!important;
+  background:rgba(12,11,15,.97)!important;box-shadow:0 -10px 34px rgba(0,0,0,.45)!important
+ }
+ .mobile-dock:before{display:none!important}
+ .mobile-dock a{flex:0 0 68px!important;width:68px!important;min-height:50px!important;flex-direction:column!important;justify-content:center!important;gap:4px!important;padding:5px 2px!important;font-size:10px!important}
+ .mobile-dock a span{width:auto!important;flex:0 0 auto!important;font-size:17px!important}
+ .mobile-dock a small{font-size:9px!important}
+ body>.wrap,body>main.wrap,.wrap{margin-left:0!important;width:100%!important;padding-left:22px!important;padding-right:22px!important;padding-bottom:175px!important}
+ body>header{margin-left:0!important;width:100%!important}
+ body>main.wrap>header,body>.wrap>header{padding-left:0!important;padding-right:0!important}
+ .player{left:50%!important;bottom:calc(78px + env(safe-area-inset-bottom))!important;
+  width:min(620px,calc(100% - 28px))!important;min-width:0!important;max-width:calc(100% - 28px)!important}
+ #dz-back-top{bottom:155px!important}#dz-toast{bottom:150px!important}
+}
+@media(max-width:520px){
+ body>.wrap,body>main.wrap,.wrap{padding-left:14px!important;padding-right:14px!important;padding-bottom:176px!important}
+ header{gap:9px!important}
+ header .search{width:min(42vw,170px)!important}
+ .hero{min-height:330px!important}
+ .rail{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:10px!important}
+ .tile{min-height:145px!important}
+ .player{padding:7px 9px!important;gap:7px!important;min-height:56px!important}
+ .player .playerart{width:34px!important;height:34px!important;flex:0 0 34px!important}
+ .player .playing b{max-width:28vw!important}
+ .player .controls{gap:4px!important}
+ .player .controls button{width:26px!important;height:26px!important;font-size:12px!important}
+ .player .controls .big{width:34px!important;height:34px!important}
+}
+@media(prefers-reduced-motion:reduce){.mobile-dock,.player{scroll-behavior:auto!important;transition:none!important}}
