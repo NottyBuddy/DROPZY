@@ -84,3 +84,25 @@ header .search{width:clamp(150px,22vw,280px)!important;max-width:100%!important}
  .player .controls .big{width:34px!important;height:34px!important}
 }
 @media(prefers-reduced-motion:reduce){.mobile-dock,.player{scroll-behavior:auto!important;transition:none!important}}
+
+/* Page-specific tools and visible result surfaces */
+body[data-page="browse"] #live-library,
+body[data-page="radio"] #live-library,
+body[data-page="search"] #live-library{display:block!important;visibility:visible!important;opacity:1!important}
+.dz-page-hub{position:relative;margin:26px 0 30px;padding:clamp(22px,3vw,38px);border:1px solid rgba(255,255,255,.11);border-radius:22px;background:linear-gradient(125deg,rgba(42,17,27,.82),rgba(17,18,24,.92) 62%);box-shadow:0 18px 50px rgba(0,0,0,.24);overflow:hidden}
+.dz-page-hub:after{content:"";position:absolute;width:300px;height:300px;right:-100px;top:-170px;border-radius:50%;background:rgba(193,18,47,.16);filter:blur(50px);pointer-events:none}
+.dz-hub-kicker{color:#f16b80;font-size:10px;font-weight:850;letter-spacing:2.2px}
+.dz-page-hub h1{position:relative;margin:12px 0 8px;font-size:clamp(30px,4vw,54px);line-height:1.04;letter-spacing:-1.8px}
+.dz-page-hub p{position:relative;color:#b7abb0;font-size:14px;line-height:1.65;max-width:620px;margin:0 0 22px}
+.dz-station-grid{position:relative;display:grid;grid-template-columns:repeat(auto-fit,minmax(185px,1fr));gap:10px}
+.dz-station-grid button{min-height:86px;text-align:left;padding:15px;border:1px solid rgba(255,255,255,.1);border-radius:13px;background:rgba(255,255,255,.045);color:#fff;display:flex;flex-direction:column;justify-content:center;gap:6px}
+.dz-station-grid button:hover,.dz-station-grid button.active{border-color:#c1122f99;background:rgba(193,18,47,.16)}
+.dz-station-grid button b{font-size:14px}.dz-station-grid button small{font-size:11px;color:#a99da2;line-height:1.4}
+.dz-hub-status{position:relative;margin-top:14px;color:#c9bfc3;font-size:12px;min-height:18px}
+.dz-search-row{position:relative;display:flex;gap:9px;max-width:760px}
+.dz-search-row input{min-width:0;flex:1;height:50px;border:1px solid rgba(255,255,255,.14);border-radius:12px;background:rgba(0,0,0,.28);color:#fff;padding:0 15px;font:inherit}
+.dz-search-row button{height:50px;padding:0 22px;border:0;border-radius:12px;background:#c1122f;color:#fff;font-weight:800}
+.dz-search-chips{position:relative;display:flex;flex-wrap:wrap;gap:8px;margin-top:13px}
+.dz-search-chips button{padding:8px 13px;border:1px solid rgba(255,255,255,.13);border-radius:999px;background:rgba(255,255,255,.05);color:#e8dfe3;font-size:11px}
+#live-library{scroll-margin-top:100px}
+@media(max-width:520px){.dz-page-hub{margin:15px 0 22px;padding:19px 15px;border-radius:17px}.dz-station-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.dz-station-grid button{min-height:78px;padding:12px}.dz-search-row{flex-direction:column}.dz-search-row button{width:100%}}
