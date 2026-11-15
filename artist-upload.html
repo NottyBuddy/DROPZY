@@ -20,7 +20,7 @@ button.secondary{background:#ffffff12;border:1px solid #ffffff2b}.row{display:fl
 @media(max-width:540px){.grid{grid-template-columns:1fr}.panel{padding:19px}}
 </style>
 <link rel="stylesheet" href="assets/dropzy-background-fit.css?v=3"></head>
-<body><div class="dropzy-video-bg" aria-hidden="true"><video autoplay muted loop playsinline preload="auto"><source src="https://raw.githubusercontent.com/NottyBuddy/DROPZY/main/Anime-bg.mp4" type="video/mp4"></video></div><div class="dropzy-video-shade" aria-hidden="true"></div><main>
+<body><main>
 <a href="./" style="text-decoration:none;color:inherit"><div class="brand">DROP<span>ZY</span></div></a>
 <section class="intro"><div class="eyebrow">INDIA'S MUSIC, FROM THE ARTISTS</div><h1>Your music.<br><span style="color:#ff70b5">Your DROPZY stage.</span></h1><p>Submit original recordings in any Indian language. Your rights-confirmed upload is published to the DROPZY catalogue automatically.</p></section>
 <div class="notice">Instant artist upload: your rights-confirmed track can appear in the public DROPZY catalogue automatically. Upload only audio you own or have explicit permission to distribute and stream.</div>
@@ -71,4 +71,4 @@ if(proof && proof.size){
 if(proofPath){const proofUpload=await client.storage.from('artist-submissions').upload(proofPath,proof,{contentType:proof.type||'application/octet-stream',upsert:false});if(proofUpload.error){await client.storage.from('artist-submissions').remove([path]);throw proofUpload.error;}}
 const inserted=await client.from('song_submissions').insert({user_id:currentUser.id,title:String(data.get('title')).trim(),artist:String(data.get('artist')).trim(),language:String(data.get('language')),genre:String(data.get('genre')||''),version_label:String(data.get('version_label')||'original'),storage_path:path,rights_proof_path:proofPath,original_filename:file.name,rights_note:String(data.get('rights_note')).trim(),rights_confirmed:true,status:'approved'});if(inserted.error){await client.storage.from('artist-submissions').remove([path,...(proofPath?[proofPath]:[])]);throw inserted.error;}form.reset();message(uploadStatus,'Published! Your track is now in the DROPZY catalogue.');}catch(error){message(uploadStatus,error.message||'Upload failed. Please try again.');}finally{button.disabled=false;}});
 </script>
-</body></html>
+<script src="assets/dropzy-ambient.js" defer></script></body></html>
