@@ -1,108 +1,68 @@
-/* DROPZY unified responsive shell v5 — one predictable desktop/mobile layout */
-:root{--dz-shell-bg:#09090d;--dz-shell-panel:rgba(18,17,22,.92);--dz-shell-line:rgba(255,255,255,.1);--dz-shell-red:#c1122f;--dz-shell-text:#f7f0eb;--dz-shell-muted:#a49ba0}
-html,body{min-height:100%;overflow-x:clip}
-body{background:#09090d!important;color:var(--dz-shell-text)!important}
-body>*{min-width:0}
-.mobile-dock{
- position:fixed!important;z-index:10030!important;left:0!important;top:0!important;bottom:0!important;
- width:232px!important;height:100dvh!important;max-width:232px!important;margin:0!important;
- padding:28px 16px 24px!important;display:flex!important;flex-direction:column!important;
- align-items:stretch!important;justify-content:flex-start!important;gap:7px!important;
- overflow-y:auto!important;overflow-x:hidden!important;transform:none!important;
- border:0!important;border-right:1px solid var(--dz-shell-line)!important;border-radius:0!important;
- background:rgba(13,12,16,.97)!important;backdrop-filter:blur(24px) saturate(140%)!important;
- box-shadow:12px 0 40px rgba(0,0,0,.24)!important
+/* DROPZY responsive shell v6 — final override for desktop browsers and touch devices */
+:root{--dz-bg:#09090d;--dz-panel:#141218;--dz-line:rgba(255,255,255,.1);--dz-red:#c1122f;--dz-text:#f7f0eb;--dz-muted:#a79da3}
+html,body{width:100%!important;max-width:100%!important;min-width:0!important;overflow-x:hidden!important;transform:none!important;filter:none!important;perspective:none!important}
+body{margin:0!important;background:#09090d!important;color:var(--dz-text)!important;padding-bottom:0!important}
+body:before{pointer-events:none!important}
+body>.wrap,body>main.wrap,main.wrap,.wrap{box-sizing:border-box!important;min-width:0!important;max-width:none!important}
+.mobile-dock{box-sizing:border-box!important;display:flex!important;z-index:10030!important}
+.mobile-dock a{box-sizing:border-box!important;text-decoration:none!important;transition:background .18s,color .18s!important}
+.mobile-dock a.active{color:#fff!important;background:rgba(193,18,47,.2)!important}
+.player{z-index:10020!important;box-sizing:border-box!important}
+#dz-back-top{z-index:10040!important}
+#dz-toast{z-index:10050!important}
+/* Standard desktop: fixed left rail, consistent content canvas */
+@media (min-width:901px) and (pointer:fine){
+ .mobile-dock{position:fixed!important;inset:0 auto 0 0!important;width:224px!important;height:100vh!important;max-width:224px!important;flex-direction:column!important;align-items:stretch!important;justify-content:flex-start!important;gap:6px!important;padding:26px 14px!important;overflow-y:auto!important;overflow-x:hidden!important;border:0!important;border-right:1px solid var(--dz-line)!important;border-radius:0!important;background:rgba(12,11,15,.98)!important;backdrop-filter:blur(24px)!important;transform:none!important}
+ .mobile-dock:before{content:"DROPZY";display:block;padding:10px 12px 28px;color:#fff;font-size:24px;font-weight:900;letter-spacing:-1px}
+ .mobile-dock a{width:100%!important;min-height:44px!important;flex:0 0 auto!important;display:flex!important;flex-direction:row!important;align-items:center!important;justify-content:flex-start!important;gap:13px!important;padding:10px 12px!important;border-radius:10px!important;color:#aaa2a8!important}
+ .mobile-dock a span{width:20px!important;flex:0 0 20px!important;text-align:center!important;font-size:17px!important}
+ .mobile-dock a small{font-size:13px!important}
+ body>.wrap,body>main.wrap,main.wrap,.wrap{width:calc(100% - 224px)!important;margin-left:224px!important;margin-right:0!important;padding-left:clamp(24px,4vw,58px)!important;padding-right:clamp(24px,4vw,58px)!important;padding-bottom:130px!important}
+ body>header{width:calc(100% - 224px)!important;margin-left:224px!important;padding-left:clamp(24px,4vw,58px)!important;padding-right:clamp(24px,4vw,58px)!important}
+ .player{position:fixed!important;left:calc(224px + (100% - 224px)/2)!important;right:auto!important;bottom:16px!important;transform:translateX(-50%)!important;width:min(780px,calc(100% - 270px))!important;min-width:380px!important;max-width:calc(100% - 250px)!important}
 }
-.mobile-dock:before{content:"DROPZY";display:block;padding:8px 12px 28px;color:#fff;font-size:23px;font-weight:900;letter-spacing:-1.3px}
-.mobile-dock a{
- flex:0 0 auto!important;width:100%!important;min-height:44px!important;min-width:0!important;
- display:flex!important;flex-direction:row!important;align-items:center!important;justify-content:flex-start!important;
- gap:14px!important;padding:10px 13px!important;margin:0!important;border-radius:11px!important;
- color:#aaa2a7!important;text-decoration:none!important;font-size:13px!important;font-weight:650!important;
- line-height:1.2!important;white-space:nowrap!important;background:transparent!important
-}
-.mobile-dock a span{width:20px!important;flex:0 0 20px!important;text-align:center!important;font-size:18px!important;line-height:1!important}
-.mobile-dock a small{font-size:13px!important;font-weight:650!important}
-.mobile-dock a:hover,.mobile-dock a.active{color:#fff!important;background:rgba(193,18,47,.18)!important}
-.mobile-dock a.active{box-shadow:inset 2px 0 #e23a55!important}
-body>.wrap,body>main.wrap,.wrap{
- margin-left:232px!important;width:calc(100% - 232px)!important;max-width:none!important;
- padding-left:clamp(22px,3vw,48px)!important;padding-right:clamp(22px,3vw,48px)!important;
- padding-bottom:118px!important;min-width:0!important
-}
-body>header{margin-left:232px!important;width:calc(100% - 232px)!important}
-body>main.wrap>header,body>.wrap>header{margin-left:0!important;width:100%!important}
-header{min-height:72px!important;height:auto!important;padding:12px 0!important;display:flex!important;gap:18px!important;flex-wrap:wrap!important}
-header .headright{min-width:0!important;display:flex!important;align-items:center!important;gap:10px!important}
-header .search{width:clamp(150px,22vw,280px)!important;max-width:100%!important}
-.hero{max-width:1500px!important;min-height:clamp(300px,42vw,500px)!important}
-.section{max-width:1500px!important;width:100%!important}
-.rail{grid-template-columns:repeat(auto-fit,minmax(min(190px,100%),1fr))!important}
-.tile{min-width:0!important}
-.track{min-width:0!important}
-.player{
- left:calc(232px + (100% - 232px)/2)!important;right:auto!important;bottom:18px!important;
- transform:translateX(-50%)!important;width:min(820px,calc(100% - 280px))!important;
- min-width:420px!important;max-width:calc(100% - 270px)!important;z-index:10020!important;
- border-radius:16px!important
-}
-#dz-back-top{bottom:105px!important}
-#dz-toast{bottom:105px!important}
-@media(max-width:900px){
- .mobile-dock{
-  left:0!important;right:0!important;top:auto!important;bottom:0!important;width:100%!important;
-  max-width:none!important;height:auto!important;max-height:76px!important;min-height:66px!important;
-  padding:7px 8px calc(7px + env(safe-area-inset-bottom))!important;
-  flex-direction:row!important;align-items:center!important;justify-content:flex-start!important;
-  gap:4px!important;overflow-x:auto!important;overflow-y:hidden!important;
-  border-right:0!important;border-top:1px solid var(--dz-shell-line)!important;
-  background:rgba(12,11,15,.97)!important;box-shadow:0 -10px 34px rgba(0,0,0,.45)!important
- }
+/* Touch devices, including Android Chrome "Desktop site": always use compact bottom dock */
+@media (max-width:900px),(pointer:coarse){
+ body{padding-bottom:calc(150px + env(safe-area-inset-bottom))!important}
+ body>.wrap,body>main.wrap,main.wrap,.wrap{width:100%!important;max-width:100%!important;margin:0!important;padding-left:clamp(14px,4vw,26px)!important;padding-right:clamp(14px,4vw,26px)!important;padding-bottom:170px!important}
+ body>header{width:100%!important;margin:0!important;padding-left:clamp(14px,4vw,26px)!important;padding-right:clamp(14px,4vw,26px)!important}
+ .mobile-dock{position:fixed!important;left:0!important;right:0!important;top:auto!important;bottom:0!important;width:100%!important;max-width:none!important;height:auto!important;min-height:68px!important;max-height:82px!important;margin:0!important;padding:7px 5px calc(7px + env(safe-area-inset-bottom))!important;display:flex!important;flex-direction:row!important;align-items:center!important;justify-content:flex-start!important;gap:2px!important;overflow-x:auto!important;overflow-y:hidden!important;white-space:nowrap!important;border:0!important;border-top:1px solid var(--dz-line)!important;border-radius:0!important;background:rgba(12,11,15,.98)!important;backdrop-filter:blur(22px)!important;transform:none!important;scrollbar-width:none!important}
+ .mobile-dock::-webkit-scrollbar{display:none!important}
  .mobile-dock:before{display:none!important}
- .mobile-dock a{flex:0 0 68px!important;width:68px!important;min-height:50px!important;flex-direction:column!important;justify-content:center!important;gap:4px!important;padding:5px 2px!important;font-size:10px!important}
- .mobile-dock a span{width:auto!important;flex:0 0 auto!important;font-size:17px!important}
- .mobile-dock a small{font-size:9px!important}
- body>.wrap,body>main.wrap,.wrap{margin-left:0!important;width:100%!important;padding-left:22px!important;padding-right:22px!important;padding-bottom:175px!important}
+ .mobile-dock a{flex:0 0 72px!important;width:72px!important;min-width:72px!important;max-width:72px!important;height:54px!important;min-height:54px!important;margin:0!important;padding:5px 2px!important;display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;gap:4px!important;border-radius:9px!important;color:#aaa2a8!important}
+ .mobile-dock a span{display:block!important;width:auto!important;flex:0 0 auto!important;font-size:17px!important;line-height:1!important}
+ .mobile-dock a small{display:block!important;font-size:9px!important;line-height:1.1!important;white-space:nowrap!important}
+ .player{position:fixed!important;left:50%!important;right:auto!important;bottom:calc(76px + env(safe-area-inset-bottom))!important;transform:translateX(-50%)!important;width:min(620px,calc(100% - 24px))!important;min-width:0!important;max-width:calc(100% - 24px)!important;min-height:58px!important;padding:7px 10px!important;z-index:10020!important}
+ .player .progress,.player-extra{display:none!important}
+ #dz-back-top{right:12px!important;bottom:150px!important}
+ #dz-toast{bottom:145px!important}
+ header{height:auto!important;min-height:60px!important;flex-wrap:wrap!important;gap:8px!important}
+ header .headright{min-width:0!important;max-width:100%!important}
+ header .search{width:min(38vw,190px)!important;max-width:100%!important}
+ .rail{grid-template-columns:repeat(auto-fit,minmax(min(180px,100%),1fr))!important}
+}
+/* Android desktop-site mode reports a wide CSS viewport; coarse pointer still selects touch layout */
+@media (pointer:coarse){
+ body>.wrap,body>main.wrap,main.wrap,.wrap{margin-left:0!important;width:100%!important}
  body>header{margin-left:0!important;width:100%!important}
- body>main.wrap>header,body>.wrap>header{padding-left:0!important;padding-right:0!important}
- .player{left:50%!important;bottom:calc(78px + env(safe-area-inset-bottom))!important;
-  width:min(620px,calc(100% - 28px))!important;min-width:0!important;max-width:calc(100% - 28px)!important}
- #dz-back-top{bottom:155px!important}#dz-toast{bottom:150px!important}
+ .mobile-dock{left:0!important;right:0!important;top:auto!important;bottom:0!important;width:100%!important;max-width:none!important;height:auto!important;flex-direction:row!important}
+ .mobile-dock:before{display:none!important}
+ .mobile-dock a{flex:0 0 72px!important;width:72px!important;min-width:72px!important;max-width:72px!important;flex-direction:column!important}
+ .player{left:50%!important;right:auto!important;bottom:calc(76px + env(safe-area-inset-bottom))!important;width:min(620px,calc(100% - 24px))!important;min-width:0!important;transform:translateX(-50%)!important}
 }
-@media(max-width:520px){
- body>.wrap,body>main.wrap,.wrap{padding-left:14px!important;padding-right:14px!important;padding-bottom:176px!important}
- header{gap:9px!important}
- header .search{width:min(42vw,170px)!important}
- .hero{min-height:330px!important}
+@media(max-width:560px){
+ .wrap,main.wrap,body>.wrap,body>main.wrap{padding-left:13px!important;padding-right:13px!important}
+ .hero{min-height:0!important;padding:36px 0 28px!important}
+ .hero h1{font-size:clamp(38px,11vw,58px)!important;letter-spacing:-2px!important}
+ .section{padding:18px 0 22px!important}
+ .sectiontop{gap:8px!important}
+ .section h2{font-size:20px!important}
  .rail{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:10px!important}
- .tile{min-height:145px!important}
- .player{padding:7px 9px!important;gap:7px!important;min-height:56px!important}
- .player .playerart{width:34px!important;height:34px!important;flex:0 0 34px!important}
- .player .playing b{max-width:28vw!important}
- .player .controls{gap:4px!important}
- .player .controls button{width:26px!important;height:26px!important;font-size:12px!important}
- .player .controls .big{width:34px!important;height:34px!important}
+ .tile{min-height:135px!important}
+ .dz-page-hub{margin:15px 0 22px!important;padding:18px 14px!important}
+ .dz-station-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+ .dz-search-row{flex-direction:column!important}
+ .dz-search-row button{width:100%!important}
+ .player .playing b{max-width:32vw!important}
 }
-@media(prefers-reduced-motion:reduce){.mobile-dock,.player{scroll-behavior:auto!important;transition:none!important}}
-
-/* Page-specific tools and visible result surfaces */
-body[data-page="browse"] #live-library,
-body[data-page="radio"] #live-library,
-body[data-page="search"] #live-library{display:block!important;visibility:visible!important;opacity:1!important}
-.dz-page-hub{position:relative;margin:26px 0 30px;padding:clamp(22px,3vw,38px);border:1px solid rgba(255,255,255,.11);border-radius:22px;background:linear-gradient(125deg,rgba(42,17,27,.82),rgba(17,18,24,.92) 62%);box-shadow:0 18px 50px rgba(0,0,0,.24);overflow:hidden}
-.dz-page-hub:after{content:"";position:absolute;width:300px;height:300px;right:-100px;top:-170px;border-radius:50%;background:rgba(193,18,47,.16);filter:blur(50px);pointer-events:none}
-.dz-hub-kicker{color:#f16b80;font-size:10px;font-weight:850;letter-spacing:2.2px}
-.dz-page-hub h1{position:relative;margin:12px 0 8px;font-size:clamp(30px,4vw,54px);line-height:1.04;letter-spacing:-1.8px}
-.dz-page-hub p{position:relative;color:#b7abb0;font-size:14px;line-height:1.65;max-width:620px;margin:0 0 22px}
-.dz-station-grid{position:relative;display:grid;grid-template-columns:repeat(auto-fit,minmax(185px,1fr));gap:10px}
-.dz-station-grid button{min-height:86px;text-align:left;padding:15px;border:1px solid rgba(255,255,255,.1);border-radius:13px;background:rgba(255,255,255,.045);color:#fff;display:flex;flex-direction:column;justify-content:center;gap:6px}
-.dz-station-grid button:hover,.dz-station-grid button.active{border-color:#c1122f99;background:rgba(193,18,47,.16)}
-.dz-station-grid button b{font-size:14px}.dz-station-grid button small{font-size:11px;color:#a99da2;line-height:1.4}
-.dz-hub-status{position:relative;margin-top:14px;color:#c9bfc3;font-size:12px;min-height:18px}
-.dz-search-row{position:relative;display:flex;gap:9px;max-width:760px}
-.dz-search-row input{min-width:0;flex:1;height:50px;border:1px solid rgba(255,255,255,.14);border-radius:12px;background:rgba(0,0,0,.28);color:#fff;padding:0 15px;font:inherit}
-.dz-search-row button{height:50px;padding:0 22px;border:0;border-radius:12px;background:#c1122f;color:#fff;font-weight:800}
-.dz-search-chips{position:relative;display:flex;flex-wrap:wrap;gap:8px;margin-top:13px}
-.dz-search-chips button{padding:8px 13px;border:1px solid rgba(255,255,255,.13);border-radius:999px;background:rgba(255,255,255,.05);color:#e8dfe3;font-size:11px}
-#live-library{scroll-margin-top:100px}
-@media(max-width:520px){.dz-page-hub{margin:15px 0 22px;padding:19px 15px;border-radius:17px}.dz-station-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.dz-station-grid button{min-height:78px;padding:12px}.dz-search-row{flex-direction:column}.dz-search-row button{width:100%}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
