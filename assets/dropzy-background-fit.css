@@ -1,10 +1,10 @@
-/* DROPZY — reliable full-viewport animated background on every page */
+/* DROPZY — shared full-viewport animated background, darkened consistently */
 html{min-height:100%;background:#090708!important}
-body{min-height:100vh;min-height:100dvh;background:transparent!important;isolation:isolate!important;position:relative}
+body{min-height:100vh;min-height:100dvh;background:transparent!important;isolation:isolate!important}
 .dropzy-video-bg{
   position:fixed!important;inset:0!important;
   width:100vw!important;height:100vh!important;height:100dvh!important;
-  overflow:hidden!important;z-index:0!important;
+  overflow:hidden!important;z-index:-2!important;
   background:#090708!important;pointer-events:none!important;
 }
 .dropzy-video-bg video{
@@ -15,15 +15,9 @@ body{min-height:100vh;min-height:100dvh;background:transparent!important;isolati
 }
 .dropzy-video-shade{
   position:fixed!important;inset:0!important;width:100vw!important;
-  height:100vh!important;height:100dvh!important;pointer-events:none!important;
-  z-index:1!important;
-  background:linear-gradient(115deg,rgba(8,6,7,.48),rgba(8,6,7,.34) 48%,rgba(8,6,7,.50)),
-             linear-gradient(0deg,rgba(8,6,7,.62),rgba(8,6,7,.10) 62%,rgba(8,6,7,.34))!important;
+  height:100vh!important;height:100dvh!important;
+  pointer-events:none!important;z-index:-1!important;
+  background:linear-gradient(115deg,rgba(8,6,7,.42),rgba(8,6,7,.30) 48%,rgba(8,6,7,.46)),
+             linear-gradient(0deg,rgba(8,6,7,.58),rgba(8,6,7,.08) 62%,rgba(8,6,7,.30))!important;
 }
-/* Decorative glow stays between the video and readable page content. */
-.ambient{position:fixed!important;inset:0!important;z-index:1!important;pointer-events:none!important}
-body>:not(.dropzy-video-bg):not(.dropzy-video-shade):not(.ambient){
-  position:relative;z-index:2;
-}
-header,.player,.mobile-dock{z-index:10!important}
 @media(prefers-reduced-motion:reduce){.dropzy-video-bg video{opacity:.42!important}}
