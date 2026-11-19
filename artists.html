@@ -296,16 +296,6 @@ body{animation:dropzyPageEnter .65s cubic-bezier(.2,.75,.25,1) both}
  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}
 }
 </style>
-<style id="dropzy-video-background">
-body{isolation:isolate!important;background:transparent!important}
-.dropzy-video-bg{position:fixed;inset:0;z-index:-2;overflow:hidden;pointer-events:none;background:#090708}
-.dropzy-video-bg video{width:100%;height:100%;object-fit:cover;object-position:center;opacity:.58}
-.dropzy-video-shade{position:fixed;inset:0;z-index:-1;pointer-events:none;background:linear-gradient(90deg,#090708df,#0907088c 55%,#090708bb),linear-gradient(0deg,#090708e8,transparent 65%);}
-/* Let the uploaded motion background remain visible beneath page content */
-.ambient{background:radial-gradient(ellipse at 80% 4%,#542b7a22,transparent 35%),radial-gradient(ellipse at 5% 35%,#c1122f18,transparent 32%)!important}
-.hero:after{background:linear-gradient(90deg,#090708dd,transparent 55%),linear-gradient(0deg,#090708aa,transparent 55%)!important;opacity:.6!important}
-@media(prefers-reduced-motion:reduce){.dropzy-video-bg video{display:none}.dropzy-video-bg{background:#090708}}
-</style>
 <style id="dropzy-liquid-glass-v2">
 /* DROPZY responsive + liquid glass system */
 :root{color-scheme:dark;--bg:#080708;--panel:rgba(18,13,16,.48);--glass:rgba(255,255,255,.075);--glass-line:rgba(255,255,255,.16);--pink:#c1122f;--crimson:#e0183b;--white:#f7f0eb}
