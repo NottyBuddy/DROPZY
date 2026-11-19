@@ -312,3 +312,13 @@ body:after{
 .intro{animation:none!important;opacity:1!important;visibility:visible!important;pointer-events:auto!important}
 .intro-logo{opacity:1!important;visibility:visible!important;display:block!important}
 @media(prefers-reduced-motion:reduce){.intro{animation:none!important}}
+
+/* Palette-matched gradient identity and custom icon finish */
+.intro-logo,.brand-mark img,.mobile-brand .brand-mark img{filter:drop-shadow(0 0 16px rgba(103,224,206,.22)) drop-shadow(0 0 24px rgba(156,140,255,.18))}
+.intro-tagline{background:linear-gradient(90deg,#f5f2ec 0%,#8fe8e0 38%,#b7a6ff 68%,#ffc46c 100%);-webkit-background-clip:text;background-clip:text;color:transparent!important;text-shadow:none!important}
+.intro{background:radial-gradient(ellipse at 50% 42%,rgba(67,218,205,.16),transparent 30%),radial-gradient(ellipse at 72% 58%,rgba(156,140,255,.20),transparent 40%),radial-gradient(ellipse at 25% 75%,rgba(255,196,108,.12),transparent 34%),#080d20!important}
+.side-nav a span{display:inline-grid;place-items:center;width:23px;height:23px;color:#8fe8e0;font-size:0!important}
+.side-nav a span svg{width:21px;height:21px;fill:none;stroke:currentColor;stroke-width:1.65;stroke-linecap:round;stroke-linejoin:round;filter:drop-shadow(0 0 5px rgba(103,224,206,.18))}
+.beat-bottom-nav svg,.beat-more-menu svg{fill:none;stroke:currentColor;stroke-width:1.65;stroke-linecap:round;stroke-linejoin:round;transition:transform .28s cubic-bezier(.2,.8,.2,1),filter .28s}
+.beat-bottom-nav a.active svg,.beat-more-button[aria-expanded="true"] svg{color:#a8e9e2;filter:drop-shadow(0 0 7px rgba(103,224,206,.45))}
+.beat-bottom-nav a:hover svg,.beat-more-button:hover svg{color:#ffc46c;filter:drop-shadow(0 0 8px rgba(255,196,108,.38))}
