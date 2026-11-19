@@ -199,3 +199,50 @@
  window.addEventListener('storage',e=>{if(e.key===key)paint(read())});
  paint(read());
 })();
+
+
+/* Step 2 — global player interface shell (no catalogue or audio source) */
+(()=>{
+ if(document.querySelector('.bt-player'))return;
+ const dock=document.createElement('section');
+ dock.className='bt-player';
+ dock.setAttribute('aria-label','Music player');
+ dock.innerHTML=`
+  <button class="bt-player-main" type="button" data-player-open aria-label="Open player">
+   <span class="bt-player-art" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+   <span class="bt-player-copy"><strong>Nothing playing</strong><small>Select audio when a source is connected</small></span>
+   <span class="bt-player-state">PLAYER</span>
+  </button>
+  <div class="bt-player-actions">
+   <button type="button" class="bt-player-control" disabled aria-label="Previous track">‹</button>
+   <button type="button" class="bt-player-play" disabled aria-label="Play">▶</button>
+   <button type="button" class="bt-player-control" disabled aria-label="Next track">›</button>
+   <button type="button" class="bt-player-expand" data-player-open aria-label="Expand player">⌃</button>
+  </div>
+  <div class="bt-player-progress" aria-hidden="true"><i></i></div>`;
+ const overlay=document.createElement('div');
+ overlay.className='bt-player-overlay';
+ overlay.hidden=true;
+ overlay.innerHTML=`
+  <div class="bt-player-backdrop" data-player-close></div>
+  <section class="bt-player-sheet" role="dialog" aria-modal="true" aria-labelledby="bt-player-title">
+   <header class="bt-player-sheet-head"><span class="bt-player-kicker">NOW PLAYING</span><button type="button" data-player-close aria-label="Close player">×</button></header>
+   <div class="bt-player-hero"><div class="bt-player-art bt-player-art-large" aria-hidden="true"><i></i><i></i><i></i><i></i></div><h2 id="bt-player-title">Nothing playing</h2><p>No audio selected</p></div>
+   <div class="bt-player-timeline"><span>--:--</span><input type="range" min="0" max="100" value="0" disabled aria-label="Track progress"><span>--:--</span></div>
+   <div class="bt-player-sheet-controls"><button disabled aria-label="Previous track">‹</button><button class="bt-player-sheet-play" disabled aria-label="Play">▶</button><button disabled aria-label="Next track">›</button></div>
+   <div class="bt-player-volume"><span>Volume</span><input type="range" min="0" max="100" value="70" aria-label="Volume"></div>
+   <div class="bt-player-tabs" role="tablist" aria-label="Player panels"><button class="active" type="button" role="tab" aria-selected="true" data-player-tab="queue">Queue</button><button type="button" role="tab" aria-selected="false" data-player-tab="lyrics">Lyrics</button></div>
+   <div class="bt-player-tab-content" data-player-panel="queue"><strong>Your queue is empty</strong><p>Tracks will appear here when audio is available.</p></div>
+   <div class="bt-player-tab-content" data-player-panel="lyrics" hidden><strong>Lyrics unavailable</strong><p>Choose a track with a supported lyrics source to view synced lyrics.</p></div>
+  </section>`;
+ document.body.append(dock,overlay);
+ const open=()=>{overlay.hidden=false;document.body.classList.add('bt-player-open');overlay.querySelector('[data-player-close]').focus()};
+ const close=()=>{overlay.hidden=true;document.body.classList.remove('bt-player-open');dock.querySelector('[data-player-open]').focus()};
+ dock.querySelectorAll('[data-player-open]').forEach(b=>b.addEventListener('click',open));
+ overlay.querySelectorAll('[data-player-close]').forEach(b=>b.addEventListener('click',close));
+ document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!overlay.hidden)close()});
+ overlay.querySelectorAll('[data-player-tab]').forEach(tab=>tab.addEventListener('click',()=>{
+  overlay.querySelectorAll('[data-player-tab]').forEach(t=>{const active=t===tab;t.classList.toggle('active',active);t.setAttribute('aria-selected',String(active))});
+  overlay.querySelectorAll('[data-player-panel]').forEach(p=>p.hidden=p.dataset.playerPanel!==tab.dataset.playerTab);
+ }));
+})();
