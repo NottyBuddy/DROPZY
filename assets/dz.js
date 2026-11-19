@@ -203,7 +203,7 @@
 
 /* Step 2 — global player interface shell (no catalogue or audio source) */
 (()=>{
- if(document.querySelector('.bt-player'))return;
+ if(document.querySelector('.bt-player')||(document.querySelector('.intro')&&!document.querySelector('.app-shell')))return;
  const dock=document.createElement('section');
  dock.className='bt-player';
  dock.setAttribute('aria-label','Music player');
@@ -236,7 +236,7 @@
    <div class="bt-player-tab-content" data-player-panel="lyrics" hidden><strong>Lyrics unavailable</strong><p>Choose a track with a supported lyrics source to view synced lyrics.</p></div>
   </section>`;
  document.body.append(dock,overlay);
- const open=()=>{overlay.hidden=false;document.body.classList.add('bt-player-open');overlay.querySelector('[data-player-close]').focus()};
+ const open=()=>{overlay.hidden=false;document.body.classList.add('bt-player-open');overlay.querySelector('button[data-player-close]').focus()};
  const close=()=>{overlay.hidden=true;document.body.classList.remove('bt-player-open');dock.querySelector('[data-player-open]').focus()};
  dock.querySelectorAll('[data-player-open]').forEach(b=>b.addEventListener('click',open));
  overlay.querySelectorAll('[data-player-close]').forEach(b=>b.addEventListener('click',close));
