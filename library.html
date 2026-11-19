@@ -641,6 +641,9 @@ body.dropzy-player-open{overflow:hidden}.dropzy-player-overlay{position:fixed;in
  <div class="mixbox" style="grid-template-columns:1fr;gap:14px">
   <div class="library-tools"><button class="btn primary" id="create-playlist">＋ CREATE PLAYLIST</button><span class="sub" id="library-count">0 saved songs</span></div>
   <div id="playlist-list" class="mixcontrols"></div>
+  <div id="playlist-editor" class="tracklist" hidden></div>
+  <h3 style="margin:18px 0 8px">Recently Played</h3>
+  <div id="recently-played" class="tracklist"><div class="empty">Your recently played tracks will appear here.</div></div>
   <div class="tracklist" id="favorite-tracks"><div class="empty">Tap the ♡ on any song to save it here.</div></div>
  </div>
 </section>
@@ -1027,14 +1030,18 @@ loadApprovedCatalogue();
 /* DROPZY Library, playlists and player controls */
 const DROPZY_STORE = 'dropzy-library-v1';
 const PLAYLIST_STORE = 'dropzy-playlists-v1';
-let savedTracks = [];
-let userPlaylists = [];
+const RECENT_STORE = 'dropzy-recent-v1';
+let savedTracks = [], userPlaylists = [], recentlyPlayed = [], activePlaylistIndex = -1;
 try { savedTracks = JSON.parse(localStorage.getItem(DROPZY_STORE) || '[]'); } catch(e) {}
 try { userPlaylists = JSON.parse(localStorage.getItem(PLAYLIST_STORE) || '[]'); } catch(e) {}
+try { recentlyPlayed = JSON.parse(localStorage.getItem(RECENT_STORE) || '[]'); } catch(e) {}
 const favList = document.getElementById('favorite-tracks');
 const playlistList = document.getElementById('playlist-list');
-function persistLibrary(){localStorage.setItem(DROPZY_STORE,JSON.stringify(savedTracks));localStorage.setItem(PLAYLIST_STORE,JSON.stringify(userPlaylists));}
-function isSaved(track){return savedTracks.some(item=>item.id===track.id);}
+const playlistEditor = document.getElementById('playlist-editor');
+const recentList = document.getElementById('recently-played');
+function persistLibrary(){try{localStorage.setItem(DROPZY_STORE,JSON.stringify(savedTracks));localStorage.setItem(PLAYLIST_STORE,JSON.stringify(userPlaylists));localStorage.setItem(RECENT_STORE,JSON.stringify(recentlyPlayed));}catch(e){liveStatus.textContent='This device could not save the library. Check browser storage settings.';}}
+function isSaved(track){return savedTracks.some(item=>String(item.id)===String(track.id));}
+function playLibraryTrack(track){liveResults=[track,...liveResults.filter(t=>String(t.id)!==String(track.id))];renderLiveTracks(liveResults);playLiveTrack(0);}
 function paintLibrary(){
  document.getElementById('library-count').textContent=savedTracks.length+' saved song'+(savedTracks.length===1?'':'s');
  favList.replaceChildren();
@@ -1044,17 +1051,92 @@ function paintLibrary(){
   const art=document.createElement('img');art.className='cover';art.src=track.artwork||'';art.alt='';art.loading='lazy';
   const info=document.createElement('div');info.className='trackinfo';
   const title=document.createElement('b');title.textContent=track.title||'Untitled';
-  const artist=document.createElement('small');artist.textContent=(track.artist||'Independent artist')+' · Saved';
-  info.append(title,artist);
-  const play=document.createElement('button');play.textContent='▶';play.setAttribute('aria-label','Play '+title.textContent);
-  play.addEventListener('click',()=>{liveResults=[track,...liveResults.filter(t=>t.id!==track.id)];renderLiveTracks(liveResults);playLiveTrack(0);});
+  const artist=document.createElement('small');artist.textContent=(track.artist||'Independent artist')+' · Saved';info.append(title,artist);
+  const play=document.createElement('button');play.textContent='▶';play.setAttribute('aria-label','Play '+title.textContent);play.addEventListener('click',()=>playLibraryTrack(track));
+  const add=document.createElement('button');add.textContent='+ List';add.setAttribute('aria-label','Add to playlist');add.addEventListener('click',()=>{
+   if(!userPlaylists.length){liveStatus.textContent='Create a playlist first.';return;}
+   const choice=prompt('Add to which playlist? Enter its number:\n'+userPlaylists.map((list,i)=>(i+1)+'. '+list.name).join('\n'));
+   const index=Number(choice)-1;if(!Number.isInteger(index)||!userPlaylists[index])return;
+   const ids=userPlaylists[index].ids||(userPlaylists[index].ids=[]);if(!ids.some(id=>String(id)===String(track.id)))ids.push(track.id);
+   persistLibrary();paintLibrary();liveStatus.textContent='Added to '+userPlaylists[index].name+'.';
+  });
   const remove=document.createElement('button');remove.className='fav-btn saved';remove.textContent='♥';remove.setAttribute('aria-label','Remove from library');
-  remove.addEventListener('click',()=>{savedTracks=savedTracks.filter(t=>t.id!==track.id);persistLibrary();paintLibrary();refreshFavButtons();});
-  row.append(art,info,play,remove);favList.append(row);
+  remove.addEventListener('click',()=>{savedTracks=savedTracks.filter(t=>String(t.id)!==String(track.id));userPlaylists.forEach(list=>list.ids=(list.ids||[]).filter(id=>String(id)!==String(track.id)));persistLibrary();paintLibrary();refreshFavButtons();});
+  row.append(art,info,play,add,remove);favList.append(row);
  });
  playlistList.replaceChildren();
- userPlaylists.forEach((list,i)=>{const chip=document.createElement('button');chip.className='chip';chip.textContent=list.name+' · '+list.ids.length;chip.addEventListener('click',()=>{const tracks=savedTracks.filter(t=>list.ids.includes(t.id));if(tracks.length){liveResults=tracks;renderLiveTracks(tracks);document.getElementById('live-library').scrollIntoView({behavior:'smooth'});}});playlistList.append(chip);});
+ if(!userPlaylists.length){const empty=document.createElement('span');empty.className='sub';empty.textContent='No playlists yet.';playlistList.append(empty);}
+ userPlaylists.forEach((list,index)=>{
+  const wrap=document.createElement('div');wrap.className='playlist-row';wrap.style.display='flex';wrap.style.flexWrap='wrap';wrap.style.gap='7px';wrap.style.alignItems='center';wrap.style.margin='6px 0';
+  const open=document.createElement('button');open.className='chip';open.textContent=(list.name||'Playlist')+' · '+(list.ids||[]).length;open.addEventListener('click',()=>{activePlaylistIndex=index;paintPlaylistEditor();});
+  const rename=document.createElement('button');rename.className='chip';rename.textContent='Rename';rename.addEventListener('click',()=>{const name=prompt('Rename playlist',list.name||'');if(name&&name.trim()){list.name=name.trim().slice(0,40);persistLibrary();paintLibrary();}});
+  const share=document.createElement('button');share.className='chip';share.textContent='Share';share.addEventListener('click',async()=>{
+   const tracks=(list.ids||[]).map(id=>savedTracks.find(t=>String(t.id)===String(id))).filter(Boolean);
+   const message='DROPZY playlist: '+list.name+'\n'+tracks.map(t=>(t.title||'Track')+' — '+(t.artist||'')).join('\n');
+   try{if(navigator.share)await navigator.share({title:list.name,text:message});else if(navigator.clipboard){await navigator.clipboard.writeText(message);liveStatus.textContent='Playlist details copied.';}else liveStatus.textContent='Sharing is not supported in this browser.';}catch(e){}
+  });
+  const up=document.createElement('button');up.className='chip';up.textContent='↑';up.disabled=index===0;up.addEventListener('click',()=>{[userPlaylists[index-1],userPlaylists[index]]=[userPlaylists[index],userPlaylists[index-1]];persistLibrary();paintLibrary();});
+  const down=document.createElement('button');down.className='chip';down.textContent='↓';down.disabled=index===userPlaylists.length-1;down.addEventListener('click',()=>{[userPlaylists[index+1],userPlaylists[index]]=[userPlaylists[index],userPlaylists[index+1]];persistLibrary();paintLibrary();});
+  const del=document.createElement('button');del.className='chip';del.textContent='Delete';del.addEventListener('click',()=>{if(confirm('Delete playlist “'+list.name+'”?')){userPlaylists.splice(index,1);if(activePlaylistIndex===index)activePlaylistIndex=-1;persistLibrary();paintLibrary();}});
+  wrap.append(open,rename,share,up,down,del);playlistList.append(wrap);
+ });
+ paintPlaylistEditor();
+ recentList.replaceChildren();
+ if(!recentlyPlayed.length){const empty=document.createElement('div');empty.className='empty';empty.textContent='Your recently played tracks will appear here.';recentList.append(empty);}
+ recentlyPlayed.slice(0,12).forEach(track=>{
+  const row=document.createElement('div');row.className='track';
+  const art=document.createElement('img');art.className='cover';art.src=track.artwork||'';art.alt='';art.loading='lazy';
+  const info=document.createElement('div');info.className='trackinfo';const title=document.createElement('b');title.textContent=track.title||'Untitled';const artist=document.createElement('small');artist.textContent=(track.artist||'Independent artist')+' · Recently played';info.append(title,artist);
+  const play=document.createElement('button');play.textContent='▶';play.addEventListener('click',()=>playLibraryTrack(track));row.append(art,info,play);recentList.append(row);
+ });
 }
+function paintPlaylistEditor(){
+ playlistEditor.replaceChildren();
+ const list=userPlaylists[activePlaylistIndex];
+ if(!list){playlistEditor.hidden=true;return;}
+ playlistEditor.hidden=false;
+ const heading=document.createElement('div');heading.className='sub';heading.textContent='Editing · '+list.name+' · move tracks with ↑ / ↓ or remove them';playlistEditor.append(heading);
+ const tracks=(list.ids||[]).map(id=>savedTracks.find(track=>String(track.id)===String(id))).filter(Boolean);
+ if(!tracks.length){const empty=document.createElement('div');empty.className='empty';empty.textContent='This playlist is empty. Add saved songs using + List.';playlistEditor.append(empty);}
+ tracks.forEach((track,index)=>{
+  const row=document.createElement('div');row.className='track';const info=document.createElement('div');info.className='trackinfo';const title=document.createElement('b');title.textContent=track.title||'Untitled';const artist=document.createElement('small');artist.textContent=track.artist||'Independent artist';info.append(title,artist);
+  const play=document.createElement('button');play.textContent='▶';play.addEventListener('click',()=>playLibraryTrack(track));
+  const up=document.createElement('button');up.textContent='↑';up.disabled=index===0;up.addEventListener('click',()=>{[list.ids[index-1],list.ids[index]]=[list.ids[index],list.ids[index-1]];persistLibrary();paintPlaylistEditor();});
+  const down=document.createElement('button');down.textContent='↓';down.disabled=index===tracks.length-1;down.addEventListener('click',()=>{[list.ids[index+1],list.ids[index]]=[list.ids[index],list.ids[index+1]];persistLibrary();paintPlaylistEditor();});
+  const remove=document.createElement('button');remove.textContent='Remove';remove.addEventListener('click',()=>{list.ids=list.ids.filter(id=>String(id)!==String(track.id));persistLibrary();paintLibrary();});
+  row.append(info,play,up,down,remove);playlistEditor.append(row);
+ });
+}
+function toggleSaved(track){
+ if(isSaved(track))savedTracks=savedTracks.filter(item=>String(item.id)!==String(track.id));
+ else savedTracks.unshift({id:track.id,title:track.title,artist:(track.user&&track.user.name)||track.artist||'Independent artist',artwork:audioArt(track)});
+ persistLibrary();paintLibrary();refreshFavButtons();
+}
+function refreshFavButtons(){
+ document.querySelectorAll('#live-tracks .track').forEach((row,i)=>{
+  const track=liveResults[i];const button=row.querySelector('.fav-btn');if(track&&button){button.textContent=isSaved(track)?'♥':'♡';button.classList.toggle('saved',isSaved(track));}
+ });
+}
+const baseRenderLiveTracks=renderLiveTracks;
+renderLiveTracks=function(tracks){
+ baseRenderLiveTracks(tracks);
+ document.querySelectorAll('#live-tracks .track').forEach((row,i)=>{
+  const track=tracks[i];if(!track||row.querySelector('.fav-btn'))return;
+  const fav=document.createElement('button');fav.className='fav-btn'+(isSaved(track)?' saved':'');fav.textContent=isSaved(track)?'♥':'♡';
+  fav.setAttribute('aria-label',isSaved(track)?'Remove from library':'Add to library');
+  fav.addEventListener('click',()=>toggleSaved(track));row.append(fav);
+ });
+};
+document.getElementById('create-playlist').addEventListener('click',()=>{
+ const name=prompt('Playlist name?');if(!name||!name.trim())return;
+ userPlaylists.push({name:name.trim().slice(0,40),ids:savedTracks.map(t=>t.id)});persistLibrary();paintLibrary();
+});
+liveAudio.addEventListener('play',()=>{
+ const track=liveResults[liveIndex];if(!track||!track.id)return;
+ recentlyPlayed=[{id:track.id,title:track.title,artist:(track.user&&track.user.name)||track.artist||'Independent artist',artwork:audioArt(track),playedAt:Date.now()},...recentlyPlayed.filter(item=>String(item.id)!==String(track.id))].slice(0,30);
+ persistLibrary();paintLibrary();
+});
+paintLibrary();
 function toggleSaved(track){
  if(isSaved(track))savedTracks=savedTracks.filter(item=>item.id!==track.id);
  else savedTracks.unshift({id:track.id,title:track.title,artist:(track.user&&track.user.name)||track.artist||'Independent artist',artwork:audioArt(track)});
