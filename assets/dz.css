@@ -756,3 +756,118 @@ html[data-theme="light"] .beat-bottom-nav>a.active svg{
 @media(prefers-reduced-motion:reduce){
  .beat-bottom-nav>a,.beat-bottom-nav>a svg{transition:none!important}
 }
+
+
+/* Step 1 — shared visual system and responsive polish */
+:root{
+ --bt-radius-xl:26px;--bt-radius-lg:20px;--bt-radius-md:15px;
+ --bt-ease:cubic-bezier(.2,.7,.25,1);
+}
+html{scroll-behavior:smooth}
+body{ text-rendering:optimizeLegibility;-webkit-font-smoothing:antialiased }
+.app-shell{min-height:100svh}
+.main{
+ width:min(100% - 78px,1440px)!important;
+ margin-left:78px!important;
+ padding:0 clamp(22px,4.2vw,68px) 132px!important;
+}
+.topbar{
+ min-height:76px!important;height:auto!important;
+ border-bottom:1px solid var(--line)!important;
+ margin-bottom:clamp(30px,4vw,54px)!important;
+}
+.page-head{max-width:900px!important;margin:clamp(18px,3vw,34px) 0 clamp(28px,4vw,42px)!important}
+.page-head .eyebrow{font-size:10px!important;font-weight:700!important;letter-spacing:.2em!important;line-height:1.5}
+.page-head h1{font-size:clamp(36px,5.2vw,64px)!important;line-height:1.04!important;letter-spacing:-.055em!important;font-weight:760!important}
+.page-head p{max-width:660px!important;font-size:clamp(13px,1.2vw,15px)!important;line-height:1.75!important}
+.panel{
+ border-radius:var(--bt-radius-xl)!important;
+ padding:clamp(18px,2.7vw,30px)!important;
+ backdrop-filter:blur(22px) saturate(125%)!important;
+ -webkit-backdrop-filter:blur(22px) saturate(125%)!important;
+}
+.search-box{max-width:100%!important;min-height:56px!important;border-radius:17px!important}
+.search-box input{font:inherit!important;font-size:14px!important}
+.suggestions{gap:9px!important}
+.suggestions button,.language-chip{
+ min-height:36px!important;padding:9px 14px!important;
+ font-size:11px!important;font-weight:600!important;
+ transition:background .2s ease,border-color .2s ease,color .2s ease!important;
+}
+.section-title{margin:clamp(32px,4vw,48px) 0 18px!important}
+.section-title h2{font-size:clamp(19px,2vw,24px)!important;font-weight:700!important}
+.language-grid,.card-grid{
+ grid-template-columns:repeat(auto-fit,minmax(min(100%,210px),1fr))!important;
+ gap:clamp(12px,1.5vw,18px)!important;
+}
+.language-card{
+ min-height:158px!important;padding:20px!important;
+ border-radius:var(--bt-radius-lg)!important;
+ transition:transform .22s var(--bt-ease),border-color .22s ease,box-shadow .22s ease!important;
+}
+.language-card b{font-size:clamp(19px,2vw,23px)!important;margin:34px 0 6px!important;letter-spacing:-.035em!important}
+.language-card small{font-weight:700!important;letter-spacing:.16em!important}
+.language-card span{font-size:11px!important;line-height:1.5!important}
+.language-card:hover{transform:translateY(-2px)!important}
+.empty-state{min-height:220px!important;padding:34px!important;border-radius:var(--bt-radius-xl)!important}
+.empty-state strong{font-size:clamp(18px,2vw,22px)!important;letter-spacing:-.025em!important}
+.empty-state p{max-width:480px!important;line-height:1.7!important}
+.footer{margin-top:clamp(48px,7vw,82px)!important;padding:22px 0!important;gap:12px!important;line-height:1.5!important}
+.beat-bottom-nav{backdrop-filter:blur(28px) saturate(145%)!important;-webkit-backdrop-filter:blur(28px) saturate(145%)!important}
+html:not([data-theme="light"]) .panel,
+html:not([data-theme="light"]) .language-card,
+html:not([data-theme="light"]) .empty-state{
+ border-color:rgba(176,145,221,.15)!important;
+ box-shadow:0 18px 52px rgba(0,0,0,.2),inset 0 1px rgba(255,255,255,.055)!important;
+}
+html:not([data-theme="light"]) .language-card{
+ background:linear-gradient(145deg,rgba(55,38,83,.66),rgba(17,13,30,.86))!important;
+}
+html:not([data-theme="light"]) .language-card:nth-child(3n+2){
+ background:linear-gradient(145deg,rgba(83,43,68,.58),rgba(17,13,30,.88))!important;
+}
+html:not([data-theme="light"]) .language-card:nth-child(3n){
+ background:linear-gradient(145deg,rgba(39,48,87,.62),rgba(17,13,30,.88))!important;
+}
+html[data-theme="light"] .panel,
+html[data-theme="light"] .language-card,
+html[data-theme="light"] .empty-state{
+ border-radius:var(--bt-radius-xl)!important;
+ box-shadow:0 16px 42px rgba(75,28,43,.065),inset 0 1px rgba(255,255,255,.96)!important;
+}
+html[data-theme="light"] .language-card{background:linear-gradient(145deg,#f3e7e5,#fffaf7)!important}
+html[data-theme="light"] .language-card:nth-child(3n+2){background:linear-gradient(145deg,#f7e8eb,#fffaf7)!important}
+html[data-theme="light"] .language-card:nth-child(3n){background:linear-gradient(145deg,#eee8e6,#fffaf7)!important}
+@media(min-width:1500px){.main{margin-inline:auto!important;width:min(100% - 78px,1440px)!important}}
+@media(max-width:900px){
+ .main{width:calc(100% - 78px)!important;margin-left:78px!important;padding:0 22px 126px!important}
+ .topbar{min-height:68px!important;margin-bottom:30px!important}
+ .page-head{margin-top:16px!important}
+ .language-grid,.card-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+}
+@media(max-width:600px){
+ .main{width:100%!important;margin-left:0!important;padding:0 16px calc(120px + env(safe-area-inset-bottom))!important}
+ .topbar{min-height:62px!important;margin-bottom:26px!important;padding:6px 0!important}
+ .page-head{margin:14px 0 26px!important}
+ .page-head h1{font-size:clamp(32px,9vw,44px)!important}
+ .page-head p{font-size:13px!important;line-height:1.65!important}
+ .panel{padding:16px!important;border-radius:21px!important}
+ .language-grid,.card-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:11px!important}
+ .language-card{min-height:138px!important;padding:15px!important;border-radius:17px!important}
+ .language-card b{font-size:18px!important;margin:28px 0 5px!important}
+ .language-card span{font-size:10px!important}
+ .section-title{align-items:flex-start!important;flex-direction:column!important;gap:5px!important;margin:30px 0 14px!important}
+ .footer{font-size:9px!important;letter-spacing:.07em!important;flex-wrap:wrap!important;margin-top:44px!important}
+}
+@media(max-width:360px){
+ .main{padding-inline:12px!important}
+ .language-grid,.card-grid{grid-template-columns:1fr!important}
+ .suggestions button{font-size:10px!important;padding:8px 11px!important}
+}
+@media(hover:hover){
+ .suggestions button:hover{transform:none!important}
+}
+@media(prefers-reduced-motion:reduce){
+ html{scroll-behavior:auto}
+ .language-card,.suggestions button{transition:none!important}
+}
