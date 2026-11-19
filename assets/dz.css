@@ -478,3 +478,21 @@ body{background:#020104!important}
 .beat-bottom-nav>a span{font-size:clamp(7px,1.7vw,9px)!important;letter-spacing:0!important}
 @media(hover:none){.beat-bottom-nav>a:hover{translate:0 0!important;scale:1!important}.beat-bottom-nav>a:active{translate:0 -5px!important;scale:1.08!important}}
 @media(max-width:390px){.beat-bottom-nav{padding:6px 3px!important}.beat-bottom-nav>a{padding-inline:0!important}.beat-bottom-nav>a svg{width:19px!important;height:19px!important}.beat-bottom-nav>a span{font-size:7px!important}}
+
+
+/* Navigation icons: consistent violet palette */
+:root{--nav-violet:#b98aff;--nav-violet-bright:#e2c8ff}
+.beat-bottom-nav>a svg,.beat-more-button svg,.beat-more-menu>a svg{
+ stroke:var(--nav-violet)!important;
+ color:var(--nav-violet)!important;
+ filter:drop-shadow(0 0 5px rgba(167,112,255,.22))!important;
+}
+.beat-bottom-nav>a:hover svg,.beat-bottom-nav>a:focus-visible svg,
+.beat-bottom-nav>a.active svg,.beat-more-button:hover svg,
+.beat-more-button[aria-expanded=true] svg{
+ stroke:var(--nav-violet-bright)!important;
+ filter:drop-shadow(0 0 9px rgba(180,126,255,.72))!important;
+}
+.beat-bottom-nav>a.active,.beat-bottom-nav>a:hover,.beat-bottom-nav>a:focus-visible{
+ color:var(--nav-violet-bright)!important;
+}
