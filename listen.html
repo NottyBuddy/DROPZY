@@ -1109,12 +1109,15 @@ async function dropzyFindLyrics(title,artist,duration){
  if(Number.isFinite(Number(duration))&&Number(duration)>0)params.set('duration',String(Math.round(Number(duration))));
  dropzyLyricsMessage('Searching lyrics…');lyricsLines.replaceChildren();
  try{
-  let response=await fetch('https://lrclib.net/api/get?'+params.toString(),{headers:{'X-User-Agent':'DROPZY/1.0 (https://github.com/NottyBuddy/DROPZY)'}});
-  let record=null;
-  if(response.ok)record=await response.json();
-  else if(response.status===404){
+  let response,record=null;
+  const headers={'X-User-Agent':'DROPZY/1.0 (https://github.com/NottyBuddy/DROPZY)'};
+  if(artist){
+   response=await fetch('https://lrclib.net/api/get?'+params.toString(),{headers});
+   if(response.ok)record=await response.json();
+  }
+  if(!record&&(!response||response.status===404||response.status===400)){
    const q=new URLSearchParams({q:(title+' '+(artist||'')).trim()});
-   response=await fetch('https://lrclib.net/api/search?'+q.toString(),{headers:{'X-User-Agent':'DROPZY/1.0 (https://github.com/NottyBuddy/DROPZY)'}});
+   response=await fetch('https://lrclib.net/api/search?'+q.toString(),{headers});
    if(response.ok){const matches=await response.json();record=Array.isArray(matches)?matches.find(item=>String(item.trackName||item.name||'').toLowerCase()===title.toLowerCase())||matches[0]:null;}
   }
   if(request!==dropzyLyricsRequest)return;
