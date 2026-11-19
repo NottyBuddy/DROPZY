@@ -1137,31 +1137,6 @@ liveAudio.addEventListener('play',()=>{
  persistLibrary();paintLibrary();
 });
 paintLibrary();
-function toggleSaved(track){
- if(isSaved(track))savedTracks=savedTracks.filter(item=>item.id!==track.id);
- else savedTracks.unshift({id:track.id,title:track.title,artist:(track.user&&track.user.name)||track.artist||'Independent artist',artwork:audioArt(track)});
- persistLibrary();paintLibrary();refreshFavButtons();
-}
-function refreshFavButtons(){
- document.querySelectorAll('#live-tracks .track').forEach((row,i)=>{
-  const track=liveResults[i];const button=row.querySelector('.fav-btn');if(track&&button){button.textContent=isSaved(track)?'♥':'♡';button.classList.toggle('saved',isSaved(track));}
- });
-}
-const baseRenderLiveTracks=renderLiveTracks;
-renderLiveTracks=function(tracks){
- baseRenderLiveTracks(tracks);
- document.querySelectorAll('#live-tracks .track').forEach((row,i)=>{
-  const track=tracks[i];if(!track||row.querySelector('.fav-btn'))return;
-  const fav=document.createElement('button');fav.className='fav-btn'+(isSaved(track)?' saved':'');fav.textContent=isSaved(track)?'♥':'♡';
-  fav.setAttribute('aria-label',isSaved(track)?'Remove from library':'Add to library');
-  fav.addEventListener('click',()=>toggleSaved(track));row.append(fav);
- });
-};
-document.getElementById('create-playlist').addEventListener('click',()=>{
- const name=prompt('Playlist name?');if(!name||!name.trim())return;
- userPlaylists.push({name:name.trim().slice(0,40),ids:savedTracks.map(t=>t.id)});persistLibrary();paintLibrary();
-});
-paintLibrary();
 let shuffleEnabled=false,repeatEnabled=false;
 document.getElementById('shuffle-btn').addEventListener('click',e=>{shuffleEnabled=!shuffleEnabled;e.currentTarget.classList.toggle('active',shuffleEnabled);e.currentTarget.setAttribute('aria-pressed',String(shuffleEnabled));});
 document.getElementById('repeat-btn').addEventListener('click',e=>{repeatEnabled=!repeatEnabled;e.currentTarget.classList.toggle('active',repeatEnabled);e.currentTarget.setAttribute('aria-pressed',String(repeatEnabled));});
