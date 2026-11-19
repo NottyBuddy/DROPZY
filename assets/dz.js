@@ -104,3 +104,33 @@
  style.textContent='#bt-plexus-bg{z-index:0!important;opacity:1!important} body:after{z-index:0!important;pointer-events:none!important} .app-shell,.sidebar,.main{position:relative;z-index:2} .sidebar{position:fixed!important;z-index:10!important}';
  document.head.appendChild(style);
 })();
+
+
+/* Persistent global appearance control in every page header */
+(()=>{
+ const root=document.documentElement;
+ const read=()=>{try{return localStorage.getItem('beat-treat-theme')||'dark'}catch(e){return 'dark'}};
+ const apply=theme=>{
+  root.dataset.theme=theme;
+  try{localStorage.setItem('beat-treat-theme',theme)}catch(e){}
+  const button=document.querySelector('.appearance-toggle');
+  if(button){
+   const light=theme==='light';
+   button.setAttribute('aria-label',light?'Switch to dark mode':'Switch to light mode');
+   button.setAttribute('aria-pressed',light?'true':'false');
+   button.title=light?'Switch to dark mode':'Switch to light mode';
+   button.innerHTML=(light
+    ?'<svg class="appearance-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M20.2 15.1A8.3 8.3 0 0 1 8.9 3.8 8.5 8.5 0 1 0 20.2 15.1Z"/></svg>'
+    :'<svg class="appearance-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.93 4.93l1.42 1.42m11.3 11.3 1.42 1.42M2 12h2m16 0h2M4.93 19.07l1.42-1.42m11.3-11.3 1.42-1.42"/></svg>')
+    +'<span class="appearance-label">'+(light?'Light':'Dark')+'</span><span class="appearance-track" aria-hidden="true"><i class="appearance-knob"></i></span>';
+  }
+ };
+ apply(read());
+ const topbar=document.querySelector('.topbar');
+ if(topbar&&!topbar.querySelector('.appearance-toggle')){
+  const button=document.createElement('button');
+  button.type='button';button.className='appearance-toggle';
+  button.addEventListener('click',()=>apply(root.dataset.theme==='light'?'dark':'light'));
+  topbar.appendChild(button);apply(read());
+ }
+})();
