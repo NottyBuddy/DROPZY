@@ -1,20 +1,17 @@
-# DROPZY
+# BEAT TREAT
 
 **Tagline:** Beyond Music. Into Motion.
 
-DROPZY is being rebuilt as a clean, responsive, multi-page Indian music experience.
+BEAT TREAT is being built as a responsive, multi-page Indian music experience.
 
-## Current foundation
-- 3–5 second DZ logo intro, then a separate Discover page.
-- Desktop: eight-section left sidebar.
-- Mobile and tablet: four primary top tabs plus a More menu for Radio, Create, Stemtracks and Settings.
-- Apple Music-inspired visual direction.
-- Indian music palette: midnight indigo, peacock teal, saffron gold and warm ivory.
-- Language focus: Hindi, Punjabi, Telugu, Marathi, Bhojpuri, Rajasthani and Haryanvi.
-- Browsing does not require an account; account sign-in will be optional for personal music and playlists.
+## Brand and intro
+- Logo: **B — animated infinity waveform — T**.
+- Intro: BEAT enters from the upper-left and TREAT from the lower-left, both passing behind the waveform before the B / waveform / T mark resolves.
+- Coral-orange and black logo identity.
+- Indian classical-inspired instrumental intro motif. Browsers may require a tap to enable sound; the intro includes an Enable sound control.
 
 ## Pages
-- `index.html` — intro
+- `index.html` — animated intro
 - `discover.html`
 - `trending.html`
 - `genre.html`
@@ -25,7 +22,7 @@ DROPZY is being rebuilt as a clean, responsive, multi-page Indian music experien
 - `settings.html`
 
 ## Current status
-This is the new visual and multi-page foundation only. Music catalogue, playback, accounts, playlists, AI creation and other interactive features are intentionally not connected yet. They will be added after the basic structure is approved and the required legal music sources are selected.
+This is the visual and multi-page foundation only. Songs, catalogue, playback, accounts, playlists and creation tools are intentionally not connected yet.
 
 ## Run locally
 Open `index.html` in a modern browser. No build step is required.
