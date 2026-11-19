@@ -72,9 +72,6 @@
   const THREE=window.THREE,canvas=document.createElement('canvas');canvas.id='bt-plexus-bg';document.body.prepend(canvas);
   const renderer=new THREE.WebGLRenderer({canvas,alpha:true,antialias:true});renderer.setPixelRatio(Math.min(devicePixelRatio||1,1.7));renderer.setSize(innerWidth,innerHeight);renderer.setClearColor(0x000000,0);
   const scene=new THREE.Scene(),camera=new THREE.PerspectiveCamera(48,innerWidth/innerHeight,.1,120);camera.position.set(0,0,17);
-  const group=new THREE.Group();scene.add(group);
-  const geo=new THREE.IcosahedronGeometry(3.0,2),wire=new THREE.WireframeGeometry(geo),mesh=new THREE.LineSegments(wire,new THREE.LineBasicMaterial({color:0xb66cff,transparent:true,opacity:.48}));group.add(mesh);
-  const core=new THREE.Mesh(new THREE.IcosahedronGeometry(2.94,2),new THREE.MeshBasicMaterial({color:0x8b35d2,wireframe:true,transparent:true,opacity:.12}));group.add(core);
   const points=[],colors=[],count=1800;
   for(let i=0;i<count;i++){const x=(Math.random()-.5)*29,z=(Math.random()-.5)*18,y=(Math.random()-.5)*8;points.push(x,y,z);const c=new THREE.Color().setHSL(.76+Math.random()*.08,.78,.48+Math.random()*.25);colors.push(c.r,c.g,c.b)}
   const pg=new THREE.BufferGeometry();pg.setAttribute('position',new THREE.Float32BufferAttribute(points,3));pg.setAttribute('color',new THREE.Float32BufferAttribute(colors,3));
@@ -90,7 +87,7 @@
   window.addEventListener('pointermove',e=>{tx=(e.clientX/innerWidth-.5)*.65;ty=(e.clientY/innerHeight-.5)*-.45},{passive:true});
   window.addEventListener('resize',()=>{camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight);renderer.setPixelRatio(Math.min(devicePixelRatio||1,1.7))});
   const clock=new THREE.Clock();
-  const animate=()=>{requestAnimationFrame(animate);const t=clock.getElapsedTime();mx+=(tx-mx)*.018;my+=(ty-my)*.018;group.rotation.y=t*.075+mx;group.rotation.x=Math.sin(t*.16)*.13+my;mesh.rotation.z=Math.sin(t*.11)*.08;core.rotation.y=-t*.09;
+  const animate=()=>{requestAnimationFrame(animate);const t=clock.getElapsedTime();mx+=(tx-mx)*.018;my+=(ty-my)*.018;
    const p=pg.attributes.position.array;for(let i=0;i<count;i++){const k=i*3;p[k+1]=base[k+1]+Math.sin(base[k]*.34+t*.55+base[k+2]*.24)*.34+Math.cos(base[k+2]*.4-t*.32)*.18}pg.attributes.position.needsUpdate=true;
    const w=waveGeo.attributes.position.array;for(let i=0;i<w.length/3;i++){const k=i*3,x=waveBase[k],z=waveBase[k+2];w[k+1]=waveBase[k+1]+Math.sin(x*.42+t*.55+z*.35)*.48+Math.cos(z*.7-t*.38)*.25}waveGeo.attributes.position.needsUpdate=true;
    particles.rotation.y=mx*.22;particles.rotation.x=my*.18;bokeh.children.forEach((o,i)=>{o.position.y+=Math.sin(t*.25+i)*.0009;o.material.opacity=.045+.045*(.5+.5*Math.sin(t*.35+i))});camera.position.x=mx*.8;camera.position.y=my*.7;camera.lookAt(0,0,0);renderer.render(scene,camera)};
