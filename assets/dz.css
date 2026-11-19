@@ -195,3 +195,24 @@ body{color:rgba(255,255,255,.94)}
 .beat-bottom-nav>a.dock-swipe-target svg{transform:scale(1.17)!important;filter:drop-shadow(0 0 11px rgba(255,179,107,.7))!important}
 @media(hover:none){.beat-bottom-nav>a:after,.beat-more-button:after{display:none}.beat-bottom-nav>a:hover svg,.beat-more-button:hover svg{transform:none!important}}
 @media(prefers-reduced-motion:reduce){.beat-bottom-nav>a:after,.beat-more-button:after,.beat-bottom-nav svg{transition:none!important}}
+
+
+/* Responsive dock labels: desktop shows names, mobile stays icon-only */
+.beat-bottom-nav{width:min(850px,calc(100% - 48px))!important;min-height:78px!important;padding:10px 18px!important;gap:10px!important}
+.beat-bottom-nav>a,.beat-more-button{flex:1 1 0!important;width:auto!important;min-width:0!important;height:60px!important;min-height:60px!important;gap:6px!important;padding:7px 10px!important;border-radius:17px!important}
+.beat-bottom-nav>a>span,.beat-more-button>span{display:block!important;color:inherit!important;font-size:11px!important;font-weight:700!important;letter-spacing:.015em!important;opacity:.86!important}
+.beat-bottom-nav>a svg,.beat-more-button svg{width:24px!important;height:24px!important}
+.beat-more-wrap{flex:1 1 0!important;width:auto!important;min-width:0!important}
+.beat-bottom-nav>a:hover,.beat-more-button:hover{transform:translateY(-3px) scale(1.035)!important;box-shadow:0 8px 24px rgba(255,121,95,.13),inset 0 0 0 1px rgba(255,179,107,.16)!important}
+.beat-bottom-nav>a:hover:after,.beat-more-button:hover:after{display:none!important}
+.beat-more-menu{animation:none}
+@media(max-width:700px){
+ .beat-bottom-nav{width:calc(100% - 24px)!important;min-height:64px!important;padding:7px 8px!important;gap:4px!important}
+ .beat-bottom-nav>a,.beat-bottom-nav .beat-more-button,.beat-more-wrap{flex:0 0 46px!important;width:46px!important;min-width:46px!important;height:48px!important;min-height:48px!important;padding:0!important;gap:0!important}
+ .beat-bottom-nav>a>span,.beat-bottom-nav .beat-more-button>span{display:none!important}
+ .beat-bottom-nav svg{width:23px!important;height:23px!important}
+ .beat-bottom-nav>a:hover,.beat-more-button:hover{transform:none!important;box-shadow:none!important}
+}
+@media(hover:none){.beat-bottom-nav>a:hover,.beat-more-button:hover{transform:none!important}}
+.beat-bottom-nav>a svg,.beat-more-button svg{stroke-linecap:round!important;stroke-linejoin:round!important}
+.beat-bottom-nav>a.active,.beat-more-button.active{box-shadow:0 0 20px rgba(255,145,99,.12),inset 0 0 0 1px rgba(255,179,107,.18)!important}
