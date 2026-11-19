@@ -12,3 +12,11 @@ document.addEventListener('pointermove',e=>{if(!tracking||e.pointerId!==pointerI
 const finish=e=>{if(!tracking||e.pointerId!==pointerId)return;tracking=false;const chosen=getTarget(e.clientX,e.clientY)||target;clear();if(chosen?.matches('a')){e.preventDefault();location.href=chosen.href;}else if(chosen?.matches('[data-bottom-more]')){e.preventDefault();chosen.click();}};
 document.addEventListener('pointerup',finish);document.addEventListener('pointercancel',e=>{if(e.pointerId===pointerId){tracking=false;clear();}});
 })();
+
+/* Prevent the browser's synthetic click on the first icon after a swipe gesture */
+(()=>{let down=false,dragged=false,x=0,y=0,suppress=false;
+document.addEventListener('pointerdown',e=>{if(e.pointerType==='mouse'||!e.target.closest('.beat-bottom-nav'))return;down=true;dragged=false;x=e.clientX;y=e.clientY;},{capture:true});
+document.addEventListener('pointermove',e=>{if(down&&Math.hypot(e.clientX-x,e.clientY-y)>14)dragged=true;},{capture:true});
+document.addEventListener('pointerup',()=>{if(down&&dragged){suppress=true;setTimeout(()=>suppress=false,500)}down=false;},{capture:true});
+document.addEventListener('click',e=>{if(suppress&&e.target.closest('.beat-bottom-nav')){e.preventDefault();e.stopImmediatePropagation();suppress=false;}},true);
+})();
