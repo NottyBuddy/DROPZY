@@ -74,3 +74,28 @@ body.sidebar-collapsed .main{margin-left:126px}
 @keyframes logoSettle{from{transform:scale(.92);opacity:.5}to{transform:scale(1);opacity:1}}
 @media(max-width:600px){.intro-stage{height:180px}.intro-logo{max-height:180px}.intro-sound{bottom:15px;right:15px}.brand-mark{width:56px;height:32px}}
 @media(prefers-reduced-motion:reduce){.intro-word{animation:none;opacity:0}.logo-letter{opacity:1;animation:none}.infinity-wave{stroke-dashoffset:0;animation:none}.intro{animation:none}.intro-sound{display:none}}
+
+/* Transparent liquid-glass visual system: no solid page backdrop or orbit particles */
+html,body{background:transparent!important;background-color:transparent!important}
+body{color:#f5f2ec;background-image:none!important}
+.sidebar{background:rgba(255,255,255,.055)!important;border:1px solid rgba(255,255,255,.16)!important;backdrop-filter:blur(34px) saturate(165%)!important;-webkit-backdrop-filter:blur(34px) saturate(165%)!important;box-shadow:0 22px 70px rgba(0,0,0,.14),inset 0 1px rgba(255,255,255,.12)!important}
+.panel,.language-card,.mobile-nav,.more-menu,.search-box,.account,.nav-toggle{background:rgba(255,255,255,.055)!important;border:1px solid rgba(255,255,255,.15)!important;backdrop-filter:blur(28px) saturate(160%)!important;-webkit-backdrop-filter:blur(28px) saturate(160%)!important;box-shadow:0 18px 55px rgba(0,0,0,.12),inset 0 1px rgba(255,255,255,.09)!important}
+.language-card:nth-child(n){background:rgba(255,255,255,.045)!important}
+.mobile-nav a.active,.side-nav a.active{background:rgba(255,255,255,.12)!important}
+.intro{background:transparent!important;background-color:transparent!important;backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);animation:introOut .7s ease 4.55s forwards}
+.intro:before{content:"";position:absolute;inset:0;background:rgba(255,255,255,.035);pointer-events:none}
+.intro-orbit,.intro-orbit:before,.intro-orbit:after{display:none!important;content:none!important}
+.intro-stage{position:relative;width:min(90vw,760px);height:260px;display:grid;place-items:center}
+.intro-logo{position:relative;z-index:2;width:min(100%,680px);height:auto;max-height:260px;object-fit:contain;filter:drop-shadow(0 8px 25px rgba(0,0,0,.18));animation:logoReveal 1.2s cubic-bezier(.2,.8,.2,1) both}
+.intro-logo .brand-wave{transform-origin:center;animation:waveBreath 1.45s ease-in-out infinite alternate}
+.brand-mark img{background:transparent!important}
+.intro-word{position:absolute;z-index:1;left:4%;font-size:clamp(26px,5vw,46px);font-weight:900;letter-spacing:.1em;color:currentColor;opacity:0}
+.intro-word-beat{top:20px;animation:wordBehind .95s .6s cubic-bezier(.2,.75,.25,1) forwards}
+.intro-word-treat{bottom:16px;animation:wordBehind .95s 1.05s cubic-bezier(.2,.75,.25,1) forwards}
+.intro-tagline{color:inherit;text-shadow:none;animation:fadeUp .7s 2.2s both}
+.intro-sound{background:rgba(255,255,255,.06)!important;color:inherit;border:1px solid rgba(255,255,255,.18)!important;backdrop-filter:blur(20px)}
+@keyframes waveBreath{from{transform:scaleY(.94) scaleX(.99)}to{transform:scaleY(1.04) scaleX(1.01)}}
+@keyframes wordBehind{0%{opacity:0;transform:translate(-35px,0);filter:blur(5px)}20%{opacity:1;filter:blur(0)}100%{opacity:0;transform:translate(330px,0) scale(.72);filter:blur(6px)}}
+@keyframes logoReveal{from{opacity:0;transform:scale(.92);filter:blur(9px)}to{opacity:1;transform:scale(1);filter:blur(0)}}
+@media(max-width:600px){.intro-stage{height:190px}.intro-logo{max-height:190px}}
+@media(prefers-reduced-motion:reduce){.intro-word{animation:none;opacity:0}.intro-logo{animation:none}.intro-logo .brand-wave{animation:none}.intro{animation:none}}
