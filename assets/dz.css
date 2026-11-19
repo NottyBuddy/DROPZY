@@ -322,3 +322,6 @@ body:after{
 .beat-bottom-nav svg,.beat-more-menu svg{fill:none;stroke:currentColor;stroke-width:1.65;stroke-linecap:round;stroke-linejoin:round;transition:transform .28s cubic-bezier(.2,.8,.2,1),filter .28s}
 .beat-bottom-nav a.active svg,.beat-more-button[aria-expanded="true"] svg{color:#a8e9e2;filter:drop-shadow(0 0 7px rgba(103,224,206,.45))}
 .beat-bottom-nav a:hover svg,.beat-more-button:hover svg{color:#ffc46c;filter:drop-shadow(0 0 8px rgba(255,196,108,.38))}
+
+.side-nav a>svg{flex:0 0 22px;width:22px;height:22px;fill:none;stroke:#8fe8e0;stroke-width:1.65;stroke-linecap:round;stroke-linejoin:round;filter:drop-shadow(0 0 6px rgba(103,224,206,.2))}
+.side-nav a.active>svg,.side-nav a:hover>svg{stroke:#ffc46c;filter:drop-shadow(0 0 8px rgba(255,196,108,.35))}
