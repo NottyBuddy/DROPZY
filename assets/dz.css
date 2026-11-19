@@ -397,6 +397,8 @@ body{background:#020104!important}
  .main{margin-left:78px!important;padding:18px 10px 30px!important}
 }
 
-/* Intro reveals the same violet animated background as the inner pages */
-.intro{background:rgba(4,3,9,.48)!important;backdrop-filter:blur(1px);-webkit-backdrop-filter:blur(1px)}
-.intro-logo{box-shadow:0 0 70px rgba(135,59,209,.24)!important}
+
+/* Final intro transparency: show the animated scene directly behind the free-floating mark */
+.intro,.intro-stage,.intro-logo,.intro-tagline,.intro-word{background:transparent!important;background-color:transparent!important;background-image:none!important;border:0!important;border-radius:0!important;outline:0!important;box-shadow:none!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important}
+.intro:before,.intro:after,.intro-stage:before,.intro-stage:after{display:none!important;content:none!important}
+.intro-logo{filter:drop-shadow(0 0 16px rgba(160,91,255,.28))!important;object-fit:contain!important}
