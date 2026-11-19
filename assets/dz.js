@@ -41,3 +41,24 @@
  },true);
  document.addEventListener('pointercancel',e=>{if(active&&e.pointerId===pointer){active=false;clear();pointer=null;current=null;}},true);
 })();
+
+
+/* Hand-drawn navigation icon set */
+(()=>{
+ const paths={
+ 'discover.html':'<path d="M10.8 3.8a7 7 0 1 0 4.9 12l4.5 4.4"/><path d="m14.7 14.7 5.5 5.5"/><path d="M7.5 10.8h6.2M10.6 7.7v6.2"/>',
+ 'trending.html':'<path d="M4 18.5 9 13l3.2 3.1L20 7.5"/><path d="M14.5 7.5H20v5.5"/><path d="M4 21h16"/>',
+ 'genre.html':'<path d="m12 2.8 8.5 5v8.4l-8.5 5-8.5-5V7.8z"/><path d="m3.8 7.9 8.2 4.8 8.2-4.8M12 12.7v8.1"/><circle cx="12" cy="8" r="1.5"/>',
+ 'my-music.html':'<path d="M12 20.5S3.5 15.4 3.5 9.4a4.5 4.5 0 0 1 8.5-2 4.5 4.5 0 0 1 8.5 2c0 6-8.5 11.1-8.5 11.1Z"/><path d="M8 12.2h2l1.2-2.1 1.8 4 1.1-1.9H17"/>',
+ 'radio.html':'<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5.5"/><circle cx="12" cy="12" r="1.7"/><path d="m5.6 5.6 2 2M18.4 5.6l-2 2"/>',
+ 'create.html':'<path d="M12 3v18M3 12h18"/><path d="m5.5 5.5 13 13m0-13-13 13"/>',
+ 'stemtracks.html':'<path d="M4 7h16M4 12h16M4 17h16"/><path d="M8 4v6m8-1v6m-5-1v6"/>',
+ 'settings.html':'<path d="M12 8.2a3.8 3.8 0 1 0 0 7.6 3.8 3.8 0 0 0 0-7.6Z"/><path d="m19.4 13.8 1.1.9-1.5 2.6-1.4-.5a7.8 7.8 0 0 1-1.7 1l-.3 1.5h-3l-.3-1.5a7.8 7.8 0 0 1-1.7-1l-1.4.5-1.5-2.6 1.1-.9a7 7 0 0 1 0-2l-1.1-.9 1.5-2.6 1.4.5a7.8 7.8 0 0 1 1.7-1l.3-1.5h3l.3 1.5a7.8 7.8 0 0 1 1.7 1l1.4-.5 1.5 2.6-1.1.9a7 7 0 0 1 0 2Z"/>'
+ };
+ document.querySelectorAll('.side-nav a,.beat-bottom-nav a,.beat-more-menu a').forEach(a=>{
+  const key=(a.getAttribute('href')||'').split('/').pop(),d=paths[key];if(!d)return;
+  let icon=a.querySelector('svg');
+  if(!icon){icon=document.createElementNS('http://www.w3.org/2000/svg','svg');icon.setAttribute('viewBox','0 0 24 24');icon.setAttribute('aria-hidden','true');a.prepend(icon);}
+  icon.innerHTML=d;
+ });
+})();
