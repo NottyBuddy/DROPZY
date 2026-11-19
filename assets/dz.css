@@ -115,3 +115,16 @@ body{color:rgba(255,255,255,.94)}
 .intro-line{animation:linePulse 2.4s ease-in-out infinite}
 @keyframes wordBehind{0%{opacity:0;transform:translate(-40px,0);filter:blur(5px)}18%{opacity:1;filter:blur(0)}76%{opacity:1;transform:translate(290px,0) scale(.8)}100%{opacity:0;transform:translate(390px,0) scale(.58);filter:blur(7px)}}
 @media(prefers-reduced-motion:reduce){.intro{animation:none!important}}
+
+/* Floating BEAT TREAT mark: no logo tile, no intro panel, animation stays visible */
+.brand-mark{background:transparent!important;border:0!important;border-radius:0!important;box-shadow:none!important;overflow:visible!important}
+.brand-mark img{background:transparent!important;object-fit:contain;filter:none!important}
+.intro,.intro:before{background:transparent!important;background-color:transparent!important;background-image:none!important}
+.intro:before{display:none!important}
+.intro-stage{background:transparent!important;border:0!important;box-shadow:none!important;backdrop-filter:none!important}
+.intro-logo{background:transparent!important;border:0!important;border-radius:0!important;box-shadow:none!important;filter:none!important;overflow:visible!important;animation:logoFloatIn 1.5s cubic-bezier(.2,.8,.2,1) both!important}
+.intro-word-beat{animation:wordBehind 1.8s 1.15s cubic-bezier(.2,.75,.25,1) forwards!important}
+.intro-word-treat{animation:wordBehind 1.8s 2.25s cubic-bezier(.2,.75,.25,1) forwards!important}
+.intro-tagline{animation:fadeUp 1s 4.1s both!important}
+@keyframes logoFloatIn{0%{opacity:0;transform:translateY(18px) scale(.88);filter:blur(10px)}70%{opacity:1;transform:translateY(-3px) scale(1.025);filter:blur(0)}100%{opacity:1;transform:translateY(0) scale(1)}}
+@media(prefers-reduced-motion:reduce){.intro-logo{animation:none!important}}
