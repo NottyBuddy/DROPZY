@@ -681,3 +681,78 @@ html[data-theme="light"] .brand-mark img{filter:none!important}
  html.theme-transition,html.theme-transition body,html.theme-transition body *,
  html.theme-transition .intro,html.theme-transition #bt-plexus-bg{transition:none!important}
 }
+
+
+/* Navigation dock: flat icons, no lift, zoom, popup or glow */
+.beat-bottom-nav>a,
+.beat-bottom-nav>a:hover,
+.beat-bottom-nav>a:focus-visible,
+.beat-bottom-nav>a:active,
+.beat-bottom-nav>a.dock-swipe-target{
+ translate:0 0!important;
+ scale:1!important;
+ transform:none!important;
+ box-shadow:none!important;
+ outline:0!important;
+}
+.beat-bottom-nav>a:before,
+.beat-bottom-nav>a:hover:before,
+.beat-bottom-nav>a:focus-visible:before,
+.beat-bottom-nav>a.active:before,
+.beat-bottom-nav>a.dock-swipe-target:before{
+ content:none!important;
+ display:none!important;
+}
+.beat-bottom-nav>a svg,
+.beat-bottom-nav>a:hover svg,
+.beat-bottom-nav>a:focus-visible svg,
+.beat-bottom-nav>a:active svg,
+.beat-bottom-nav>a.dock-swipe-target svg{
+ transform:none!important;
+ filter:none!important;
+ transition:color .18s ease,stroke .18s ease!important;
+}
+.beat-bottom-nav>a{
+ background:transparent!important;
+ transition:background-color .18s ease,color .18s ease!important;
+}
+.beat-bottom-nav>a:hover,
+.beat-bottom-nav>a:focus-visible{
+ background:transparent!important;
+ box-shadow:none!important;
+}
+html:not([data-theme="light"]) .beat-bottom-nav>a,
+html:not([data-theme="light"]) .beat-bottom-nav>a svg{
+ color:#c8b9d8!important;
+ stroke:#c8b9d8!important;
+}
+html:not([data-theme="light"]) .beat-bottom-nav>a.active{
+ background:#fff!important;
+ color:#8752c8!important;
+ border-radius:13px!important;
+}
+html:not([data-theme="light"]) .beat-bottom-nav>a.active svg{
+ color:#8752c8!important;
+ stroke:#8752c8!important;
+}
+html[data-theme="light"] .beat-bottom-nav>a,
+html[data-theme="light"] .beat-bottom-nav>a svg{
+ color:#b77b8d!important;
+ stroke:#b77b8d!important;
+}
+html[data-theme="light"] .beat-bottom-nav>a.active{
+ background:#fff!important;
+ color:#741d3a!important;
+ border-radius:13px!important;
+}
+html[data-theme="light"] .beat-bottom-nav>a.active svg{
+ color:#741d3a!important;
+ stroke:#741d3a!important;
+}
+@media(hover:none){
+ .beat-bottom-nav>a:hover{background:transparent!important}
+ .beat-bottom-nav>a:active{translate:0 0!important;scale:1!important;transform:none!important}
+}
+@media(prefers-reduced-motion:reduce){
+ .beat-bottom-nav>a,.beat-bottom-nav>a svg{transition:none!important}
+}
