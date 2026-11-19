@@ -46,15 +46,15 @@
 /* Hand-drawn navigation icon set */
 (()=>{
  const paths={
- 'discover.html':'<path d="M10.8 3.8a7 7 0 1 0 4.9 12l4.5 4.4"/><path d="m14.7 14.7 5.5 5.5"/><path d="M7.5 10.8h6.2M10.6 7.7v6.2"/>',
- 'trending.html':'<path d="M4 18.5 9 13l3.2 3.1L20 7.5"/><path d="M14.5 7.5H20v5.5"/><path d="M4 21h16"/>',
- 'genre.html':'<path d="m12 2.8 8.5 5v8.4l-8.5 5-8.5-5V7.8z"/><path d="m3.8 7.9 8.2 4.8 8.2-4.8M12 12.7v8.1"/><circle cx="12" cy="8" r="1.5"/>',
- 'my-music.html':'<path d="M12 20.5S3.5 15.4 3.5 9.4a4.5 4.5 0 0 1 8.5-2 4.5 4.5 0 0 1 8.5 2c0 6-8.5 11.1-8.5 11.1Z"/><path d="M8 12.2h2l1.2-2.1 1.8 4 1.1-1.9H17"/>',
- 'radio.html':'<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5.5"/><circle cx="12" cy="12" r="1.7"/><path d="m5.6 5.6 2 2M18.4 5.6l-2 2"/>',
- 'create.html':'<path d="M12 3v18M3 12h18"/><path d="m5.5 5.5 13 13m0-13-13 13"/>',
+ 'discover.html':'<path d="M10.8 3.5a7.3 7.3 0 1 0 5.1 12.2l4.6 4.6"/><path d="m15.6 15.6 4.9 4.9"/><path d="M8 10.8h5.8"/>',
+ 'trending.html':'<path d="M4 18.5 9.2 13l3.3 3.1L20.5 7"/><path d="M14.5 7h6v6"/>',
+ 'genre.html':'<path d="m12 2.8 8.7 5v8.4l-8.7 5-8.7-5V7.8z"/><path d="m3.7 7.9 8.3 4.8 8.3-4.8M12 12.7v8.1"/>',
+ 'my-music.html':'<path d="M20.5 8.8c0 5.2-8.5 10.8-8.5 10.8S3.5 14 3.5 8.8a4.6 4.6 0 0 1 8.5-2.4 4.6 4.6 0 0 1 8.5 2.4Z"/><path d="M8 12h2l1.2-2.2 1.8 4.2 1.2-2H17"/>',
+ 'radio.html':'<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5.5"/><path d="m8 8 8 8m0-8-8 8"/>',
+ 'create.html':'<path d="M12 3v18M3 12h18"/><circle cx="12" cy="12" r="9"/>',
  'stemtracks.html':'<path d="M4 7h16M4 12h16M4 17h16"/><path d="M8 4v6m8-1v6m-5-1v6"/>',
- 'settings.html':'<path d="M12 8.2a3.8 3.8 0 1 0 0 7.6 3.8 3.8 0 0 0 0-7.6Z"/><path d="m19.4 13.8 1.1.9-1.5 2.6-1.4-.5a7.8 7.8 0 0 1-1.7 1l-.3 1.5h-3l-.3-1.5a7.8 7.8 0 0 1-1.7-1l-1.4.5-1.5-2.6 1.1-.9a7 7 0 0 1 0-2l-1.1-.9 1.5-2.6 1.4.5a7.8 7.8 0 0 1 1.7-1l.3-1.5h3l.3 1.5a7.8 7.8 0 0 1 1.7 1l1.4-.5 1.5 2.6-1.1.9a7 7 0 0 1 0 2Z"/>'
- };
+ 'settings.html':'<circle cx="12" cy="12" r="3.2"/><path d="m19.4 15 .1.1 1.4 1.1-1.4 2.4-1.7-.6a8 8 0 0 1-1.7 1l-.3 1.8h-2.8l-.3-1.8a8 8 0 0 1-1.7-1l-1.7.6-1.4-2.4 1.4-1.1a7 7 0 0 1 0-2l-1.4-1.1 1.4-2.4 1.7.6a8 8 0 0 1 1.7-1l.3-1.8h2.8l.3 1.8a8 8 0 0 1 1.7 1l1.7-.6 1.4 2.4-1.4 1.1a7 7 0 0 1 0 2Z"/>'
+ };;
  document.querySelectorAll('.side-nav a,.beat-bottom-nav a,.beat-more-menu a').forEach(a=>{
   const key=(a.getAttribute('href')||'').split('/').pop(),d=paths[key];if(!d)return;
   let icon=a.querySelector('svg');
