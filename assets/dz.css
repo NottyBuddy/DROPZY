@@ -99,3 +99,19 @@ body{color:#f5f2ec;background-image:none!important}
 @keyframes logoReveal{from{opacity:0;transform:scale(.92);filter:blur(9px)}to{opacity:1;transform:scale(1);filter:blur(0)}}
 @media(max-width:600px){.intro-stage{height:190px}.intro-logo{max-height:190px}}
 @media(prefers-reduced-motion:reduce){.intro-word{animation:none;opacity:0}.intro-logo{animation:none}.intro-logo .brand-wave{animation:none}.intro{animation:none}}
+
+/* Slower 9-second intro + genuinely clear glass surfaces */
+html,body{background:transparent!important;background-color:transparent!important;background-image:none!important}
+body{color:rgba(255,255,255,.94)}
+.sidebar,.panel,.language-card,.mobile-nav,.more-menu,.search-box,.account,.nav-toggle{background:rgba(255,255,255,.025)!important;border:1px solid rgba(255,255,255,.12)!important;backdrop-filter:blur(32px) saturate(155%)!important;-webkit-backdrop-filter:blur(32px) saturate(155%)!important;box-shadow:0 16px 50px rgba(0,0,0,.09),inset 0 1px rgba(255,255,255,.08)!important}
+.language-card:nth-child(n){background:rgba(255,255,255,.018)!important}
+.mobile-nav a.active,.side-nav a.active{background:rgba(255,255,255,.075)!important}
+.intro{background:transparent!important;background-color:transparent!important;background-image:none!important;animation:introOut .7s ease 8.35s forwards!important}
+.intro:before{background:rgba(255,255,255,.012)!important}
+.intro-logo{animation:logoReveal 1.65s cubic-bezier(.2,.8,.2,1) both!important}
+.intro-word-beat{animation:wordBehind 1.8s 1.15s cubic-bezier(.2,.75,.25,1) forwards!important}
+.intro-word-treat{animation:wordBehind 1.8s 2.25s cubic-bezier(.2,.75,.25,1) forwards!important}
+.intro-tagline{animation:fadeUp .9s 4.1s both!important}
+.intro-line{animation:linePulse 2.4s ease-in-out infinite}
+@keyframes wordBehind{0%{opacity:0;transform:translate(-40px,0);filter:blur(5px)}18%{opacity:1;filter:blur(0)}76%{opacity:1;transform:translate(290px,0) scale(.8)}100%{opacity:0;transform:translate(390px,0) scale(.58);filter:blur(7px)}}
+@media(prefers-reduced-motion:reduce){.intro{animation:none!important}}
