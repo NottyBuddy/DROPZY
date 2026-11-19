@@ -364,3 +364,35 @@ body:after{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;back
  .language-grid{grid-template-columns:1fr!important}
 }
 @media(prefers-reduced-motion:reduce){#bt-plexus-bg{display:none!important}}
+
+
+/* Visibility correction: keep the WebGL scene above background layers, below UI */
+#bt-plexus-bg{position:fixed!important;inset:0!important;width:100vw!important;height:100vh!important;z-index:0!important;opacity:1!important;pointer-events:none!important}
+body:before{z-index:-3!important}
+body:after{z-index:0!important;opacity:.30!important;background:rgba(2,0,7,.22)!important}
+.app-shell,.beat-bottom-nav{position:relative;z-index:2!important}
+.sidebar{z-index:10!important}
+.main{z-index:2!important}
+body{background:#020104!important}
+.page-head,.panel,.section-title,.language-grid,.footer,.topbar{position:relative;z-index:2}
+
+/* Compact icon-only vertical navigation */
+.sidebar{width:78px!important;padding:20px 10px!important;align-items:center!important}
+.sidebar .brand{margin:0 0 26px!important;width:100%!important;justify-content:center!important;gap:0!important;font-size:0!important}
+.sidebar .brand-mark{width:42px!important;height:42px!important}
+.side-label,.sidebar-foot{display:none!important}
+.side-nav{width:100%!important;margin-top:10px!important;gap:10px!important}
+.side-nav a{width:54px!important;height:50px!important;min-height:50px!important;padding:0!important;margin:0 auto!important;justify-content:center!important;gap:0!important;font-size:0!important;border-radius:15px!important}
+.side-nav a span{display:none!important}
+.side-nav a>svg{width:23px!important;height:23px!important;flex:0 0 23px!important;stroke:#c99aff!important}
+.side-nav a.active>svg,.side-nav a:hover>svg{stroke:#f0d4ff!important}
+.main{margin-left:104px!important}
+@media(max-width:760px){
+ .sidebar{left:8px!important;top:8px!important;bottom:8px!important;width:62px!important;padding:13px 5px!important}
+ .sidebar .brand{margin-bottom:20px!important}
+ .sidebar .brand-mark{width:36px!important;height:36px!important}
+ .side-nav{gap:8px!important}
+ .side-nav a{width:46px!important;height:46px!important;min-height:46px!important}
+ .side-nav a>svg{width:21px!important;height:21px!important;flex-basis:21px!important}
+ .main{margin-left:78px!important;padding:18px 10px 30px!important}
+}
