@@ -162,3 +162,40 @@
   });
  });
 })();
+
+
+/* Consistent theme persistence, page transitions and per-theme brand artwork */
+(()=>{
+ const root=document.documentElement, key='beat-treat-theme';
+ const read=()=>{try{return localStorage.getItem(key)==='light'?'light':'dark'}catch(e){return 'dark'}};
+ const paint=theme=>{
+  root.dataset.theme=theme;
+  document.querySelectorAll('.appearance-toggle').forEach(button=>{
+   const light=theme==='light';
+   button.setAttribute('aria-label',light?'Switch to dark mode':'Switch to light mode');
+   button.setAttribute('aria-pressed',light?'true':'false');
+   button.title=light?'Switch to dark mode':'Switch to light mode';
+   button.innerHTML=(light
+    ?'<svg class="appearance-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M20.2 15.1A8.3 8.3 0 0 1 8.9 3.8 8.5 8.5 0 1 0 20.2 15.1Z"/></svg>'
+    :'<svg class="appearance-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.93 4.93l1.42 1.42m11.3 11.3 1.42 1.42M2 12h2m16 0h2M4.93 19.07l1.42-1.42m11.3-11.3 1.42-1.42"/></svg>')
+    +'<span class="appearance-label">'+(light?'Light':'Dark')+'</span><span class="appearance-track" aria-hidden="true"><i class="appearance-knob"></i></span>';
+  });
+  document.querySelectorAll('img[src*="dz-mark"]').forEach(img=>{
+   const next=theme==='light'?'assets/dz-mark-light.svg?v=1':'assets/dz-mark.svg?v=4';
+   if(!img.src.endsWith(next))img.src=next;
+  });
+ };
+ // Capture once so older page-specific handlers cannot double-toggle or desync.
+ document.addEventListener('click',e=>{
+  const button=e.target.closest('.appearance-toggle');if(!button)return;
+  e.preventDefault();e.stopImmediatePropagation();
+  const next=root.dataset.theme==='light'?'dark':'light';
+  root.classList.add('theme-transition');
+  try{localStorage.setItem(key,next)}catch(err){}
+  paint(next);
+  requestAnimationFrame(()=>requestAnimationFrame(()=>root.classList.remove('theme-transition')));
+ },true);
+ window.addEventListener('pageshow',()=>paint(read()));
+ window.addEventListener('storage',e=>{if(e.key===key)paint(read())});
+ paint(read());
+})();
