@@ -396,3 +396,7 @@ body{background:#020104!important}
  .side-nav a>svg{width:21px!important;height:21px!important;flex-basis:21px!important}
  .main{margin-left:78px!important;padding:18px 10px 30px!important}
 }
+
+/* Intro reveals the same violet animated background as the inner pages */
+.intro{background:rgba(4,3,9,.48)!important;backdrop-filter:blur(1px);-webkit-backdrop-filter:blur(1px)}
+.intro-logo{box-shadow:0 0 70px rgba(135,59,209,.24)!important}
