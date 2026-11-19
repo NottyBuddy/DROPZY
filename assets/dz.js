@@ -134,3 +134,31 @@
   topbar.appendChild(button);apply(read());
  }
 })();
+
+/* Bind the real, server-rendered appearance buttons on every page */
+(()=>{
+ const root=document.documentElement;
+ const getTheme=()=>{try{return localStorage.getItem('beat-treat-theme')||'dark'}catch(e){return 'dark'}};
+ const render=()=>{
+  const light=root.dataset.theme==='light';
+  document.querySelectorAll('.appearance-toggle').forEach(button=>{
+   button.setAttribute('aria-label',light?'Switch to dark mode':'Switch to light mode');
+   button.setAttribute('aria-pressed',light?'true':'false');
+   button.title=light?'Switch to dark mode':'Switch to light mode';
+   button.innerHTML=(light
+    ?'<svg class="appearance-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M20.2 15.1A8.3 8.3 0 0 1 8.9 3.8 8.5 8.5 0 1 0 20.2 15.1Z"/></svg>'
+    :'<svg class="appearance-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.93 4.93l1.42 1.42m11.3 11.3 1.42 1.42M2 12h2m16 0h2M4.93 19.07l1.42-1.42m11.3-11.3 1.42-1.42"/></svg>')
+    +'<span class="appearance-label">'+(light?'Light':'Dark')+'</span><span class="appearance-track" aria-hidden="true"><i class="appearance-knob"></i></span>';
+  });
+ };
+ root.dataset.theme=getTheme();
+ render();
+ document.querySelectorAll('.appearance-toggle').forEach(button=>{
+  button.addEventListener('click',()=>{
+   const next=root.dataset.theme==='light'?'dark':'light';
+   root.dataset.theme=next;
+   try{localStorage.setItem('beat-treat-theme',next)}catch(e){}
+   render();
+  });
+ });
+})();
