@@ -307,3 +307,8 @@ body:after{
  .language-card:after{display:none!important}
  .page-enter{animation:none!important}
 }
+
+/* Keep the 9-second BEAT TREAT intro visible for its full duration */
+.intro{animation:none!important;opacity:1!important;visibility:visible!important;pointer-events:auto!important}
+.intro-logo{opacity:1!important;visibility:visible!important;display:block!important}
+@media(prefers-reduced-motion:reduce){.intro{animation:none!important}}
