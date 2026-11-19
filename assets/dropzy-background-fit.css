@@ -82,11 +82,3 @@ button:focus-visible,a:focus-visible{outline:2px solid #ff7184!important;outline
  #dz-toast{bottom:151px}
 }
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition-duration:.01ms!important}.dropzy-ambient-canvas{display:none}}
-
-/* DROPZY full-page motion background — source file must exist at /Anime-bg.mp4 */
-html{min-height:100%;background:#090708!important}
-body{min-height:100vh;min-height:100dvh;background:transparent!important;isolation:isolate!important}
-.dropzy-video-bg{position:fixed!important;inset:0!important;width:100vw!important;height:100vh!important;height:100dvh!important;overflow:hidden!important;z-index:-2!important;display:block!important;pointer-events:none!important;background:#090708!important}
-.dropzy-video-bg video{position:absolute!important;inset:0!important;width:100%!important;height:100%!important;object-fit:cover!important;object-position:center!important;opacity:.46!important;filter:brightness(.84) saturate(.82)!important}
-.dropzy-video-shade{position:fixed!important;inset:0!important;z-index:-1!important;display:block!important;pointer-events:none!important;background:linear-gradient(115deg,rgba(8,6,7,.42),rgba(8,6,7,.28) 48%,rgba(8,6,7,.46)),linear-gradient(0deg,rgba(8,6,7,.54),rgba(8,6,7,.08) 62%,rgba(8,6,7,.28))!important}
-@media(prefers-reduced-motion:reduce){.dropzy-video-bg video{opacity:.30!important}}
