@@ -402,3 +402,19 @@ body{background:#020104!important}
 .intro,.intro-stage,.intro-logo,.intro-tagline,.intro-word{background:transparent!important;background-color:transparent!important;background-image:none!important;border:0!important;border-radius:0!important;outline:0!important;box-shadow:none!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important}
 .intro:before,.intro:after,.intro-stage:before,.intro-stage:after{display:none!important;content:none!important}
 .intro-logo{filter:drop-shadow(0 0 16px rgba(160,91,255,.28))!important;object-fit:contain!important}
+
+/* Navigation restored: brand at top-left, compact glass dock at bottom */
+.sidebar{display:none!important}
+.main{margin-left:0!important;padding:18px 18px 126px!important}
+.topbar{display:flex!important;align-items:center!important;justify-content:flex-start!important;height:64px!important;min-height:64px!important;margin:0 0 26px!important;padding:0!important}
+.mobile-brand{display:flex!important;align-items:center!important;gap:10px!important;margin:0!important;color:#f2edff!important;font-size:12px!important;font-weight:800!important;letter-spacing:.17em!important}
+.mobile-brand .brand-mark{display:block!important;width:58px!important;height:38px!important;margin:0!important;background:transparent!important;border:0!important;box-shadow:none!important}
+.mobile-brand .brand-mark img{display:block!important;width:100%!important;height:100%!important;object-fit:contain!important}
+.beat-bottom-nav{display:flex!important;position:fixed!important;left:50%!important;right:auto!important;bottom:max(12px,env(safe-area-inset-bottom))!important;transform:translateX(-50%)!important;width:min(760px,calc(100% - 24px))!important;min-height:72px!important;padding:8px 10px!important;z-index:100!important;justify-content:space-around!important;gap:3px!important;border:1px solid rgba(174,119,255,.22)!important;border-radius:23px!important;background:rgba(10,7,20,.72)!important;backdrop-filter:blur(28px) saturate(160%)!important;-webkit-backdrop-filter:blur(28px) saturate(160%)!important;box-shadow:0 12px 42px rgba(0,0,0,.38),inset 0 1px rgba(255,255,255,.08)!important}
+.beat-bottom-nav>a,.beat-more-button{color:rgba(224,207,255,.62)!important}
+.beat-bottom-nav>a svg,.beat-more-button svg,.beat-more-menu a svg{width:23px!important;height:23px!important;stroke:#b77aff!important;stroke-width:1.7!important;fill:none!important;stroke-linecap:round!important;stroke-linejoin:round!important}
+.beat-bottom-nav>a.active,.beat-bottom-nav>a:hover,.beat-more-button[aria-expanded=true]{color:#f3eaff!important;background:rgba(139,65,218,.16)!important}
+.beat-bottom-nav>a.active svg,.beat-bottom-nav>a:hover svg,.beat-more-button[aria-expanded=true] svg{stroke:#e2bdff!important;filter:drop-shadow(0 0 6px rgba(174,112,255,.55))}
+.beat-bottom-nav>a span,.beat-more-button span{font-size:9px!important;letter-spacing:.02em!important}
+.beat-more-menu{background:rgba(12,8,24,.92)!important;border:1px solid rgba(174,119,255,.24)!important;backdrop-filter:blur(24px)!important;-webkit-backdrop-filter:blur(24px)!important}
+@media(max-width:600px){.main{padding:14px 12px 116px!important}.topbar{margin-bottom:22px!important}.mobile-brand .brand-mark{width:52px!important;height:34px!important}.beat-bottom-nav{min-height:68px!important;padding:6px 7px!important}.beat-bottom-nav>a,.beat-more-button{gap:4px!important}.beat-bottom-nav>a svg,.beat-more-button svg{width:21px!important;height:21px!important}}
