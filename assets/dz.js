@@ -99,3 +99,11 @@
  if(window.THREE){boot();return}
  const s=document.createElement('script');s.src='https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js';s.onload=boot;s.onerror=()=>console.warn('Three.js background could not load');document.head.appendChild(s);
 })();
+
+
+/* Reinforce canvas layering and add gentle atmospheric purple bokeh */
+(()=>{
+ const style=document.createElement('style');
+ style.textContent='#bt-plexus-bg{z-index:0!important;opacity:1!important} body:after{z-index:0!important;pointer-events:none!important} .app-shell,.sidebar,.main{position:relative;z-index:2} .sidebar{position:fixed!important;z-index:10!important}';
+ document.head.appendChild(style);
+})();
