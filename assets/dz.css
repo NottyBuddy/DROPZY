@@ -176,3 +176,22 @@ body{color:rgba(255,255,255,.94)}
 .beat-more-menu>a{flex-direction:row!important}
 @media(max-width:520px){.beat-bottom-nav{width:calc(100% - 24px)!important;min-height:64px!important;padding:7px 8px!important;gap:4px!important}.beat-bottom-nav>a,.beat-more-button,.beat-more-wrap{flex-basis:46px!important;width:46px!important;min-width:46px!important}.beat-bottom-nav>a,.beat-more-button{height:48px!important;min-height:48px!important}.beat-bottom-nav svg{width:22px!important;height:22px!important}}
 @media(hover:none){.beat-bottom-nav>a:hover svg,.beat-more-button:hover svg{transform:none!important;filter:none!important}}
+
+
+/* Dock interaction refresh: swipe selection, crisp icon buttons and hover labels */
+.beat-bottom-nav{isolation:isolate;touch-action:pan-y!important}
+.beat-bottom-nav>a,.beat-more-button{position:relative!important;overflow:visible!important;cursor:pointer!important; -webkit-tap-highlight-color:transparent}
+.beat-bottom-nav>a svg,.beat-more-button svg{width:25px!important;height:25px!important;stroke-width:1.9!important;stroke:var(--wave-amber)!important;filter:drop-shadow(0 2px 5px rgba(255,121,95,.18));transition:transform .22s cubic-bezier(.2,.8,.2,1),filter .22s,color .22s!important}
+.beat-bottom-nav>a:not(.active) svg,.beat-more-button:not(.active) svg{stroke:rgba(255,179,107,.86)!important}
+.beat-bottom-nav>a:after,.beat-more-button:after{content:attr(data-dock-label);position:absolute;left:50%;bottom:calc(100% + 12px);transform:translate(-50%,5px) scale(.94);padding:7px 11px;border:1px solid rgba(255,255,255,.16);border-radius:10px;background:rgba(17,20,32,.88);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);color:#fff4e8;font-size:11px;font-weight:700;letter-spacing:.02em;white-space:nowrap;box-shadow:0 8px 24px rgba(0,0,0,.22);opacity:0;pointer-events:none;transition:opacity .18s,transform .18s;z-index:5}
+@media(hover:hover) and (pointer:fine){
+.beat-bottom-nav>a:hover:after,.beat-more-button:hover:after,.beat-bottom-nav>a:focus-visible:after,.beat-more-button:focus-visible:after{opacity:1;transform:translate(-50%,0) scale(1)}
+.beat-bottom-nav>a:hover svg,.beat-more-button:hover svg{transform:translateY(-4px) scale(1.16)!important;filter:drop-shadow(0 0 10px rgba(255,137,96,.72))!important}
+.beat-more-wrap:hover .beat-more-menu{display:flex!important;animation:dockPop .2s ease-out both}
+}
+@keyframes dockPop{from{opacity:0;transform:translateY(7px) scale(.96)}to{opacity:1;transform:translateY(0) scale(1)}}
+.beat-bottom-nav>a:active,.beat-more-button:active{transform:scale(.91)!important}
+.beat-bottom-nav>a.dock-swipe-target{background:rgba(255,145,99,.16)!important;box-shadow:0 0 0 1px rgba(255,179,107,.22),0 0 22px rgba(255,121,95,.15)!important}
+.beat-bottom-nav>a.dock-swipe-target svg{transform:scale(1.17)!important;filter:drop-shadow(0 0 11px rgba(255,179,107,.7))!important}
+@media(hover:none){.beat-bottom-nav>a:after,.beat-more-button:after{display:none}.beat-bottom-nav>a:hover svg,.beat-more-button:hover svg{transform:none!important}}
+@media(prefers-reduced-motion:reduce){.beat-bottom-nav>a:after,.beat-more-button:after,.beat-bottom-nav svg{transition:none!important}}
