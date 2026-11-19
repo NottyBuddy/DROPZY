@@ -667,3 +667,17 @@ html[data-theme="light"] .appearance-toggle .appearance-knob{background:#741d3a!
 html[data-theme="light"] .intro{color:#2c1720!important}
 html[data-theme="light"] .intro-tagline{color:#5b2639!important}
 html[data-theme="light"] .footer{border-color:rgba(116,29,58,.16)!important}
+
+
+/* Smooth, consistent appearance transitions */
+html.theme-transition,html.theme-transition body,html.theme-transition body *,
+html.theme-transition .intro,html.theme-transition #bt-plexus-bg{
+ transition:background-color .32s ease,color .32s ease,border-color .32s ease,
+ box-shadow .32s ease,fill .32s ease,stroke .32s ease,filter .32s ease!important;
+}
+html[data-theme="light"] .intro-logo,
+html[data-theme="light"] .brand-mark img{filter:none!important}
+@media(prefers-reduced-motion:reduce){
+ html.theme-transition,html.theme-transition body,html.theme-transition body *,
+ html.theme-transition .intro,html.theme-transition #bt-plexus-bg{transition:none!important}
+}
