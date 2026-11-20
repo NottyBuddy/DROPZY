@@ -949,3 +949,38 @@ body.bt-player-open{overflow:hidden}
 html[data-theme="light"] .bt-search-status{color:#866b75}
 html[data-theme="light"] .suggestions button.active,html[data-theme="light"] .suggestions button[aria-pressed="true"]{background:rgba(116,29,58,.08)!important;border-color:rgba(116,29,58,.35)!important;color:#741d3a!important}
 html[data-theme="light"] .bt-trending-status{background:rgba(116,29,58,.035);color:#866b75}html[data-theme="light"] .bt-trending-status strong{color:#391b29}
+
+
+/* Step 4 — library tabs, playlist manager and dialog */
+.bt-library{margin-top:26px}.bt-library-toolbar{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;margin-bottom:20px}
+.bt-library-tabs{display:flex;gap:6px;flex-wrap:wrap}.bt-library-tabs button{border:1px solid var(--line);border-radius:999px;padding:9px 14px;background:rgba(255,255,255,.035);color:var(--muted);font:600 11px Manrope,sans-serif;cursor:pointer}
+.bt-library-tabs button.active{background:rgba(166,139,255,.15);border-color:rgba(166,139,255,.38);color:var(--ivory)}
+.bt-create-playlist,.bt-library-empty button{border:1px solid rgba(166,139,255,.35);border-radius:13px;padding:11px 15px;background:rgba(166,139,255,.13);color:var(--ivory);font:700 11px Manrope,sans-serif;cursor:pointer}
+.bt-library-summary{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:13px}
+.bt-library-card{min-height:110px;display:flex;align-items:center;gap:13px;padding:17px;border:1px solid var(--line);border-radius:19px;background:rgba(255,255,255,.045);backdrop-filter:blur(18px)}
+.bt-library-icon{width:39px;height:39px;display:grid;place-items:center;border-radius:13px;background:rgba(166,139,255,.13);color:#b69aff;font-size:21px}
+.bt-library-card div{flex:1;min-width:0}.bt-library-card strong{font-size:12px}.bt-library-card p{margin:5px 0 0;color:var(--muted);font-size:10px}
+.bt-library-card>button{border:0;background:transparent;color:var(--muted);font-size:23px;cursor:pointer}
+.bt-library-view[hidden],.bt-library-summary[hidden]{display:none!important}
+.bt-library-empty{min-height:220px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:30px 18px;border:1px dashed var(--line);border-radius:21px;background:rgba(255,255,255,.025)}
+.bt-library-empty>span{font-size:30px;color:#b69aff;margin-bottom:12px}.bt-library-empty strong{font-size:15px}.bt-library-empty p{max-width:390px;color:var(--muted);font-size:11px;line-height:1.7;margin:8px 0 16px}
+.bt-library-note{margin:18px 2px 0;color:var(--muted);font-size:10px;line-height:1.6}
+.bt-playlist-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:13px}
+.bt-playlist-card{min-width:0;padding:14px;border:1px solid var(--line);border-radius:18px;background:rgba(255,255,255,.045)}
+.bt-playlist-art{height:105px;display:grid;place-items:center;border-radius:13px;background:linear-gradient(135deg,rgba(126,99,196,.25),rgba(177,99,128,.12));color:#c7b3ff;font-size:34px}
+.bt-playlist-info{display:grid;gap:5px;margin:12px 2px}.bt-playlist-info strong{font-size:12px;overflow-wrap:anywhere}.bt-playlist-info small{font-size:10px;color:var(--muted)}
+.bt-playlist-actions{display:flex;gap:7px}.bt-playlist-actions button{border:1px solid var(--line);border-radius:9px;padding:7px 9px;background:transparent;color:var(--muted);font:600 10px Manrope,sans-serif;cursor:pointer}
+.bt-playlist-dialog{width:min(420px,calc(100vw - 30px));padding:0;border:1px solid rgba(210,205,245,.2);border-radius:22px;background:rgba(25,22,42,.97);color:#f5f2ec;box-shadow:0 25px 90px rgba(0,0,0,.45)}
+.bt-playlist-dialog::backdrop{background:rgba(4,4,12,.65);backdrop-filter:blur(7px)}
+.bt-playlist-dialog form{padding:23px}.bt-dialog-head{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:22px}.bt-dialog-head h2{font-size:20px;margin:6px 0 0}.bt-dialog-head>button{border:0;background:transparent;color:inherit;font-size:25px;cursor:pointer}
+.bt-playlist-dialog label{display:block;margin-bottom:8px;font-size:11px;color:#c9c2d7}.bt-playlist-dialog input{width:100%;box-sizing:border-box;padding:13px 14px;border:1px solid rgba(220,215,245,.2);border-radius:12px;outline:none;background:rgba(255,255,255,.06);color:inherit;font:12px Manrope,sans-serif}.bt-playlist-dialog input:focus{border-color:#b69aff;box-shadow:0 0 0 3px rgba(182,154,255,.12)}
+.bt-dialog-error{min-height:16px;color:#ff9b9b;font-size:10px}.bt-dialog-actions{display:flex;justify-content:flex-end;gap:9px;margin-top:12px}.bt-dialog-actions button{padding:10px 15px;border-radius:10px;font:700 11px Manrope,sans-serif;cursor:pointer}.bt-dialog-cancel{border:1px solid var(--line);background:transparent;color:inherit}.bt-dialog-save{border:1px solid #b69aff;background:#b69aff;color:#20172f}
+html[data-theme="light"] .bt-library-tabs button.active{background:rgba(116,29,58,.09);border-color:rgba(116,29,58,.25);color:#741d3a}
+html[data-theme="light"] .bt-create-playlist,html[data-theme="light"] .bt-library-empty button{background:rgba(116,29,58,.08);border-color:rgba(116,29,58,.22);color:#741d3a}
+html[data-theme="light"] .bt-library-icon,html[data-theme="light"] .bt-playlist-art{background:linear-gradient(135deg,#f2e3ea,#f8edf1);color:#8f4561}
+html[data-theme="light"] .bt-playlist-dialog{background:rgba(255,249,250,.98);color:#391b29;border-color:rgba(116,29,58,.18)}
+html[data-theme="light"] .bt-playlist-dialog label{color:#765965}html[data-theme="light"] .bt-playlist-dialog input{background:rgba(116,29,58,.04);border-color:rgba(116,29,58,.18);color:#391b29}
+html[data-theme="light"] .bt-dialog-save{background:#8f4561;border-color:#8f4561;color:#fff}
+@media(max-width:760px){.bt-library-summary,.bt-playlist-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:520px){.bt-library-toolbar{align-items:stretch}.bt-library-tabs{display:grid;grid-template-columns:repeat(2,1fr)}.bt-library-tabs button{padding:10px 8px}.bt-create-playlist{width:100%}.bt-library-summary,.bt-playlist-grid{grid-template-columns:1fr}.bt-library-card{min-height:88px}.bt-playlist-art{height:90px}}
+@media(prefers-reduced-motion:reduce){.bt-library *{scroll-behavior:auto;transition:none!important}}
