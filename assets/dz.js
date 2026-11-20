@@ -259,3 +259,26 @@
  }
  const filters=document.querySelector('[data-trending-filters]');if(filters){const buttons=[...filters.querySelectorAll('button')];const status=document.querySelector('[data-trending-status]');buttons.forEach(button=>{button.type='button';button.setAttribute('aria-pressed','false');button.addEventListener('click',()=>{buttons.forEach(b=>{const active=b===button;b.classList.toggle('active',active);b.setAttribute('aria-pressed',String(active))});if(status){const strong=document.createElement('strong');strong.textContent=button.textContent.trim()+' selected';const span=document.createElement('span');span.textContent='Regional chart layout is ready. Live chart data will appear after a music catalogue is connected.';status.replaceChildren(strong,span)}})})}
 })();
+
+
+/* Step 4 — My Music library and browser-local playlists; no sample tracks */
+(()=>{
+ const root=document.querySelector('[data-library]');if(!root)return;
+ const key='beat-treat-playlists-v1',tabs=[...root.querySelectorAll('[data-library-tab]')],panels=[...root.querySelectorAll('[data-library-panel]')],grid=root.querySelector('[data-playlist-grid]'),empty=root.querySelector('[data-playlist-empty]'),dialog=root.querySelector('[data-playlist-dialog]'),form=root.querySelector('[data-playlist-form]'),input=root.querySelector('#bt-playlist-name'),error=root.querySelector('[data-playlist-error]');
+ let playlists=[];try{const saved=JSON.parse(localStorage.getItem(key)||'[]');if(Array.isArray(saved))playlists=saved.filter(p=>p&&typeof p.id==='string'&&typeof p.name==='string').slice(0,100)}catch(e){}
+ let editing=null;
+ const save=()=>{try{localStorage.setItem(key,JSON.stringify(playlists));return true}catch(e){return false}};
+ const show=name=>{tabs.forEach(t=>{const active=t.dataset.libraryTab===name;t.classList.toggle('active',active);t.setAttribute('aria-selected',String(active))});panels.forEach(p=>p.hidden=p.dataset.libraryPanel!==name)};
+ const escape=s=>String(s).replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
+ const render=()=>{grid.replaceChildren();playlists.forEach(item=>{const card=document.createElement('article');card.className='bt-playlist-card';card.innerHTML='<span class="bt-playlist-art" aria-hidden="true">♫</span><div class="bt-playlist-info"><strong>'+escape(item.name)+'</strong><small>0 tracks · Your playlist</small></div><div class="bt-playlist-actions"><button type="button" data-edit="'+escape(item.id)+'" aria-label="Rename '+escape(item.name)+'">Rename</button><button type="button" data-delete="'+escape(item.id)+'" aria-label="Delete '+escape(item.name)+'">Delete</button></div>';grid.append(card)});empty.hidden=playlists.length>0;root.querySelector('[data-playlist-count]').textContent=playlists.length?playlists.length+' playlist'+(playlists.length===1?'':'s'):'No playlists yet'};
+ const open=(item)=>{editing=item?item.id:null;root.querySelector('#bt-playlist-title').textContent=item?'Rename playlist':'Create playlist';input.value=item?item.name:'';form.querySelector('.bt-dialog-save').textContent=item?'Save changes':'Create';error.textContent='';if(typeof dialog.showModal==='function')dialog.showModal();else dialog.setAttribute('open','');setTimeout(()=>input.focus(),0)};
+ const close=()=>{if(typeof dialog.close==='function'&&dialog.open)dialog.close();else dialog.removeAttribute('open')};
+ tabs.forEach(t=>t.addEventListener('click',()=>show(t.dataset.libraryTab)));
+ root.querySelectorAll('[data-library-jump]').forEach(b=>b.addEventListener('click',()=>show(b.dataset.libraryJump)));
+ root.querySelectorAll('[data-create-playlist]').forEach(b=>b.addEventListener('click',()=>open(null)));
+ root.querySelectorAll('[data-playlist-close]').forEach(b=>b.addEventListener('click',close));
+ form.addEventListener('submit',e=>{e.preventDefault();const name=input.value.trim();if(!name){error.textContent='Enter a playlist name.';return}if(editing){const item=playlists.find(p=>p.id===editing);if(item)item.name=name}else playlists.unshift({id:'pl-'+Date.now().toString(36)+'-'+Math.random().toString(36).slice(2,7),name});if(!save()){error.textContent='Could not save in this browser. Check available storage and try again.';return}render();show('playlists');close()});
+ grid.addEventListener('click',e=>{const edit=e.target.closest('[data-edit]'),del=e.target.closest('[data-delete]');if(edit){const item=playlists.find(p=>p.id===edit.dataset.edit);if(item)open(item)}if(del){const item=playlists.find(p=>p.id===del.dataset.delete);if(item&&confirm('Delete playlist “'+item.name+'”?')){playlists=playlists.filter(p=>p.id!==item.id);save();render()}}});
+ dialog.addEventListener('click',e=>{if(e.target===dialog)close()});
+ render();show('all');
+})();
