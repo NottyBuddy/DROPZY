@@ -296,3 +296,16 @@
  root.querySelector('[data-radio-save]').addEventListener('click',()=>{if(!mood||!station){message.textContent='Choose both a mood and a station style first.';return}try{localStorage.setItem(storageKey,JSON.stringify({mood,station,energy:Number(energy.value)}));message.textContent='Preferences saved in this browser. Radio playback is waiting for a catalogue connection.'}catch(e){message.textContent='Could not save preferences in this browser. Check available storage and try again.'}});
  update();
 })();
+/* Step 6 — Mix Lab control surface; intentionally no audio engine */
+(()=>{
+ const root=document.querySelector('[data-mixlab]');if(!root)return;
+ const deckButtons=[...root.querySelectorAll('[data-decks]')],decks=[...root.querySelectorAll('[data-deck]')],modeButtons=[...root.querySelectorAll('[data-mix-mode]')],state=root.querySelector('[data-mix-state]'),note=root.querySelector('[data-mix-note]');
+ deckButtons.forEach(b=>b.addEventListener('click',()=>{const count=Number(b.dataset.decks);deckButtons.forEach(x=>{const on=x===b;x.classList.toggle('active',on);x.setAttribute('aria-pressed',String(on))});decks.forEach(d=>{d.hidden=d.dataset.deck==='C'&&count!==3});state.textContent=count+'-deck studio · No audio loaded'}));
+ modeButtons.forEach(b=>b.addEventListener('click',()=>{modeButtons.forEach(x=>{const on=x===b;x.classList.toggle('active',on);x.setAttribute('aria-pressed',String(on))});note.textContent=b.dataset.mixMode==='guided'?'Guided mode selected. Suggested mix values are unavailable until audio analysis is connected.':'Manual mode selected. Controls are interface previews only; no audio processing is active.'}));
+ root.querySelectorAll('[data-deck-action]').forEach(b=>b.addEventListener('click',()=>{const active=b.getAttribute('aria-pressed')!=='true';b.setAttribute('aria-pressed',String(active));b.classList.toggle('active',active);const deck=b.closest('[data-deck]');state.textContent='Deck '+deck.dataset.deck+' '+b.dataset.deckAction+(active?' enabled':' disabled')+' · Preview only'}));
+ const tempo=root.querySelector('[data-tempo]'),key=root.querySelector('[data-keyshift]'),cross=root.querySelector('[data-crossfade]');
+ const update=()=>{const t=Number(tempo.value),k=Number(key.value),x=Number(cross.value);root.querySelector('[data-tempo-value]').textContent=(t>0?'+':'')+t+'%';root.querySelector('[data-key-value]').textContent=(k>0?'+':'')+k;root.querySelector('[data-master-readout]').textContent=x<45?'Deck A focused':x>55?'Deck B focused':'Balanced mix'};
+ [tempo,key,cross].forEach(input=>input.addEventListener('input',update));
+ root.querySelector('[data-mix-reset]').addEventListener('click',()=>{tempo.value=0;key.value=0;cross.value=50;root.querySelectorAll('[data-deck] input[type="range"]').forEach(i=>i.value=i.dataset.deckGain!==undefined?75:50);root.querySelectorAll('[data-deck-action]').forEach(b=>{b.setAttribute('aria-pressed','false');b.classList.remove('active')});update();state.textContent='Studio controls reset · No audio loaded';note.textContent='Mix settings reset. Controls remain visual previews until audio processing is connected.'});
+ update();
+})();
