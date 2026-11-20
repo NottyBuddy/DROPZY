@@ -363,13 +363,15 @@ body:after{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;back
  .panel{padding:14px!important}
  .language-grid{grid-template-columns:1fr!important}
 }
-@media(prefers-reduced-motion:reduce){#bt-plexus-bg{display:none!important}}
+@media(prefers-reduced-motion:reduce){#bt-plexus-bg{display:none!important}.ambient-shapes i{animation:none!important}}
 
 
-/* Visibility correction: keep the WebGL scene above background layers, below UI */
-#bt-plexus-bg{position:fixed!important;inset:0!important;width:100vw!important;height:100vh!important;z-index:0!important;opacity:1!important;pointer-events:none!important}
+/* Layer the lightweight CSS gradient background behind the interface. */
+#bt-plexus-bg{display:none!important}
+.ambient-shapes{display:block!important;z-index:0!important;opacity:1!important}
+.ambient-shapes i{will-change:transform}
 body:before{z-index:-3!important}
-body:after{z-index:0!important;opacity:.30!important;background:rgba(2,0,7,.22)!important}
+body:after{z-index:1!important;opacity:.22!important;background:rgba(2,0,7,.16)!important}
 .app-shell,.beat-bottom-nav{position:relative;z-index:2!important}
 .sidebar{z-index:10!important}
 .main{z-index:2!important}
