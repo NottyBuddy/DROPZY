@@ -938,3 +938,14 @@ body.bt-player-open{overflow:hidden}
  .bt-player-art-large{width:min(58vw,205px);height:min(58vw,205px)}
 }
 @media(prefers-reduced-motion:reduce){.bt-player-sheet{animation:none}}
+
+
+/* Step 3 — Discover search feedback and Trending filter states */
+.bt-search-status{min-height:18px;margin:12px 2px 0;color:var(--muted);font-size:11px;line-height:1.55}
+.language-card[hidden]{display:none!important}.language-grid.bt-search-empty{display:none}
+.suggestions button.active,.suggestions button[aria-pressed="true"]{color:var(--ivory)!important;border-color:rgba(182,154,255,.58)!important;background:rgba(156,140,255,.15)!important;box-shadow:inset 0 1px rgba(255,255,255,.08)!important}
+.bt-trending-status{display:grid;gap:5px;margin-top:22px;padding:18px 20px;border:1px solid var(--line);border-radius:18px;background:rgba(255,255,255,.045);color:var(--muted);font-size:12px;line-height:1.6;min-height:80px}
+.bt-trending-status strong{color:var(--ivory);font-size:14px}
+html[data-theme="light"] .bt-search-status{color:#866b75}
+html[data-theme="light"] .suggestions button.active,html[data-theme="light"] .suggestions button[aria-pressed="true"]{background:rgba(116,29,58,.08)!important;border-color:rgba(116,29,58,.35)!important;color:#741d3a!important}
+html[data-theme="light"] .bt-trending-status{background:rgba(116,29,58,.035);color:#866b75}html[data-theme="light"] .bt-trending-status strong{color:#391b29}
