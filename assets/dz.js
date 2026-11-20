@@ -282,3 +282,17 @@
  dialog.addEventListener('click',e=>{if(e.target===dialog)close()});
  render();show('all');
 })();
+/* Step 5 — Radio preference builder; recommendations remain catalogue-dependent */
+(()=>{
+ const root=document.querySelector('[data-radio]');if(!root)return;
+ const moodButtons=[...root.querySelectorAll('[data-mood]')],typeButtons=[...root.querySelectorAll('[data-station]')],energy=root.querySelector('[data-radio-energy]'),energyLabel=root.querySelector('[data-energy-label]'),moodLabel=root.querySelector('[data-radio-mood-label]'),summary=root.querySelector('[data-radio-summary]'),message=root.querySelector('[data-radio-message]');
+ const storageKey='beat-treat-radio-preferences-v1';let mood='',station='';
+ const energyName=value=>value<30?'Soft':value<70?'Balanced':'High energy';
+ const update=()=>{const value=Number(energy.value);energyLabel.textContent=energyName(value);moodLabel.textContent=mood||'Choose one mood';summary.textContent=mood&&station?mood+' · '+station:'Set your preferences';message.textContent=mood&&station?'Your radio setup is ready to save. Live stations are not connected yet.':'Select a mood and station style to prepare your radio setup.'};
+ moodButtons.forEach(b=>b.addEventListener('click',()=>{mood=mood===b.dataset.mood?'':b.dataset.mood;moodButtons.forEach(x=>{const on=x.dataset.mood===mood;x.classList.toggle('active',on);x.setAttribute('aria-pressed',String(on))});update()}));
+ typeButtons.forEach(b=>b.addEventListener('click',()=>{station=station===b.dataset.station?'':b.dataset.station;typeButtons.forEach(x=>{const on=x.dataset.station===station;x.classList.toggle('active',on);x.setAttribute('aria-pressed',String(on))});update()}));
+ energy.addEventListener('input',update);
+ try{const saved=JSON.parse(localStorage.getItem(storageKey)||'null');if(saved){mood=typeof saved.mood==='string'?saved.mood:'';station=typeof saved.station==='string'?saved.station:'';energy.value=String(Math.max(0,Math.min(100,Number(saved.energy)||0)));moodButtons.forEach(b=>{const on=b.dataset.mood===mood;b.classList.toggle('active',on);b.setAttribute('aria-pressed',String(on))});typeButtons.forEach(b=>{const on=b.dataset.station===station;b.classList.toggle('active',on);b.setAttribute('aria-pressed',String(on))})}}catch(e){}
+ root.querySelector('[data-radio-save]').addEventListener('click',()=>{if(!mood||!station){message.textContent='Choose both a mood and a station style first.';return}try{localStorage.setItem(storageKey,JSON.stringify({mood,station,energy:Number(energy.value)}));message.textContent='Preferences saved in this browser. Radio playback is waiting for a catalogue connection.'}catch(e){message.textContent='Could not save preferences in this browser. Check available storage and try again.'}});
+ update();
+})();
