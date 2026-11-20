@@ -246,3 +246,16 @@
   overlay.querySelectorAll('[data-player-panel]').forEach(p=>p.hidden=p.dataset.playerPanel!==tab.dataset.playerTab);
  }));
 })();
+
+
+/* Step 3 — Discover search and Trending filters; UI-only, no catalogue */
+(()=>{
+ const search=document.querySelector('[data-search]');
+ if(search){
+  const grid=document.querySelector('.language-grid');const cards=grid?[...grid.querySelectorAll('.language-card')]:[];const panel=search.closest('.panel');let status=panel&&panel.querySelector('[data-search-status]');
+  if(!status&&panel){status=document.createElement('p');status.className='bt-search-status';status.dataset.searchStatus='';status.setAttribute('role','status');status.setAttribute('aria-live','polite');panel.append(status)}
+  const apply=raw=>{const q=(raw||'').toLocaleLowerCase().trim();let shown=0;cards.forEach(card=>{const match=!q||(card.textContent||'').toLocaleLowerCase().includes(q);card.hidden=!match;if(match)shown++});if(status)status.textContent=q?(shown?shown+' matching category found.':'No category matches '+raw.trim()+'. Song and artist results need a connected catalogue.'):'Search categories by language. Song and artist results need a connected catalogue.';if(grid)grid.classList.toggle('bt-search-empty',!!q&&shown===0);const url=new URL(location.href);if(q)url.searchParams.set('q',raw.trim());else url.searchParams.delete('q');history.replaceState({},'',url.pathname+url.search+url.hash)};
+  const initial=new URLSearchParams(location.search).get('q')||'';if(initial)search.value=initial;search.addEventListener('input',()=>apply(search.value));search.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();e.stopImmediatePropagation();apply(search.value);search.blur()}},true);panel&&panel.querySelectorAll('.suggestions button').forEach(button=>button.addEventListener('click',()=>{search.value=button.textContent.trim();apply(search.value);search.focus()}));apply(initial);
+ }
+ const filters=document.querySelector('[data-trending-filters]');if(filters){const buttons=[...filters.querySelectorAll('button')];const status=document.querySelector('[data-trending-status]');buttons.forEach(button=>{button.type='button';button.setAttribute('aria-pressed','false');button.addEventListener('click',()=>{buttons.forEach(b=>{const active=b===button;b.classList.toggle('active',active);b.setAttribute('aria-pressed',String(active))});if(status){const strong=document.createElement('strong');strong.textContent=button.textContent.trim()+' selected';const span=document.createElement('span');span.textContent='Regional chart layout is ready. Live chart data will appear after a music catalogue is connected.';status.replaceChildren(strong,span)}})})}
+})();
