@@ -337,7 +337,7 @@
    const tracks=batches.flat();
    const safeLicense=t=>!t.license||/creative commons|\bcc by|public domain|open music license/i.test(t.license);
    const suspiciousUpload=t=>/mp3cut|savetube|ytshorts|youtube|movie song|video song|mp3 download|full movie/i.test([t.title,t.orig_filename,t.description].filter(Boolean).join(' '));
-   results=tracks.filter(t=>t&&t.is_available!==false&&t.is_delete!==true&&t.is_streamable===true&&t.is_stream_gated!==true&&t.access?.stream!==false&&t.stream?.url&&safeLicense(t)&&!suspiciousUpload(t)&&languageMatches(t));
+   results=tracks.filter(t=>t&&t.is_available!==false&&t.is_delete!==true&&t.is_streamable===true&&t.is_stream_gated!==true&&t.access?.stream!==false&&t.stream?.url&&t.user?.is_verified===true&&safeLicense(t)&&!suspiciousUpload(t)&&languageMatches(t));
    const seen=new Set();results=results.filter(t=>{const id=String(t.id||t.track_id);if(!id||seen.has(id))return false;seen.add(id);return true}).slice(0,20);
    loading=false;render();
   }catch(err){if(ticket!==requestNo)return;loading=false;setState('Music catalogue is temporarily unavailable','Could not reach the free Audius stream. Please try again.');}
