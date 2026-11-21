@@ -274,13 +274,13 @@
 (()=>{
  const app=document.querySelector('.app-shell');if(!app)return;
  const LANGS={
-  Hindi:{query:'Hindi song',terms:['hindi','हिंदी']},
-  Punjabi:{query:'Punjabi song',terms:['punjabi','ਪੰਜਾਬੀ']},
-  Telugu:{query:'Telugu song',terms:['telugu','తెలుగు']},
-  Marathi:{query:'Marathi song',terms:['marathi','मराठी']},
-  Haryanvi:{query:'Haryanvi song',terms:['haryanvi','हरियाणवी','हरयाणवी']},
-  Bhojpuri:{query:'Bhojpuri song',terms:['bhojpuri','भोजपुरी']},
-  Rajasthani:{query:'Rajasthani song',terms:['rajasthani','राजस्थानी']}
+  Hindi:{queries:['Hindi song','Hindi independent music'],terms:['hindi','हिंदी']},
+  Punjabi:{queries:['Punjabi song','Punjabi independent music'],terms:['punjabi','ਪੰਜਾਬੀ']},
+  Telugu:{queries:['Telugu song','Telugu independent music'],terms:['telugu','తెలుగు']},
+  Marathi:{queries:['Marathi song','Marathi independent music'],terms:['marathi','मराठी']},
+  Haryanvi:{queries:['Haryanvi song','Haryanvi folk'],terms:['haryanvi','हरियाणवी','हरयाणवी']},
+  Bhojpuri:{queries:['Bhojpuri song','Bhojpuri lokgeet'],terms:['bhojpuri','भोजपुरी']},
+  Rajasthani:{queries:['Rajasthani song','Marwari song','Rajasthani folk'],terms:['rajasthani','राजस्थानी','marwari','मारवाड़ी']}
  };
  const API='https://api.audius.co/v1';
  const esc=s=>String(s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -302,7 +302,9 @@
  const setState=(title,detail='')=>{state.replaceChildren();const strong=document.createElement('strong');strong.textContent=title;state.append(strong);if(detail){const p=document.createElement('p');p.textContent=detail;state.append(p)}};
  const languageMatches=t=>{
   const fields=[t.title,t.description,t.tags,t.orig_filename,t.permalink].filter(Boolean).join(' ').toLocaleLowerCase();
-  return LANGS[language].terms.some(term=>fields.includes(term));
+  const allowed=LANGS[language].terms.some(term=>fields.includes(term));
+  const otherLanguage=/\\b(english|tamil|kannada|malayalam|bengali|gujarati|odia|urdu|arabic|korean)\\b/.test(fields);
+  return allowed&&!otherLanguage;
  };
  const paintPills=()=>pills.querySelectorAll('button').forEach(b=>{const on=b.dataset.lang===language;b.classList.toggle('active',on);b.setAttribute('aria-pressed',String(on))});
  const render=()=>{
@@ -323,15 +325,19 @@
  };
  async function load(){
   const ticket=++requestNo;loading=true;results=[];list.replaceChildren();paintPills();setState('Finding free '+language+' tracks…');
-  const term=LANGS[language].query;
-  const q=(query?query+' ':'')+term;
   try{
-   const url=API+'/tracks/search?'+new URLSearchParams({query:q,limit:'30',sort_method:'popular'});
-   const response=await fetch(url,{headers:{Accept:'application/json'}});
-   if(!response.ok)throw new Error('Music source returned '+response.status);
-   const json=await response.json();if(ticket!==requestNo)return;
-   const tracks=Array.isArray(json.data)?json.data:[];
-   results=tracks.filter(t=>t&&t.is_available!==false&&t.is_delete!==true&&t.is_streamable===true&&t.is_stream_gated!==true&&t.access?.stream!==false&&t.stream?.url&&languageMatches(t));
+   const batches=await Promise.all(LANGS[language].queries.map(async term=>{
+    const q=(query?query+' ':'')+term;
+    const url=API+'/tracks/search?'+new URLSearchParams({query:q,limit:'30',sort_method:'popular'});
+    const response=await fetch(url,{headers:{Accept:'application/json'}});
+    if(!response.ok)throw new Error('Music source returned '+response.status);
+    const json=await response.json();return Array.isArray(json.data)?json.data:[];
+   }));
+   if(ticket!==requestNo)return;
+   const tracks=batches.flat();
+   const safeLicense=t=>!t.license||/creative commons|\\bcc by|public domain|open music license/i.test(t.license);
+   const suspiciousUpload=t=>/mp3cut|savetube|ytshorts|youtube|movie song|video song|mp3 download|full movie/i.test([t.title,t.orig_filename,t.description].filter(Boolean).join(' '));
+   results=tracks.filter(t=>t&&t.is_available!==false&&t.is_delete!==true&&t.is_streamable===true&&t.is_stream_gated!==true&&t.access?.stream!==false&&t.stream?.url&&safeLicense(t)&&!suspiciousUpload(t)&&languageMatches(t));
    const seen=new Set();results=results.filter(t=>{const id=String(t.id||t.track_id);if(!id||seen.has(id))return false;seen.add(id);return true}).slice(0,20);
    loading=false;render();
   }catch(err){if(ticket!==requestNo)return;loading=false;setState('Music catalogue is temporarily unavailable','Could not reach the free Audius stream. Please try again.');}
