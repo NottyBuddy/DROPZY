@@ -288,7 +288,7 @@
  let language=new URLSearchParams(location.search).get('lang');
  if(!LANGS[language])language='Hindi';
  let query=new URLSearchParams(location.search).get('q')||'';
- let results=[],queue=[],current=-1,loading=false,requestNo=0;
+ let results=[],queue=[],current=-1,loading=false,requestNo=0,playTrack=()=>{};
  const audio=new Audio();audio.preload='none';audio.crossOrigin='anonymous';
  let section=document.querySelector('[data-music-catalog]');
  if(!section){
@@ -377,7 +377,7 @@
    queuePanel.replaceChildren();const heading=document.createElement('strong');heading.textContent='Up next';queuePanel.append(heading);
    queue.forEach((t,i)=>{const b=document.createElement('button');b.type='button';b.className='bt-queue-item';b.textContent=(t.title||'Untitled')+' — '+(t.user?.name||'Artist');b.addEventListener('click',()=>playTrack(i));queuePanel.append(b)});
   };
-  const playTrack=async index=>{
+  playTrack=async index=>{
    const t=queue[index];if(!t||!t.stream?.url)return;
    current=index;audio.src=t.stream.url;audio.load();
    miniTitle.textContent=t.title||'Untitled track';miniSub.textContent=(t.user?.name||'Independent artist')+' · '+language;
