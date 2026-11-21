@@ -303,7 +303,7 @@
  const languageMatches=t=>{
   const fields=[t.title,t.description,t.tags,t.orig_filename,t.permalink].filter(Boolean).join(' ').toLocaleLowerCase();
   const allowed=LANGS[language].terms.some(term=>fields.includes(term));
-  const otherLanguage=/\\b(english|tamil|kannada|malayalam|bengali|gujarati|odia|urdu|arabic|korean)\\b/.test(fields);
+  const otherLanguage=/\b(english|tamil|kannada|malayalam|bengali|gujarati|odia|urdu|arabic|korean)\b/.test(fields);
   return allowed&&!otherLanguage;
  };
  const paintPills=()=>pills.querySelectorAll('button').forEach(b=>{const on=b.dataset.lang===language;b.classList.toggle('active',on);b.setAttribute('aria-pressed',String(on))});
@@ -335,7 +335,7 @@
    }));
    if(ticket!==requestNo)return;
    const tracks=batches.flat();
-   const safeLicense=t=>!t.license||/creative commons|\\bcc by|public domain|open music license/i.test(t.license);
+   const safeLicense=t=>!t.license||/creative commons|\bcc by|public domain|open music license/i.test(t.license);
    const suspiciousUpload=t=>/mp3cut|savetube|ytshorts|youtube|movie song|video song|mp3 download|full movie/i.test([t.title,t.orig_filename,t.description].filter(Boolean).join(' '));
    results=tracks.filter(t=>t&&t.is_available!==false&&t.is_delete!==true&&t.is_streamable===true&&t.is_stream_gated!==true&&t.access?.stream!==false&&t.stream?.url&&safeLicense(t)&&!suspiciousUpload(t)&&languageMatches(t));
    const seen=new Set();results=results.filter(t=>{const id=String(t.id||t.track_id);if(!id||seen.has(id))return false;seen.add(id);return true}).slice(0,20);
