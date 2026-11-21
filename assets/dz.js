@@ -321,7 +321,7 @@
    const source=document.createElement('a');source.className='bt-track-source';source.href='https://audius.co'+(t.permalink||'');source.target='_blank';source.rel='noopener noreferrer';source.textContent='Source';
    row.append(art,copy,play,source);list.append(row);
   });
-  setState(results.length?results.length+' free '+language+' tracks found':'No verified '+language+' tracks found',results.length?'Tap a track to play inside this player. Downloads are not offered.':'This source did not return tracks with clear '+language+' language metadata. No other-language tracks are substituted.');
+  setState(results.length?results.length+' free '+language+' tracks found':'No verified '+language+' tracks found',results.length?'Tap a track to play inside this player. Downloads are not offered.':'No verified, legally streamable '+language+' uploads with clear language metadata were found. No unverified or other-language tracks are substituted.');
  };
  async function load(){
   const ticket=++requestNo;loading=true;results=[];list.replaceChildren();paintPills();setState('Finding free '+language+' tracks…');
