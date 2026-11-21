@@ -269,3 +269,136 @@
  root.querySelector('[data-mix-reset]').addEventListener('click',()=>{tempo.value=0;key.value=0;cross.value=50;root.querySelectorAll('[data-deck] input[type="range"]').forEach(i=>i.value=i.dataset.deckGain!==undefined?75:50);root.querySelectorAll('[data-deck-action]').forEach(b=>{b.setAttribute('aria-pressed','false');b.classList.remove('active')});update();state.textContent='Studio controls reset · No audio loaded';note.textContent='Mix settings reset. Controls remain visual previews until audio processing is connected.'});
  update();
 })();
+
+/* Free in-app music catalogue: public, streamable Audius tracks, strict language matching */
+(()=>{
+ const app=document.querySelector('.app-shell');if(!app)return;
+ const LANGS={
+  Hindi:{query:'Hindi song',terms:['hindi','हिंदी']},
+  Punjabi:{query:'Punjabi song',terms:['punjabi','ਪੰਜਾਬੀ']},
+  Telugu:{query:'Telugu song',terms:['telugu','తెలుగు']},
+  Marathi:{query:'Marathi song',terms:['marathi','मराठी']},
+  Haryanvi:{query:'Haryanvi song',terms:['haryanvi','हरियाणवी','हरयाणवी']},
+  Bhojpuri:{query:'Bhojpuri song',terms:['bhojpuri','भोजपुरी']},
+  Rajasthani:{query:'Rajasthani song',terms:['rajasthani','राजस्थानी']}
+ };
+ const API='https://api.audius.co/v1';
+ const esc=s=>String(s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+ const seconds=n=>{n=Math.max(0,Math.floor(Number(n)||0));return Math.floor(n/60)+':'+String(n%60).padStart(2,'0')};
+ let language=new URLSearchParams(location.search).get('lang');
+ if(!LANGS[language])language='Hindi';
+ let query=new URLSearchParams(location.search).get('q')||'';
+ let results=[],queue=[],current=-1,loading=false,requestNo=0;
+ const audio=new Audio();audio.preload='none';audio.crossOrigin='anonymous';
+ let section=document.querySelector('[data-music-catalog]');
+ if(!section){
+  section=document.createElement('section');section.className='bt-catalog';section.dataset.musicCatalog='';
+  const anchor=document.querySelector('.language-grid')||document.querySelector('[data-trending-status]')||document.querySelector('.page-head');
+  if(anchor)anchor.insertAdjacentElement('afterend',section);else app.querySelector('.main')?.append(section);
+ }
+ section.innerHTML='<div class="bt-catalog-head"><div><p class="eyebrow">FREE TO STREAM</p><h2>Indian music library</h2><p class="bt-catalog-note">Independent tracks available through Audius. Only tracks clearly tagged with the selected language are shown.</p></div><span class="bt-source-mark">AUDIOUS</span></div><div class="bt-language-pills" data-catalog-languages></div><div class="bt-catalog-state" data-catalog-state role="status" aria-live="polite">Loading free tracks…</div><div class="bt-track-list" data-catalog-list></div>';
+ const pills=section.querySelector('[data-catalog-languages]'),state=section.querySelector('[data-catalog-state]'),list=section.querySelector('[data-catalog-list]');
+ Object.keys(LANGS).forEach(name=>{const b=document.createElement('button');b.type='button';b.textContent=name;b.dataset.lang=name;b.addEventListener('click',()=>selectLanguage(name,true));pills.append(b)});
+ const setState=(title,detail='')=>{state.replaceChildren();const strong=document.createElement('strong');strong.textContent=title;state.append(strong);if(detail){const p=document.createElement('p');p.textContent=detail;state.append(p)}};
+ const languageMatches=t=>{
+  const fields=[t.title,t.description,t.tags,t.orig_filename,t.permalink].filter(Boolean).join(' ').toLocaleLowerCase();
+  return LANGS[language].terms.some(term=>fields.includes(term));
+ };
+ const paintPills=()=>pills.querySelectorAll('button').forEach(b=>{const on=b.dataset.lang===language;b.classList.toggle('active',on);b.setAttribute('aria-pressed',String(on))});
+ const render=()=>{
+  list.replaceChildren();
+  results.forEach((t,i)=>{
+   const row=document.createElement('article');row.className='bt-track-row';
+   const art=document.createElement('img');art.className='bt-track-art';art.alt='';art.loading='lazy';art.src=t.artwork?.['150x150']||t.artwork?.['480x480']||'';
+   const copy=document.createElement('div');copy.className='bt-track-copy';
+   const title=document.createElement('strong');title.textContent=t.title||'Untitled track';
+   const artist=document.createElement('span');artist.textContent=t.user?.name||t.user?.handle||'Independent artist';
+   const meta=document.createElement('small');meta.textContent='Audius · '+language+' · '+seconds(t.duration);
+   copy.append(title,artist,meta);
+   const play=document.createElement('button');play.type='button';play.className='bt-track-play';play.textContent='▶';play.setAttribute('aria-label','Play '+(t.title||'track'));play.addEventListener('click',()=>{queue=results.slice();playTrack(i)});
+   const source=document.createElement('a');source.className='bt-track-source';source.href='https://audius.co'+(t.permalink||'');source.target='_blank';source.rel='noopener noreferrer';source.textContent='Source';
+   row.append(art,copy,play,source);list.append(row);
+  });
+  setState(results.length?results.length+' free '+language+' tracks found':'No verified '+language+' tracks found',results.length?'Tap a track to play inside this player. Downloads are not offered.':'This source did not return tracks with clear '+language+' language metadata. No other-language tracks are substituted.');
+ };
+ async function load(){
+  const ticket=++requestNo;loading=true;results=[];list.replaceChildren();paintPills();setState('Finding free '+language+' tracks…');
+  const term=LANGS[language].query;
+  const q=(query?query+' ':'')+term;
+  try{
+   const url=API+'/tracks/search?'+new URLSearchParams({query:q,limit:'30',sort_method:'popular'});
+   const response=await fetch(url,{headers:{Accept:'application/json'}});
+   if(!response.ok)throw new Error('Music source returned '+response.status);
+   const json=await response.json();if(ticket!==requestNo)return;
+   const tracks=Array.isArray(json.data)?json.data:[];
+   results=tracks.filter(t=>t&&t.is_available!==false&&t.is_delete!==true&&t.is_streamable===true&&t.is_stream_gated!==true&&t.access?.stream!==false&&t.stream?.url&&languageMatches(t));
+   const seen=new Set();results=results.filter(t=>{const id=String(t.id||t.track_id);if(!id||seen.has(id))return false;seen.add(id);return true}).slice(0,20);
+   loading=false;render();
+  }catch(err){if(ticket!==requestNo)return;loading=false;setState('Music catalogue is temporarily unavailable','Could not reach the free Audius stream. Please try again.');}
+ }
+ function selectLanguage(name,updateUrl){
+  if(!LANGS[name])return;language=name;query='';
+  if(updateUrl){const u=new URL(location.href);u.searchParams.set('lang',name);u.searchParams.delete('q');history.replaceState({},'',u.pathname+u.search+u.hash)}
+  const input=document.querySelector('[data-search]');if(input)input.value='';
+  load();
+ }
+ const input=document.querySelector('[data-search]');
+ if(input){
+  const submit=()=>{query=input.value.trim();const u=new URL(location.href);if(query)u.searchParams.set('q',query);else u.searchParams.delete('q');u.searchParams.set('lang',language);history.replaceState({},'',u.pathname+u.search+u.hash);load()};
+  input.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();e.stopImmediatePropagation();submit()}},true);
+  input.addEventListener('search',submit);
+  const oldQ=new URLSearchParams(location.search).get('q');if(oldQ)input.value=oldQ;
+ }
+ document.querySelectorAll('.language-grid .language-card').forEach(card=>{
+  const name=(card.querySelector('b')?.textContent||'').trim();
+  if(LANGS[name]){card.href='trending.html?lang='+encodeURIComponent(name);card.addEventListener('click',e=>{if(location.pathname.endsWith('/trending.html')){e.preventDefault();selectLanguage(name,true)}})}
+ });
+ const trend=document.querySelector('[data-trending-filters]');
+ if(trend){
+  trend.querySelectorAll('button').forEach(b=>{
+   const name=b.textContent.trim();
+   if(LANGS[name]){b.textContent=name;b.addEventListener('click',()=>selectLanguage(name,true))}
+   else b.hidden=true;
+  });
+ }
+ // Connect the existing player shell to real in-app audio.
+ const dock=document.querySelector('.bt-player'),overlay=document.querySelector('.bt-player-overlay');
+ if(dock&&overlay){
+  const miniTitle=dock.querySelector('.bt-player-copy strong'),miniSub=dock.querySelector('.bt-player-copy small');
+  const miniPlay=dock.querySelector('.bt-player-play'),miniPrev=dock.querySelectorAll('.bt-player-control')[0],miniNext=dock.querySelectorAll('.bt-player-control')[1],miniBar=dock.querySelector('.bt-player-progress i');
+  const heroTitle=overlay.querySelector('#bt-player-title'),heroSub=overlay.querySelector('.bt-player-hero p');
+  const sheetPlay=overlay.querySelector('.bt-player-sheet-play'),sheetControls=overlay.querySelectorAll('.bt-player-sheet-controls button');
+  const seek=overlay.querySelector('.bt-player-timeline input'),times=overlay.querySelectorAll('.bt-player-timeline span'),volume=overlay.querySelector('.bt-player-volume input');
+  const queuePanel=overlay.querySelector('[data-player-panel="queue"]');
+  const toggleButtons=[miniPlay,sheetPlay];
+  const updatePlay=()=>toggleButtons.forEach(b=>{b.disabled=!audio.src;b.textContent=audio.paused?'▶':'Ⅱ';b.setAttribute('aria-label',audio.paused?'Play':'Pause')});
+  const updateProgress=()=>{if(!Number.isFinite(audio.duration)||!audio.duration)return;const pct=audio.currentTime/audio.duration*100;seek.value=String(pct);seek.disabled=false;times[0].textContent=seconds(audio.currentTime);times[1].textContent=seconds(audio.duration);miniBar.style.width=pct+'%'};
+  const updateQueue=()=>{
+   queuePanel.replaceChildren();const heading=document.createElement('strong');heading.textContent='Up next';queuePanel.append(heading);
+   queue.forEach((t,i)=>{const b=document.createElement('button');b.type='button';b.className='bt-queue-item';b.textContent=(t.title||'Untitled')+' — '+(t.user?.name||'Artist');b.addEventListener('click',()=>playTrack(i));queuePanel.append(b)});
+  };
+  const playTrack=async index=>{
+   const t=queue[index];if(!t||!t.stream?.url)return;
+   current=index;audio.src=t.stream.url;audio.load();
+   miniTitle.textContent=t.title||'Untitled track';miniSub.textContent=(t.user?.name||'Independent artist')+' · '+language;
+   heroTitle.textContent=t.title||'Untitled track';heroSub.textContent=(t.user?.name||'Independent artist')+' · '+language+' · Audius';
+   seek.value='0';seek.disabled=true;times[0].textContent='0:00';times[1].textContent=seconds(t.duration);miniBar.style.width='0%';
+   miniPrev.disabled=index<=0;miniNext.disabled=index>=queue.length-1;sheetControls[0].disabled=index<=0;sheetControls[2].disabled=index>=queue.length-1;
+   updateQueue();updatePlay();
+   try{await audio.play();updatePlay()}catch(e){setState('Tap play to start','Your browser blocked automatic playback.');updatePlay()}
+  };
+  const playPause=()=>{if(!audio.src)return;if(audio.paused)audio.play().then(updatePlay).catch(updatePlay);else{audio.pause();updatePlay()}};
+  miniPlay.disabled=false;sheetPlay.disabled=false;miniPrev.disabled=true;miniNext.disabled=true;sheetControls[0].disabled=true;sheetControls[2].disabled=true;
+  toggleButtons.forEach(b=>b.addEventListener('click',playPause));
+  miniPrev.addEventListener('click',()=>playTrack(Math.max(0,current-1)));miniNext.addEventListener('click',()=>playTrack(Math.min(queue.length-1,current+1)));
+  sheetControls[0].addEventListener('click',()=>playTrack(Math.max(0,current-1)));sheetControls[2].addEventListener('click',()=>playTrack(Math.min(queue.length-1,current+1)));
+  seek.addEventListener('input',()=>{if(Number.isFinite(audio.duration))audio.currentTime=audio.duration*(Number(seek.value)/100)});
+  volume.addEventListener('input',()=>audio.volume=Number(volume.value)/100);audio.volume=Number(volume.value)/100;
+  audio.addEventListener('timeupdate',updateProgress);audio.addEventListener('durationchange',updateProgress);
+  audio.addEventListener('play',updatePlay);audio.addEventListener('pause',updatePlay);
+  audio.addEventListener('ended',()=>{if(current<queue.length-1)playTrack(current+1);else updatePlay()});
+  audio.addEventListener('error',()=>{setState('This track could not be streamed','Choose another available track from the list.');updatePlay()});
+  window.addEventListener('pagehide',()=>audio.pause());
+ }
+ load();
+})();
