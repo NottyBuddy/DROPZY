@@ -296,7 +296,7 @@
   const anchor=document.querySelector('.language-grid')||document.querySelector('[data-trending-status]')||document.querySelector('.page-head');
   if(anchor)anchor.insertAdjacentElement('afterend',section);else app.querySelector('.main')?.append(section);
  }
- section.innerHTML='<div class="bt-catalog-head"><div><p class="eyebrow">FREE TO STREAM</p><h2>Indian music library</h2><p class="bt-catalog-note">In-app playback only. No external music-site redirects and no advertisements.</p></div><span class="bt-source-mark">AUDIOUS</span></div><div class="bt-language-pills" data-catalog-languages></div><div class="bt-catalog-state" data-catalog-state role="status" aria-live="polite">Loading free tracks…</div><div class="bt-track-list" data-catalog-list></div>';
+ section.innerHTML='<div class="bt-catalog-head"><div><p class="eyebrow">FREE · AD-FREE</p><h2>Indian music library</h2><p class="bt-catalog-note">In-app playback only. No external redirects, subscriptions or app advertisements. Creator and track attribution stays visible here.</p></div><span class="bt-source-mark">IN-APP ONLY</span></div><div class="bt-language-pills" data-catalog-languages></div><div class="bt-catalog-state" data-catalog-state role="status" aria-live="polite">Loading free tracks…</div><div class="bt-track-list" data-catalog-list></div>';
  const pills=section.querySelector('[data-catalog-languages]'),state=section.querySelector('[data-catalog-state]'),list=section.querySelector('[data-catalog-list]');
  Object.keys(LANGS).forEach(name=>{const b=document.createElement('button');b.type='button';b.textContent=name;b.dataset.lang=name;b.addEventListener('click',()=>selectLanguage(name,true));pills.append(b)});
  const setState=(title,detail='')=>{state.replaceChildren();const strong=document.createElement('strong');strong.textContent=title;state.append(strong);if(detail){const p=document.createElement('p');p.textContent=detail;state.append(p)}};
@@ -334,7 +334,7 @@
    }));
    if(ticket!==requestNo)return;
    const tracks=batches.flat();
-   const safeLicense=t=>!t.license||/creative commons|\bcc by|public domain|open music license/i.test(t.license);
+   const safeLicense=t=>{const l=String(t.license||'').toLowerCase().trim().replace(/[_\s]+/g,'-');if(!l)return true;return /open-music-license|public-domain|^cc0$|^cc-by$|^cc-by-sa$|^cc-by-nd$|creative-commons-attribution(?:-sharealike|-noderivatives)?$/.test(l)};
    const suspiciousUpload=t=>/mp3cut|savetube|ytshorts|youtube|movie song|video song|mp3 download|full movie/i.test([t.title,t.orig_filename,t.description].filter(Boolean).join(' '));
    results=tracks.filter(t=>t&&t.is_available!==false&&t.is_delete!==true&&t.is_streamable===true&&t.is_stream_gated!==true&&t.access?.stream!==false&&t.stream?.url&&t.user?.is_verified===true&&safeLicense(t)&&!suspiciousUpload(t)&&languageMatches(t));
    const seen=new Set();results=results.filter(t=>{const id=String(t.id||t.track_id);if(!id||seen.has(id))return false;seen.add(id);return true}).slice(0,20);
