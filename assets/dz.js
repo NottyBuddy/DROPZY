@@ -296,7 +296,7 @@
   const anchor=document.querySelector('.language-grid')||document.querySelector('[data-trending-status]')||document.querySelector('.page-head');
   if(anchor)anchor.insertAdjacentElement('afterend',section);else app.querySelector('.main')?.append(section);
  }
- section.innerHTML='<div class="bt-catalog-head"><div><p class="eyebrow">FREE · AD-FREE</p><h2>Indian music library</h2><p class="bt-catalog-note">In-app playback only. No external redirects, subscriptions or app advertisements. Creator and track attribution stays visible here.</p></div><span class="bt-source-mark">IN-APP ONLY</span></div><div class="bt-language-pills" data-catalog-languages></div><div class="bt-catalog-state" data-catalog-state role="status" aria-live="polite">Loading free tracks…</div><div class="bt-track-list" data-catalog-list></div>';
+ section.innerHTML='<div class="bt-catalog-head"><div><p class="eyebrow">FREE · AD-FREE</p><h2>Indian music library</h2><p class="bt-catalog-note">Vocal songs only · No instrumentals, beats or karaoke. In-app playback, no ads and no external redirects.</p></div><span class="bt-source-mark">IN-APP ONLY</span></div><div class="bt-language-pills" data-catalog-languages></div><div class="bt-catalog-state" data-catalog-state role="status" aria-live="polite">Loading free tracks…</div><div class="bt-track-list" data-catalog-list></div>';
  const pills=section.querySelector('[data-catalog-languages]'),state=section.querySelector('[data-catalog-state]'),list=section.querySelector('[data-catalog-list]');
  Object.keys(LANGS).forEach(name=>{const b=document.createElement('button');b.type='button';b.textContent=name;b.dataset.lang=name;b.addEventListener('click',()=>selectLanguage(name,true));pills.append(b)});
  const setState=(title,detail='')=>{state.replaceChildren();const strong=document.createElement('strong');strong.textContent=title;state.append(strong);if(detail){const p=document.createElement('p');p.textContent=detail;state.append(p)}};
@@ -320,7 +320,7 @@
    const play=document.createElement('button');play.type='button';play.className='bt-track-play';play.textContent='▶';play.setAttribute('aria-label','Play '+(t.title||'track'));play.addEventListener('click',()=>{queue=results.slice();playTrack(i)});
    row.append(art,copy,play);list.append(row);
   });
-  setState(results.length?results.length+' free '+language+' tracks found':'No verified '+language+' tracks found',results.length?'Tap a track to play inside this player. Downloads are not offered.':'No verified, licensed vocal songs with clear '+language+' metadata were found. Instrumentals and unverified uploads are not substituted.');
+  setState(results.length?results.length+' verified vocal '+language+' songs found':'No verified vocal '+language+' songs found',results.length?'Tap a track to play inside this player. Downloads are not offered.':'No verified, licensed vocal songs with clear '+language+' metadata were found. Instrumentals and unverified uploads are not substituted.');
  };
  async function load(){
   const ticket=++requestNo;loading=true;results=[];list.replaceChildren();paintPills();setState('Finding free '+language+' tracks…');
