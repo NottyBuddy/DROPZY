@@ -296,7 +296,7 @@
   const anchor=document.querySelector('.language-grid')||document.querySelector('[data-trending-status]')||document.querySelector('.page-head');
   if(anchor)anchor.insertAdjacentElement('afterend',section);else app.querySelector('.main')?.append(section);
  }
- section.innerHTML='<div class="bt-catalog-head"><div><p class="eyebrow">FREE TO STREAM</p><h2>Indian music library</h2><p class="bt-catalog-note">Verified creator uploads on Audius. Only public, ungated tracks with matching language metadata are shown.</p></div><span class="bt-source-mark">AUDIOUS</span></div><div class="bt-language-pills" data-catalog-languages></div><div class="bt-catalog-state" data-catalog-state role="status" aria-live="polite">Loading free tracks…</div><div class="bt-track-list" data-catalog-list></div>';
+ section.innerHTML='<div class="bt-catalog-head"><div><p class="eyebrow">FREE TO STREAM</p><h2>Indian music library</h2><p class="bt-catalog-note">In-app playback only. No external music-site redirects and no advertisements.</p></div><span class="bt-source-mark">AUDIOUS</span></div><div class="bt-language-pills" data-catalog-languages></div><div class="bt-catalog-state" data-catalog-state role="status" aria-live="polite">Loading free tracks…</div><div class="bt-track-list" data-catalog-list></div>';
  const pills=section.querySelector('[data-catalog-languages]'),state=section.querySelector('[data-catalog-state]'),list=section.querySelector('[data-catalog-list]');
  Object.keys(LANGS).forEach(name=>{const b=document.createElement('button');b.type='button';b.textContent=name;b.dataset.lang=name;b.addEventListener('click',()=>selectLanguage(name,true));pills.append(b)});
  const setState=(title,detail='')=>{state.replaceChildren();const strong=document.createElement('strong');strong.textContent=title;state.append(strong);if(detail){const p=document.createElement('p');p.textContent=detail;state.append(p)}};
@@ -318,8 +318,7 @@
    const meta=document.createElement('small');meta.textContent='Audius · '+language+' · '+seconds(t.duration);
    copy.append(title,artist,meta);
    const play=document.createElement('button');play.type='button';play.className='bt-track-play';play.textContent='▶';play.setAttribute('aria-label','Play '+(t.title||'track'));play.addEventListener('click',()=>{queue=results.slice();playTrack(i)});
-   const source=document.createElement('a');source.className='bt-track-source';source.href='https://audius.co'+(t.permalink||'');source.target='_blank';source.rel='noopener noreferrer';source.textContent='Source';
-   row.append(art,copy,play,source);list.append(row);
+   row.append(art,copy,play);list.append(row);
   });
   setState(results.length?results.length+' free '+language+' tracks found':'No verified '+language+' tracks found',results.length?'Tap a track to play inside this player. Downloads are not offered.':'No verified, legally streamable '+language+' uploads with clear language metadata were found. No unverified or other-language tracks are substituted.');
  };
@@ -387,7 +386,7 @@
    const t=queue[index];if(!t||!t.stream?.url)return;
    current=index;audio.src=t.stream.url;audio.load();
    miniTitle.textContent=t.title||'Untitled track';miniSub.textContent=(t.user?.name||'Independent artist')+' · '+language;
-   heroTitle.textContent=t.title||'Untitled track';heroSub.textContent=(t.user?.name||'Independent artist')+' · '+language+' · Audius';
+   heroTitle.textContent=t.title||'Untitled track';heroSub.textContent=(t.user?.name||'Independent artist')+' · '+language;
    seek.value='0';seek.disabled=true;times[0].textContent='0:00';times[1].textContent=seconds(t.duration);miniBar.style.width='0%';
    miniPrev.disabled=index<=0;miniNext.disabled=index>=queue.length-1;sheetControls[0].disabled=index<=0;sheetControls[2].disabled=index>=queue.length-1;
    updateQueue();updatePlay();
