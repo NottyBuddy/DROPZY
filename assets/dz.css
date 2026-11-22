@@ -1067,3 +1067,16 @@ html[data-theme="light"] .bt-catalog-state strong{color:#3a2330}
  .bt-track-source{display:none}
  .bt-track-copy strong{font-size:11px}
 }
+
+
+/* DROPZY animated gradient waves — restored as lightweight CSS layers */
+.ambient-shapes{display:block!important;position:fixed!important;inset:0!important;z-index:0!important;overflow:hidden!important;pointer-events:none!important;opacity:1!important}
+.ambient-shapes i{position:absolute!important;display:block!important;width:132vw!important;height:26vh!important;min-width:900px!important;min-height:170px!important;border-radius:50%!important;filter:blur(34px)!important;mix-blend-mode:screen!important;opacity:.15!important;will-change:transform!important}
+.ambient-shapes i:nth-child(1){left:-24vw!important;top:12vh!important;background:linear-gradient(90deg,transparent 0%,rgba(68,218,207,.04) 15%,rgba(68,218,207,.42) 42%,rgba(151,120,239,.3) 65%,transparent 100%)!important;animation:dzWaveFlowOne 46s ease-in-out infinite alternate!important}
+.ambient-shapes i:nth-child(2){right:-25vw!important;top:43vh!important;background:linear-gradient(90deg,transparent 0%,rgba(151,120,239,.05) 12%,rgba(151,120,239,.34) 42%,rgba(255,190,112,.28) 70%,transparent 100%)!important;animation:dzWaveFlowTwo 58s ease-in-out infinite alternate!important}
+.ambient-shapes i:nth-child(3){left:-20vw!important;bottom:-4vh!important;background:linear-gradient(90deg,transparent 0%,rgba(255,190,112,.04) 18%,rgba(255,190,112,.3) 48%,rgba(68,218,207,.24) 76%,transparent 100%)!important;animation:dzWaveFlowThree 64s ease-in-out infinite alternate!important}
+@keyframes dzWaveFlowOne{from{transform:translate3d(-7vw,0,0) rotate(-13deg) scaleY(.82)}to{transform:translate3d(12vw,8vh,0) rotate(-7deg) scaleY(1.12)}}
+@keyframes dzWaveFlowTwo{from{transform:translate3d(9vw,-5vh,0) rotate(-10deg) scaleY(1.1)}to{transform:translate3d(-12vw,5vh,0) rotate(-4deg) scaleY(.78)}}
+@keyframes dzWaveFlowThree{from{transform:translate3d(-5vw,4vh,0) rotate(-9deg) scaleY(.86)}to{transform:translate3d(10vw,-7vh,0) rotate(-15deg) scaleY(1.13)}}
+.app-shell{position:relative;z-index:1}
+@media(prefers-reduced-motion:reduce){.ambient-shapes i{animation:none!important;transform:none!important;opacity:.08!important}}
