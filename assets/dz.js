@@ -274,13 +274,14 @@
 (()=>{
  const app=document.querySelector('.app-shell');if(!app)return;
  const LANGS={
-  Hindi:{queries:['Hindi song','Hindi vocal song','Hindi bhajan','Hindi ghazal','Hindi folk song'],terms:['hindi','हिंदी']},
-  Punjabi:{queries:['Punjabi song','Punjabi vocal song','Punjabi folk song','Punjabi bhajan'],terms:['punjabi','ਪੰਜਾਬੀ']},
-  Telugu:{queries:['Telugu song','Telugu vocal song','Telugu folk song','Telugu devotional song'],terms:['telugu','తెలుగు']},
-  Marathi:{queries:['Marathi song','Marathi vocal song','Marathi bhajan','Marathi folk song'],terms:['marathi','मराठी']},
-  Haryanvi:{queries:['Haryanvi song','Haryanvi vocal song','Haryanvi ragni','Haryanvi folk song'],terms:['haryanvi','हरियाणवी','हरयाणवी']},
-  Bhojpuri:{queries:['Bhojpuri song','Bhojpuri vocal song','Bhojpuri folk song','Bhojpuri bhajan'],terms:['bhojpuri','भोजपुरी']},
-  Rajasthani:{queries:['Rajasthani song','Marwari song','Rajasthani vocal song','Rajasthani folk song'],terms:['rajasthani','राजस्थानी','marwari','मारवाड़ी']}
+  Hindi:{queries:['Hindi song','Hindi vocal song','Hindi indie song','Coke Studio India Hindi','Coke Studio Bharat Hindi','Anuv Jain song','Aditya Rikhari song','Hindi independent singer'],terms:['hindi','हिंदी']},
+  Punjabi:{queries:['Punjabi song','Punjabi vocal song','Punjabi indie song','Coke Studio Pakistan Punjabi','Coke Studio India Punjabi','Pasoori Ali Sethi','Shae Gill song','Punjabi independent singer'],terms:['punjabi','ਪੰਜਾਬੀ','ਪੰਜਾਬੀ ਗੀਤ']},
+  Telugu:{queries:['Telugu song','Telugu vocal song','Telugu indie song','Telugu independent singer','Telugu folk song','Telugu devotional song'],terms:['telugu','తెలుగు']},
+  Marathi:{queries:['Marathi song','Marathi vocal song','Marathi indie song','Marathi independent singer','Sanju Rathod song','Marathi bhajan','Marathi folk song'],terms:['marathi','मराठी']},
+  Haryanvi:{queries:['Haryanvi song','Haryanvi vocal song','Haryanvi indie song','Haryanvi independent singer','Haryanvi ragni','Haryanvi folk song'],terms:['haryanvi','हरियाणवी','हरयाणवी']},
+  Bhojpuri:{queries:['Bhojpuri song','Bhojpuri vocal song','Bhojpuri indie song','Bhojpuri independent singer','Bhojpuri folk song','Bhojpuri bhajan'],terms:['bhojpuri','भोजपुरी']},
+  Rajasthani:{queries:['Rajasthani song','Marwari song','Rajasthani vocal song','Coke Studio India Rajasthani','Chaudhary Coke Studio','Rajasthani indie singer','Rajasthani folk song'],terms:['rajasthani','राजस्थानी','marwari','मारवाड़ी']},
+  Urdu:{queries:['Urdu vocal song','Pakistani indie song','Coke Studio Pakistan Urdu','Kaifi Khalil song','AUR band song','Maanu Pakistani singer','Annural Khalid song','Pakistani independent singer'],terms:['urdu','اردو','pakistani']}
  };
  const API='https://api.audius.co/v1';
  const esc=s=>String(s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -303,7 +304,7 @@
  const languageMatches=t=>{
   const fields=[t.title,t.description,t.tags,t.orig_filename,t.permalink].filter(Boolean).join(' ').toLocaleLowerCase();
   const allowed=LANGS[language].terms.some(term=>fields.includes(term));
-  const otherLanguage=/\b(english|tamil|kannada|malayalam|bengali|gujarati|odia|urdu|arabic|korean)\b/.test(fields);
+  const otherLanguage=/\b(english|tamil|kannada|malayalam|bengali|gujarati|odia|arabic|korean)\b/.test(fields);
   return allowed&&!otherLanguage;
  };
  const paintPills=()=>pills.querySelectorAll('button').forEach(b=>{const on=b.dataset.lang===language;b.classList.toggle('active',on);b.setAttribute('aria-pressed',String(on))});
@@ -332,7 +333,7 @@
   const suspiciousUpload=t=>/mp3cut|savetube|ytshorts|youtube|official\s+video|\bmovie\b|\bfilm\b|soundtrack|song\s+from|\bstatus\b|ringtone|\bshorts?\b|mp3\s*download|full\s+album|full\s+movie|video\s+song|rip|remastered\s+movie/i.test([t.title,t.orig_filename,t.description].filter(Boolean).join(' '));
   const vocalOnly=t=>{const fields=[t.title,t.description,t.tags,t.orig_filename,t.subject].filter(Boolean).join(' ').toLocaleLowerCase();if(/instrumental|karaoke|backing track|type beat|beat only|drum loop|music loop|background score|soundtrack|underscore|no vocals|without vocals|minus one|dj intro|8d audio/i.test(fields))return false;return /\b(song|vocal|vocals|lyrics|singer|sung|live performance|bhajan|qawwali|ghazal|geet|gana|gaana|folk song|original song|ragni|ragini|lok geet)\b|गीत|गाना|भजन|गायन|गायक|गायिका|ਗੀਤ|ਗਾਣਾ|పాట|పాటలు|गाणे|गाणी|लोकगीत/.test(fields)};
   const audioTrack=t=>t&&t.is_available!==false&&t.is_delete!==true&&t.is_streamable===true&&t.is_stream_gated!==true&&t.access?.stream!==false&&t.stream?.url&&t.access?.stream===true&&safeLicense(t)&&!suspiciousUpload(t)&&vocalOnly(t)&&languageMatches(t);
-  const archiveTerms={Hindi:'Hindi',Punjabi:'Punjabi',Telugu:'Telugu',Marathi:'Marathi',Haryanvi:'Haryanvi',Bhojpuri:'Bhojpuri',Rajasthani:'Rajasthani'};
+  const archiveTerms={Hindi:'Hindi',Punjabi:'Punjabi',Telugu:'Telugu',Marathi:'Marathi',Haryanvi:'Haryanvi',Bhojpuri:'Bhojpuri',Rajasthani:'Rajasthani',Urdu:'Urdu'};
   async function archiveSearch(){
    const term=archiveTerms[language];
    const q='mediatype:audio AND (title:"'+term+'" OR description:"'+term+'" OR subject:"'+term+'") AND licenseurl:*';
@@ -355,7 +356,7 @@
      const file=files.sort((a,b)=>(Number(b.size)||0)-(Number(a.size)||0))[0];
      if(!file)return null;
      const languageField=String(meta.language||d.language||'').toLowerCase();
-     const languageOK=languageField.includes(term.toLowerCase())||({Hindi:/\bhin\b|hindi/,Punjabi:/\bpan\b|\bpun\b|punjabi/,Telugu:/\btel\b|telugu/,Marathi:/\bmar\b|marathi/,Haryanvi:/haryanvi/,Bhojpuri:/bhojpuri/,Rajasthani:/rajasthani|marwari/}[language]||/a^/).test(languageField)||LANGS[language].terms.some(x=>allText.includes(x.toLowerCase()));
+     const languageOK=languageField.includes(term.toLowerCase())||({Hindi:/\bhin\b|hindi/,Punjabi:/\bpan\b|\bpun\b|punjabi/,Telugu:/\btel\b|telugu/,Marathi:/\bmar\b|marathi/,Haryanvi:/haryanvi/,Bhojpuri:/bhojpuri/,Rajasthani:/rajasthani|marwari/,Urdu:/urdu|urd/}[language]||/a^/).test(languageField)||LANGS[language].terms.some(x=>allText.includes(x.toLowerCase()));
      if(!languageOK)return null;
      const url='https://archive.org/download/'+encodeURIComponent(d.identifier)+'/'+file.name.split('/').map(encodeURIComponent).join('/');
      return {id:'ia-'+d.identifier+'-'+file.name,title:meta.title||d.title||file.name,user:{name:Array.isArray(meta.creator)?meta.creator.join(', '):(meta.creator||d.creator||'Independent artist')},duration:Number(file.length)||0,artwork:null,stream:{url},license,source:'Internet Archive',isArchive:true};
