@@ -291,7 +291,13 @@
   ['ac-tu','Tu',247,'tu','2021'],
   ['ac-kya-mila','Kya Mila (Tere Pyaar Mein)',260,'kya-mila-tere-pyaar-mein','2022'],
   ['ac-main-kabhi-bhi','Main Kabhi Bhi',272,'main-kabhi-bhi','2021'],
-  ['ac-deewanapan','Deewanapan Hai',269,'deewanapan-hai','2020']
+  ['ac-deewanapan','Deewanapan Hai',269,'deewanapan-hai','2020'],
+  ['ac-alvida-r2','Alvida (Reimagined v2)',241,'alvida-reimagined-v2','AI vocal reimagining'],
+  ['ac-jeene-r2','Jeene Ke Liye (Reimagined v2)',205,'jeene-ke-liye-reimagined-v2','AI vocal reimagining'],
+  ['ac-bezuban-r1','Bezuban Dil (Reimagined)',173,'bezuban-dil-reimagined-v1','AI vocal reimagining'],
+  ['ac-bewajah-r1','Bewajah (Reimagined)',192,'bewajah-reimagined-v1','AI vocal reimagining'],
+  ['ac-aaj-bhi-r2','Aaj Bhi (Reimagined v2)',263,'aaj-bhi-reimagined-v2','AI vocal reimagining'],
+  ['ac-sawalon','Sawalon Ke Jawaab',217,'sawalon-ke-jawaab','AI vocal reimagining']
  ].map(([id,title,duration,slug,year])=>({
   id,title,user:{name:'Abhishek Chaudhary'},duration,artwork:null,
   stream:{url:'https://abhishekchaudhary.com/media/audio/'+slug+'.mp3'},
