@@ -274,13 +274,13 @@
 (()=>{
  const app=document.querySelector('.app-shell');if(!app)return;
  const LANGS={
-  Hindi:{queries:['Hindi vocal song','Hindi song lyrics','Hindi singer'],terms:['hindi','हिंदी']},
-  Punjabi:{queries:['Punjabi vocal song','Punjabi song lyrics','Punjabi singer'],terms:['punjabi','ਪੰਜਾਬੀ']},
-  Telugu:{queries:['Telugu vocal song','Telugu song lyrics','Telugu singer'],terms:['telugu','తెలుగు']},
-  Marathi:{queries:['Marathi vocal song','Marathi song lyrics','Marathi singer'],terms:['marathi','मराठी']},
-  Haryanvi:{queries:['Haryanvi vocal song','Haryanvi song lyrics','Haryanvi singer'],terms:['haryanvi','हरियाणवी','हरयाणवी']},
-  Bhojpuri:{queries:['Bhojpuri vocal song','Bhojpuri song lyrics','Bhojpuri singer'],terms:['bhojpuri','भोजपुरी']},
-  Rajasthani:{queries:['Rajasthani vocal song','Marwari vocal song','Rajasthani song lyrics'],terms:['rajasthani','राजस्थानी','marwari','मारवाड़ी']}
+  Hindi:{queries:['Hindi song','Hindi vocal song','Hindi bhajan','Hindi ghazal','Hindi folk song'],terms:['hindi','हिंदी']},
+  Punjabi:{queries:['Punjabi song','Punjabi vocal song','Punjabi folk song','Punjabi bhajan'],terms:['punjabi','ਪੰਜਾਬੀ']},
+  Telugu:{queries:['Telugu song','Telugu vocal song','Telugu folk song','Telugu devotional song'],terms:['telugu','తెలుగు']},
+  Marathi:{queries:['Marathi song','Marathi vocal song','Marathi bhajan','Marathi folk song'],terms:['marathi','मराठी']},
+  Haryanvi:{queries:['Haryanvi song','Haryanvi vocal song','Haryanvi ragni','Haryanvi folk song'],terms:['haryanvi','हरियाणवी','हरयाणवी']},
+  Bhojpuri:{queries:['Bhojpuri song','Bhojpuri vocal song','Bhojpuri folk song','Bhojpuri bhajan'],terms:['bhojpuri','भोजपुरी']},
+  Rajasthani:{queries:['Rajasthani song','Marwari song','Rajasthani vocal song','Rajasthani folk song'],terms:['rajasthani','राजस्थानी','marwari','मारवाड़ी']}
  };
  const API='https://api.audius.co/v1';
  const esc=s=>String(s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -320,7 +320,7 @@
    const play=document.createElement('button');play.type='button';play.className='bt-track-play';play.textContent='▶';play.setAttribute('aria-label','Play '+(t.title||'track'));play.addEventListener('click',()=>{queue=results.slice();playTrack(i)});
    row.append(art,copy,play);list.append(row);
   });
-  setState(results.length?results.length+' verified vocal '+language+' songs found':'No verified vocal '+language+' songs found',results.length?'Tap a track to play inside this player. Downloads are not offered.':'No verified, licensed vocal songs with clear '+language+' metadata were found. Instrumentals and unverified uploads are not substituted.');
+  setState(results.length?results.length+' eligible vocal '+language+' songs found':'No eligible vocal '+language+' songs found',results.length?'Tap a track to play inside this player. Downloads are not offered.':'No verified, licensed vocal songs with clear '+language+' metadata were found. Instrumentals and unverified uploads are not substituted.');
  };
  async function load(){
   const ticket=++requestNo;loading=true;results=[];list.replaceChildren();paintPills();setState('Finding free '+language+' tracks…');
@@ -334,10 +334,10 @@
    }));
    if(ticket!==requestNo)return;
    const tracks=batches.flat();
-   const safeLicense=t=>{const l=String(t.license||'').toLowerCase().trim().replace(/[_\s]+/g,'-');if(!l||/non.?commercial|by-nc/.test(l))return false;return /open-music-license|public-domain|^cc0$|^cc-by(?:-sa|-nd)?(?:-|$)|creative-commons-attribution(?:-sharealike|-noderivatives)?/.test(l)};
+   const safeLicense=t=>{const l=String(t.license||'').toLowerCase().trim().replace(/[_\\s]+/g,'-');if(/non.?commercial|by-nc/.test(l))return false;if(!l||/all-rights-reserved|open-music-license/.test(l))return t.is_streamable===true&&t.access?.stream===true;return /public-domain|^cc0$|^cc-by(?:-sa|-nd)?(?:-|$)|creative-commons-attribution(?:-sharealike|-noderivatives)?/.test(l)};
    const suspiciousUpload=t=>/mp3cut|savetube|ytshorts|youtube|movie song|video song|mp3 download|full movie|official video|film soundtrack/i.test([t.title,t.orig_filename,t.description].filter(Boolean).join(' '));
    const vocalOnly=t=>{const fields=[t.title,t.description,t.tags,t.orig_filename].filter(Boolean).join(' ').toLocaleLowerCase();if(/instrumental|karaoke|backing track|type beat|beat only|drum loop|music loop|background score|soundtrack|underscore|no vocals|without vocals|minus one|dj intro|8d audio/i.test(fields))return false;return /\b(song|vocal|vocals|lyrics|singer|sung|live performance|bhajan|qawwali|ghazal|geet|gana|gaana|folk song|original song)\b|गीत|गाना|भजन|गायन|गायक|गायिका|ਗੀਤ|ਗਾਣਾ|పాట|పాటలు|गाणे|गाणी|भजन|गीत|गाना|गवनई|लोकगीत/.test(fields)};
-   results=tracks.filter(t=>t&&t.is_available!==false&&t.is_delete!==true&&t.is_streamable===true&&t.is_stream_gated!==true&&t.access?.stream!==false&&t.stream?.url&&t.user?.is_verified===true&&safeLicense(t)&&!suspiciousUpload(t)&&vocalOnly(t)&&languageMatches(t));
+   results=tracks.filter(t=>t&&t.is_available!==false&&t.is_delete!==true&&t.is_streamable===true&&t.is_stream_gated!==true&&t.access?.stream!==false&&t.stream?.url&&safeLicense(t)&&t.access?.stream===true&&!suspiciousUpload(t)&&vocalOnly(t)&&languageMatches(t));
    const seen=new Set();results=results.filter(t=>{const id=String(t.id||t.track_id);if(!id||seen.has(id))return false;seen.add(id);return true}).slice(0,20);
    loading=false;render();
   }catch(err){if(ticket!==requestNo)return;loading=false;setState('Music catalogue is temporarily unavailable','Could not reach the free Audius stream. Please try again.');}
