@@ -315,7 +315,7 @@
    const copy=document.createElement('div');copy.className='bt-track-copy';
    const title=document.createElement('strong');title.textContent=t.title||'Untitled track';
    const artist=document.createElement('span');artist.textContent=t.user?.name||t.user?.handle||'Independent artist';
-   const meta=document.createElement('small');meta.textContent='Audius · '+language+' · '+seconds(t.duration);
+   const meta=document.createElement('small');meta.textContent=(t.source||'Audius')+' · '+language+' · '+seconds(t.duration);
    copy.append(title,artist,meta);
    const play=document.createElement('button');play.type='button';play.className='bt-track-play';play.textContent='▶';play.setAttribute('aria-label','Play '+(t.title||'track'));play.addEventListener('click',()=>{queue=results.slice();playTrack(i)});
    row.append(art,copy,play);list.append(row);
