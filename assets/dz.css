@@ -1080,3 +1080,14 @@ html[data-theme="light"] .bt-catalog-state strong{color:#3a2330}
 @keyframes dzWaveFlowThree{from{transform:translate3d(-5vw,4vh,0) rotate(-9deg) scaleY(.86)}to{transform:translate3d(10vw,-7vh,0) rotate(-15deg) scaleY(1.13)}}
 .app-shell{position:relative;z-index:1}
 @media(prefers-reduced-motion:reduce){.ambient-shapes i{animation:none!important;transform:none!important;opacity:.08!important}}
+
+
+/* DROPZY wave visibility + stacking correction */
+body{isolation:isolate!important}
+.ambient-shapes{position:fixed!important;inset:0!important;z-index:0!important;display:block!important;opacity:1!important;visibility:visible!important;pointer-events:none!important;overflow:hidden!important;contain:none!important}
+.ambient-shapes i{display:block!important;position:absolute!important;visibility:visible!important;opacity:.48!important;filter:blur(34px)!important;mix-blend-mode:screen!important}
+.ambient-shapes i:nth-child(1){width:155vw!important;height:40vh!important;min-width:900px!important;min-height:240px!important;top:8vh!important;left:-28vw!important;background:linear-gradient(90deg,transparent 0%,rgba(68,218,207,.10) 12%,rgba(68,218,207,.58) 38%,rgba(151,120,239,.46) 66%,transparent 100%)!important}
+.ambient-shapes i:nth-child(2){width:150vw!important;height:42vh!important;min-width:900px!important;min-height:250px!important;top:38vh!important;right:-30vw!important;background:linear-gradient(90deg,transparent 0%,rgba(151,120,239,.10) 12%,rgba(151,120,239,.52) 42%,rgba(255,190,112,.42) 72%,transparent 100%)!important}
+.ambient-shapes i:nth-child(3){width:145vw!important;height:38vh!important;min-width:900px!important;min-height:230px!important;bottom:-8vh!important;left:-24vw!important;background:linear-gradient(90deg,transparent 0%,rgba(255,190,112,.10) 16%,rgba(255,190,112,.48) 48%,rgba(68,218,207,.40) 78%,transparent 100%)!important}
+.app-shell,.intro{position:relative!important;z-index:1!important}
+@media(prefers-reduced-motion:reduce){.ambient-shapes i{animation:none!important;opacity:.34!important;transform:none!important}}
