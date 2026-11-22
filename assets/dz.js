@@ -283,6 +283,21 @@
   Rajasthani:{queries:['Rajasthani song','Marwari song','Rajasthani vocal song','Coke Studio India Rajasthani','Chaudhary Coke Studio','Rajasthani indie singer','Rajasthani folk song'],terms:['rajasthani','राजस्थानी','marwari','मारवाड़ी']},
   Urdu:{queries:['Urdu vocal song','Pakistani indie song','Coke Studio Pakistan Urdu','Kaifi Khalil song','AUR band song','Maanu Pakistani singer','Annural Khalid song','Pakistani independent singer'],terms:['urdu','اردو','pakistani']}
  };
+ const artistHostedTracks=[
+  ['ac-chal','Chal',223,'chal','2022'],
+  ['ac-beparvah','Beparvah',207,'beparvah','2021'],
+  ['ac-3am','3AM // Hai Koi Nahin',180,'3am-hai-koi-nahin','2023'],
+  ['ac-aaj-se','Aaj Se',199,'aaj-se','2020'],
+  ['ac-tu','Tu',247,'tu','2021'],
+  ['ac-kya-mila','Kya Mila (Tere Pyaar Mein)',260,'kya-mila-tere-pyaar-mein','2022'],
+  ['ac-main-kabhi-bhi','Main Kabhi Bhi',272,'main-kabhi-bhi','2021'],
+  ['ac-deewanapan','Deewanapan Hai',269,'deewanapan-hai','2020']
+ ].map(([id,title,duration,slug,year])=>({
+  id,title,user:{name:'Abhishek Chaudhary'},duration,artwork:null,
+  stream:{url:'https://abhishekchaudhary.com/media/audio/'+slug+'.mp3'},
+  license:'https://creativecommons.org/licenses/by/4.0/',
+  source:'Artist-hosted · CC BY 4.0 · '+year
+ }));
  const API='https://api.audius.co/v1';
  const esc=s=>String(s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
  const seconds=n=>{n=Math.max(0,Math.floor(Number(n)||0));return Math.floor(n/60)+':'+String(n%60).padStart(2,'0')};
@@ -376,7 +391,8 @@
    const tracks=batches.flat().filter(audioTrack);
    const archive=await archiveSearch();
    if(ticket!==requestNo)return;
-   const combined=[...tracks,...archive],seen=new Set();
+   const artistTracks=(language==='Hindi'||language==='Urdu')?artistHostedTracks:[];
+   const combined=[...artistTracks,...tracks,...archive],seen=new Set();
    results=combined.filter(t=>{const id=String(t.id||t.track_id);if(!id||seen.has(id))return false;seen.add(id);return true}).slice(0,30);
    loading=false;render();
   }catch(err){
