@@ -325,12 +325,12 @@
  async function load(){
   const ticket=++requestNo;loading=true;results=[];list.replaceChildren();paintPills();setState('Finding free '+language+' vocal songs…');
   const safeLicense=t=>{
-   const l=String(t.license||'').toLowerCase().trim().replace(/[_\\s]+/g,'-');
+   const l=String(t.license||'').toLowerCase().trim().replace(/[_\s]+/g,'-');
    if(!l||/all-rights-reserved|non.?commercial|by-nc/.test(l))return false;
-   return /open-music-license|public-domain|^cc0$|creativecommons.org\\/(?:licenses\\/(?:by|by-sa|by-nd)\\/|publicdomain\\/(?:zero|mark)\\/)|creative-commons-attribution(?:-sharealike|-noderivatives)?/.test(l);
+   return /open-music-license|public-domain|^cc0$|creativecommons.org\/(?:licenses\/(?:by|by-sa|by-nd)\/|publicdomain\/(?:zero|mark)\/)|creative-commons-attribution(?:-sharealike|-noderivatives)?/.test(l);
   };
-  const suspiciousUpload=t=>/mp3cut|savetube|ytshorts|youtube|official\\s+video|\\bmovie\\b|\\bfilm\\b|soundtrack|song\\s+from|\\bstatus\\b|ringtone|\\bshorts?\\b|mp3\\s*download|full\\s+album|full\\s+movie|video\\s+song|rip|remastered\\s+movie/i.test([t.title,t.orig_filename,t.description].filter(Boolean).join(' '));
-  const vocalOnly=t=>{const fields=[t.title,t.description,t.tags,t.orig_filename,t.subject].filter(Boolean).join(' ').toLocaleLowerCase();if(/instrumental|karaoke|backing track|type beat|beat only|drum loop|music loop|background score|soundtrack|underscore|no vocals|without vocals|minus one|dj intro|8d audio/i.test(fields))return false;return /\\b(song|vocal|vocals|lyrics|singer|sung|live performance|bhajan|qawwali|ghazal|geet|gana|gaana|folk song|original song|ragni|ragini|lok geet)\\b|गीत|गाना|भजन|गायन|गायक|गायिका|ਗੀਤ|ਗਾਣਾ|పాట|పాటలు|गाणे|गाणी|लोकगीत/.test(fields)};
+  const suspiciousUpload=t=>/mp3cut|savetube|ytshorts|youtube|official\s+video|\bmovie\b|\bfilm\b|soundtrack|song\s+from|\bstatus\b|ringtone|\bshorts?\b|mp3\s*download|full\s+album|full\s+movie|video\s+song|rip|remastered\s+movie/i.test([t.title,t.orig_filename,t.description].filter(Boolean).join(' '));
+  const vocalOnly=t=>{const fields=[t.title,t.description,t.tags,t.orig_filename,t.subject].filter(Boolean).join(' ').toLocaleLowerCase();if(/instrumental|karaoke|backing track|type beat|beat only|drum loop|music loop|background score|soundtrack|underscore|no vocals|without vocals|minus one|dj intro|8d audio/i.test(fields))return false;return /\b(song|vocal|vocals|lyrics|singer|sung|live performance|bhajan|qawwali|ghazal|geet|gana|gaana|folk song|original song|ragni|ragini|lok geet)\b|गीत|गाना|भजन|गायन|गायक|गायिका|ਗੀਤ|ਗਾਣਾ|పాట|పాటలు|गाणे|गाणी|लोकगीत/.test(fields)};
   const audioTrack=t=>t&&t.is_available!==false&&t.is_delete!==true&&t.is_streamable===true&&t.is_stream_gated!==true&&t.access?.stream!==false&&t.stream?.url&&t.access?.stream===true&&safeLicense(t)&&!suspiciousUpload(t)&&vocalOnly(t)&&languageMatches(t);
   const archiveTerms={Hindi:'Hindi',Punjabi:'Punjabi',Telugu:'Telugu',Marathi:'Marathi',Haryanvi:'Haryanvi',Bhojpuri:'Bhojpuri',Rajasthani:'Rajasthani'};
   async function archiveSearch(){
@@ -340,7 +340,7 @@
    const sr=await fetch(searchUrl,{headers:{Accept:'application/json'}});
    if(!sr.ok)throw new Error('Archive search unavailable');
    const sj=await sr.json(),docs=sj.response?.docs||[];
-   const allowedUrl=u=>{const x=String(u||'').toLowerCase();return /creativecommons.org\\/(licenses\\/(by|by-sa|by-nd)\\/|publicdomain\\/(zero|mark)\\/)/.test(x)};
+   const allowedUrl=u=>{const x=String(u||'').toLowerCase();return /creativecommons.org\/(licenses\/(by|by-sa|by-nd)\/|publicdomain\/(zero|mark)\/)/.test(x)};
    const candidates=docs.filter(d=>d.identifier&&allowedUrl(d.licenseurl)&&!suspiciousUpload(d)&&vocalOnly(d));
    const resolved=await Promise.all(candidates.slice(0,16).map(async d=>{
     try{
@@ -351,11 +351,11 @@
      if(!allowedUrl(license))return null;
      const allText=[d.title,d.description,d.subject,meta.title,meta.description,meta.subject,meta.language].filter(Boolean).join(' ').toLowerCase();
      if(!vocalOnly({title:d.title,description:d.description,subject:d.subject,tags:meta.subject}))return null;
-     const files=(m.files||[]).filter(x=>!x.private&&!x.source&&/\\.(mp3|ogg|oga|m4a)$/i.test(x.name||'')&&!/sample|preview|thumb|spectrogram/i.test(x.name||''));
+     const files=(m.files||[]).filter(x=>!x.private&&!x.source&&/\.(mp3|ogg|oga|m4a)$/i.test(x.name||'')&&!/sample|preview|thumb|spectrogram/i.test(x.name||''));
      const file=files.sort((a,b)=>(Number(b.size)||0)-(Number(a.size)||0))[0];
      if(!file)return null;
      const languageField=String(meta.language||d.language||'').toLowerCase();
-     const languageOK=languageField.includes(term.toLowerCase())||({Hindi:/\\bhin\\b|hindi/,Punjabi:/\\bpan\\b|\\bpun\\b|punjabi/,Telugu:/\\btel\\b|telugu/,Marathi:/\\bmar\\b|marathi/,Haryanvi:/haryanvi/,Bhojpuri:/bhojpuri/,Rajasthani:/rajasthani|marwari/}[language]||/a^/).test(languageField)||LANGS[language].terms.some(x=>allText.includes(x.toLowerCase()));
+     const languageOK=languageField.includes(term.toLowerCase())||({Hindi:/\bhin\b|hindi/,Punjabi:/\bpan\b|\bpun\b|punjabi/,Telugu:/\btel\b|telugu/,Marathi:/\bmar\b|marathi/,Haryanvi:/haryanvi/,Bhojpuri:/bhojpuri/,Rajasthani:/rajasthani|marwari/}[language]||/a^/).test(languageField)||LANGS[language].terms.some(x=>allText.includes(x.toLowerCase()));
      if(!languageOK)return null;
      const url='https://archive.org/download/'+encodeURIComponent(d.identifier)+'/'+file.name.split('/').map(encodeURIComponent).join('/');
      return {id:'ia-'+d.identifier+'-'+file.name,title:meta.title||d.title||file.name,user:{name:Array.isArray(meta.creator)?meta.creator.join(', '):(meta.creator||d.creator||'Independent artist')},duration:Number(file.length)||0,artwork:null,stream:{url},license,source:'Internet Archive',isArchive:true};
