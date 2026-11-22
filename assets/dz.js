@@ -323,24 +323,69 @@
   setState(results.length?results.length+' eligible vocal '+language+' songs found':'No eligible vocal '+language+' songs found',results.length?'Tap a track to play inside this player. Downloads are not offered.':'No verified, licensed vocal songs with clear '+language+' metadata were found. Instrumentals and unverified uploads are not substituted.');
  };
  async function load(){
-  const ticket=++requestNo;loading=true;results=[];list.replaceChildren();paintPills();setState('Finding free '+language+' tracks…');
+  const ticket=++requestNo;loading=true;results=[];list.replaceChildren();paintPills();setState('Finding free '+language+' vocal songs…');
+  const safeLicense=t=>{
+   const l=String(t.license||'').toLowerCase().trim().replace(/[_\\s]+/g,'-');
+   if(!l||/all-rights-reserved|non.?commercial|by-nc/.test(l))return false;
+   return /open-music-license|public-domain|^cc0$|creativecommons.org\\/(?:licenses\\/(?:by|by-sa|by-nd)\\/|publicdomain\\/(?:zero|mark)\\/)|creative-commons-attribution(?:-sharealike|-noderivatives)?/.test(l);
+  };
+  const suspiciousUpload=t=>/mp3cut|savetube|ytshorts|youtube|official\\s+video|\\bmovie\\b|\\bfilm\\b|soundtrack|song\\s+from|\\bstatus\\b|ringtone|\\bshorts?\\b|mp3\\s*download|full\\s+album|full\\s+movie|video\\s+song|rip|remastered\\s+movie/i.test([t.title,t.orig_filename,t.description].filter(Boolean).join(' '));
+  const vocalOnly=t=>{const fields=[t.title,t.description,t.tags,t.orig_filename,t.subject].filter(Boolean).join(' ').toLocaleLowerCase();if(/instrumental|karaoke|backing track|type beat|beat only|drum loop|music loop|background score|soundtrack|underscore|no vocals|without vocals|minus one|dj intro|8d audio/i.test(fields))return false;return /\\b(song|vocal|vocals|lyrics|singer|sung|live performance|bhajan|qawwali|ghazal|geet|gana|gaana|folk song|original song|ragni|ragini|lok geet)\\b|गीत|गाना|भजन|गायन|गायक|गायिका|ਗੀਤ|ਗਾਣਾ|పాట|పాటలు|गाणे|गाणी|लोकगीत/.test(fields)};
+  const audioTrack=t=>t&&t.is_available!==false&&t.is_delete!==true&&t.is_streamable===true&&t.is_stream_gated!==true&&t.access?.stream!==false&&t.stream?.url&&t.access?.stream===true&&safeLicense(t)&&!suspiciousUpload(t)&&vocalOnly(t)&&languageMatches(t);
+  const archiveTerms={Hindi:'Hindi',Punjabi:'Punjabi',Telugu:'Telugu',Marathi:'Marathi',Haryanvi:'Haryanvi',Bhojpuri:'Bhojpuri',Rajasthani:'Rajasthani'};
+  async function archiveSearch(){
+   const term=archiveTerms[language];
+   const q='mediatype:audio AND (title:"'+term+'" OR description:"'+term+'" OR subject:"'+term+'") AND licenseurl:*';
+   const searchUrl='https://archive.org/advancedsearch.php?'+new URLSearchParams({q, 'fl[]':'identifier,title,creator,description,subject,language,licenseurl',rows:'35',page:'1',output:'json'});
+   const sr=await fetch(searchUrl,{headers:{Accept:'application/json'}});
+   if(!sr.ok)throw new Error('Archive search unavailable');
+   const sj=await sr.json(),docs=sj.response?.docs||[];
+   const allowedUrl=u=>{const x=String(u||'').toLowerCase();return /creativecommons.org\\/(licenses\\/(by|by-sa|by-nd)\\/|publicdomain\\/(zero|mark)\\/)/.test(x)};
+   const candidates=docs.filter(d=>d.identifier&&allowedUrl(d.licenseurl)&&!suspiciousUpload(d)&&vocalOnly(d));
+   const resolved=await Promise.all(candidates.slice(0,16).map(async d=>{
+    try{
+     const mr=await fetch('https://archive.org/metadata/'+encodeURIComponent(d.identifier),{headers:{Accept:'application/json'}});
+     if(!mr.ok)return null;
+     const m=await mr.json(),meta=m.metadata||{};
+     const license=meta.licenseurl||d.licenseurl||'';
+     if(!allowedUrl(license))return null;
+     const allText=[d.title,d.description,d.subject,meta.title,meta.description,meta.subject,meta.language].filter(Boolean).join(' ').toLowerCase();
+     if(!vocalOnly({title:d.title,description:d.description,subject:d.subject,tags:meta.subject}))return null;
+     const files=(m.files||[]).filter(x=>!x.private&&!x.source&&/\\.(mp3|ogg|oga|m4a)$/i.test(x.name||'')&&!/sample|preview|thumb|spectrogram/i.test(x.name||''));
+     const file=files.sort((a,b)=>(Number(b.size)||0)-(Number(a.size)||0))[0];
+     if(!file)return null;
+     const languageField=String(meta.language||d.language||'').toLowerCase();
+     const languageOK=languageField.includes(term.toLowerCase())||({Hindi:/\\bhin\\b|hindi/,Punjabi:/\\bpan\\b|\\bpun\\b|punjabi/,Telugu:/\\btel\\b|telugu/,Marathi:/\\bmar\\b|marathi/,Haryanvi:/haryanvi/,Bhojpuri:/bhojpuri/,Rajasthani:/rajasthani|marwari/}[language]||/a^/).test(languageField)||LANGS[language].terms.some(x=>allText.includes(x.toLowerCase()));
+     if(!languageOK)return null;
+     const url='https://archive.org/download/'+encodeURIComponent(d.identifier)+'/'+file.name.split('/').map(encodeURIComponent).join('/');
+     return {id:'ia-'+d.identifier+'-'+file.name,title:meta.title||d.title||file.name,user:{name:Array.isArray(meta.creator)?meta.creator.join(', '):(meta.creator||d.creator||'Independent artist')},duration:Number(file.length)||0,artwork:null,stream:{url},license,source:'Internet Archive',isArchive:true};
+    }catch(e){return null}
+   }));
+   return resolved.filter(Boolean);
+  }
   try{
    const batches=await Promise.all(LANGS[language].queries.map(async term=>{
     const q=(query?query+' ':'')+term;
     const url=API+'/tracks/search?'+new URLSearchParams({query:q,limit:'30',sort_method:'popular'});
     const response=await fetch(url,{headers:{Accept:'application/json'}});
-    if(!response.ok)throw new Error('Music source returned '+response.status);
+    if(!response.ok)throw new Error('Audius returned '+response.status);
     const json=await response.json();return Array.isArray(json.data)?json.data:[];
    }));
    if(ticket!==requestNo)return;
-   const tracks=batches.flat();
-   const safeLicense=t=>{const l=String(t.license||'').toLowerCase().trim().replace(/[_\\s]+/g,'-');if(/non.?commercial|by-nc/.test(l))return false;if(!l||/all-rights-reserved|open-music-license/.test(l))return t.is_streamable===true&&t.access?.stream===true;return /public-domain|^cc0$|^cc-by(?:-sa|-nd)?(?:-|$)|creative-commons-attribution(?:-sharealike|-noderivatives)?/.test(l)};
-   const suspiciousUpload=t=>/mp3cut|savetube|ytshorts|youtube|official\s+video|\bmovie\b|\bfilm\b|soundtrack|song\s+from|\bstatus\b|ringtone|\bshorts?\b|mp3\s*download|full\s+album|full\s+movie|video\s+song/i.test([t.title,t.orig_filename,t.description].filter(Boolean).join(' '));
-   const vocalOnly=t=>{const fields=[t.title,t.description,t.tags,t.orig_filename].filter(Boolean).join(' ').toLocaleLowerCase();if(/instrumental|karaoke|backing track|type beat|beat only|drum loop|music loop|background score|soundtrack|underscore|no vocals|without vocals|minus one|dj intro|8d audio/i.test(fields))return false;return /\b(song|vocal|vocals|lyrics|singer|sung|live performance|bhajan|qawwali|ghazal|geet|gana|gaana|folk song|original song)\b|गीत|गाना|भजन|गायन|गायक|गायिका|ਗੀਤ|ਗਾਣਾ|పాట|పాటలు|गाणे|गाणी|भजन|गीत|गाना|गवनई|लोकगीत/.test(fields)};
-   results=tracks.filter(t=>t&&t.is_available!==false&&t.is_delete!==true&&t.is_streamable===true&&t.is_stream_gated!==true&&t.access?.stream!==false&&t.stream?.url&&safeLicense(t)&&t.access?.stream===true&&!suspiciousUpload(t)&&vocalOnly(t)&&languageMatches(t));
-   const seen=new Set();results=results.filter(t=>{const id=String(t.id||t.track_id);if(!id||seen.has(id))return false;seen.add(id);return true}).slice(0,20);
+   const tracks=batches.flat().filter(audioTrack);
+   const archive=await archiveSearch();
+   if(ticket!==requestNo)return;
+   const combined=[...tracks,...archive],seen=new Set();
+   results=combined.filter(t=>{const id=String(t.id||t.track_id);if(!id||seen.has(id))return false;seen.add(id);return true}).slice(0,30);
    loading=false;render();
-  }catch(err){if(ticket!==requestNo)return;loading=false;setState('Music catalogue is temporarily unavailable','Could not reach the free Audius stream. Please try again.');}
+  }catch(err){
+   if(ticket!==requestNo)return;
+   try{
+    const archive=await archiveSearch();if(ticket!==requestNo)return;
+    results=archive.slice(0,30);loading=false;render();
+    if(!results.length)setState('No verified free vocal songs found yet','The connected free catalogues did not return tracks with clear language and license metadata. No copyrighted or instrumental tracks are substituted.');
+   }catch(e){if(ticket!==requestNo)return;loading=false;setState('Free music sources are temporarily unavailable','Please try again later. No ads, subscriptions or external playback redirects are used.')}
+  }
  }
  function selectLanguage(name,updateUrl){
   if(!LANGS[name])return;language=name;query='';
